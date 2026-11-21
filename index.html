@@ -14,7 +14,8 @@
 :root{--bg:#f7f7f5;--white:#fff;--black:#111;--gray:#777;--line:#e9e9e6}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--black);font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-button,input{font:inherit}button{cursor:pointer}
+button,input{font:inherit}
+button{cursor:pointer}
 .app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:90px}
 header{height:70px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:rgba(247,247,245,.96);backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
 .logo{font-size:21px;font-weight:800;letter-spacing:3px;line-height:1}
@@ -25,7 +26,8 @@ header{height:70px;padding:0 16px;display:flex;align-items:center;justify-conten
 .language-button{height:40px;min-width:49px;padding:0 11px;border:1px solid var(--line);border-radius:22px;background:white;font-size:11px;font-weight:800}
 .counter{position:absolute;right:-3px;top:-3px;background:#111;color:white;width:16px;height:16px;border-radius:50%;font-size:9px;display:grid;place-items:center}
 main{padding:0 16px}
-.page{display:none}.page.active{display:block}
+.page{display:none}
+.page.active{display:block}
 .hero{height:465px;margin-top:14px;border-radius:25px;overflow:hidden;position:relative;background:#aaa}
 .hero img{width:100%;height:100%;object-fit:cover}
 .hero:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.72))}
@@ -45,7 +47,9 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .category:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.65))}
 .category span{position:absolute;z-index:1;bottom:15px;left:14px;font-weight:800;font-size:13px;right:8px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px 11px}
-#homeProducts{grid-template-columns:repeat(2,minmax(0,1fr))}
+#homeProducts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px 11px;width:100%}
+#homeProducts .product{min-width:0}
+#homeProducts .photo{width:100%}
 .product{min-width:0}
 .photo{height:225px;border-radius:17px;overflow:hidden;background:#e8e8e5;position:relative}
 .photo img{width:100%;height:100%;object-fit:cover;transition:.4s}
@@ -87,7 +91,8 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .nav-item b{font-size:20px;font-weight:500}
 .nav-item.active{color:#111}
 .empty{background:white;border-radius:18px;padding:35px 18px;text-align:center;margin-top:20px}
-.empty h3{font-size:16px}.empty p{font-size:11px;color:#777;line-height:1.6}
+.empty h3{font-size:16px}
+.empty p{font-size:11px;color:#777;line-height:1.6}
 .cart-row{display:flex;gap:12px;background:white;border-radius:16px;padding:10px;margin:10px 0}
 .cart-row img{width:85px;height:100px;object-fit:cover;border-radius:12px}
 .cart-row-info{flex:1;min-width:0}
@@ -309,10 +314,10 @@ profile:"Профиль.",welcome:"Твой стиль начинается зд
 home:"Главная",catalogNav:"Каталог",looksNav:"Луки",favoritesNav:"Избранное",profileNav:"Профиль",chooseSize:"Выбери подходящий размер.",quantity:"Количество:",addToCart:"ДОБАВИТЬ В КОРЗИНУ",
 selectSize:"Сначала выбери размер.",added:"Товар добавлен в корзину.",remove:"УДАЛИТЬ",size:"Размер:",all:"Все",noProducts:"В этом разделе пока нет товаров.",selectCategory:"Выбери подраздел",orderDemo:"Это демонстрационная версия. Для настоящего оформления заказа нужно подключить сервер и Telegram-бота.",orderSent:"Данные заказа отправлены. Для получения заказа ботом требуется настройка серверной части.",
 outer:"Верхняя одежда",tees:"Футболки и поло",trousersCategory:"Брюки и джинсы",shoesCategory:"Обувь",accessoriesCategory:"Аксессуары",
-hoodies:"Худи",zip:"Худи на молнии",halfzip:"Худи с полузамком",sweatshirt:"Свитшоты",
+hoodies:"Худи",bags:"Сумки",zip:"Худи на молнии",halfzip:"Худи с полузамком",sweatshirt:"Свитшоты",
 tshirt:"Футболки",polo:"Поло",pants:"Брюки",jeans:"Джинсы",oversize:"Оверсайз",
 sneakers:"Кроссовки",formalShoes:"Туфли",casualShoes:"Повседневная обувь",
-crossbody:"Сумки через плечо",sportBags:"Спортивные сумки",schoolBags:"Школьные и повседневные сумки",barsetka:"Барсетки",miniBags:"Маленькие сумки",
+sportBags:"Спортивные сумки",schoolBags:"Школьные и повседневные сумки",barsetka:"Барсетки",miniBags:"Маленькие сумки",
 product1:"Базовая футболка оверсайз",product2:"Худи на молнии",product3:"Кроссовки в городском стиле",product4:"Сумка через плечо",product5:"Классическая чёрная футболка",product6:"Минималистичные кроссовки",
 newTag:"НОВИНКА",choose:"ВЫБРАТЬ +"
 },
@@ -328,10 +333,10 @@ profile:"Profil.",welcome:"Sening uslubing shu yerdan boshlanadi.",personalAccou
 home:"Bosh sahifa",catalogNav:"Katalog",looksNav:"Looklar",favoritesNav:"Sevimlilar",profileNav:"Profil",chooseSize:"O‘zingga mos o‘lchamni tanla.",quantity:"Soni:",addToCart:"SAVATCHAGA QO‘SHISH",
 selectSize:"Avval o‘lchamni tanla.",added:"Mahsulot savatchaga qo‘shildi.",remove:"O‘CHIRISH",size:"O‘lcham:",all:"Barchasi",noProducts:"Bu bo‘limda hozircha mahsulot yo‘q.",selectCategory:"Ichki bo‘limni tanla",orderDemo:"Bu namoyish versiyasi. Haqiqiy buyurtma uchun server va Telegram botini ulash kerak.",orderSent:"Buyurtma ma'lumotlari yuborildi. Bot orqali qabul qilish uchun server sozlamasi kerak.",
 outer:"Ustki kiyimlar",tees:"Futbolkalar va polo",trousersCategory:"Shimlar va jinsilar",shoesCategory:"Poyabzallar",accessoriesCategory:"Aksessuarlar",
-hoodies:"Xudilar",zip:"Molniyali xudi",halfzip:"Yarim zamokli xudi",sweatshirt:"Svitshotlar",
+hoodies:"Xudilar",bags:"Sumkalar",zip:"Molniyali xudi",halfzip:"Yarim zamokli xudi",sweatshirt:"Svitshotlar",
 tshirt:"Futbolkalar",polo:"Polo",pants:"Shimlar",jeans:"Jinsilar",oversize:"Oversize",
 sneakers:"Krossovkalar",formalShoes:"Klassik tuflilar",casualShoes:"Kundalik poyabzal",
-crossbody:"Yelkaga osiladigan sumkalar",sportBags:"Sport sumkalari",schoolBags:"Maktab va kundalik sumkalar",barsetka:"Barsetkalar",miniBags:"Kichik sumkalar",
+sportBags:"Sport sumkalari",schoolBags:"Maktab va kundalik sumkalar",barsetka:"Barsetkalar",miniBags:"Kichik sumkalar",
 product1:"Keng bichimli futbolka",product2:"Molniyali xudi",product3:"Shahar uslubidagi krossovkalar",product4:"Yelkaga osiladigan sumka",product5:"Klassik qora futbolka",product6:"Minimalistik krossovkalar",
 newTag:"YANGI",choose:"TANLASH +"
 }
@@ -365,19 +370,23 @@ const subcategories={
  {key:"casualShoes",label:"casualShoes",image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=600&q=80"}
 ],
 "Аксессуары":[
- {key:"crossbody",label:"crossbody",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"},
+ {key:"bags",label:"bags",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",nested:true}
+]
+};
+
+const nestedSubcategories={
+hoodies:[
+ {key:"zip",label:"zip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
+ {key:"halfzip",label:"halfzip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
+ {key:"sweatshirt",label:"sweatshirt",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"}
+],
+bags:[
  {key:"sportBags",label:"sportBags",image:"https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&fit=crop&w=600&q=80"},
- {key:"schoolBags",label:"schoolBags",image:"https://images.unsplash.com/photo-1581605405669-fear?auto=format&fit=crop&w=600&q=80"},
+ {key:"schoolBags",label:"schoolBags",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"},
  {key:"barsetka",label:"barsetka",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"},
  {key:"miniBags",label:"miniBags",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"}
 ]
 };
-
-const hoodieSubcategories=[
- {key:"zip",label:"zip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
- {key:"halfzip",label:"halfzip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
- {key:"sweatshirt",label:"sweatshirt",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"}
-];
 
 const products=[
 {id:1,nameKey:"product1",category:"Футболки и поло",sub:"tshirt",look:"oversize",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["S","M","L","XL"]},
@@ -397,7 +406,7 @@ let selectedQuantity=1;
 let activeFilter="all";
 let activeCategory=null;
 let activeSubcategory=null;
-let activeNestedGroup=false;
+let activeNestedGroup=null;
 let activeLook=null;
 
 function t(key){return translations[lang][key]||key}
@@ -458,6 +467,7 @@ function card(p){
 
 function renderSubcategories(){
  const area=document.getElementById("subcategoryArea");
+
  if(!activeCategory||!subcategories[activeCategory]){
   area.innerHTML="";
   return;
@@ -466,29 +476,33 @@ function renderSubcategories(){
  let items=subcategories[activeCategory];
  let title=t("selectCategory");
 
- if(activeCategory==="Верхняя одежда"&&activeNestedGroup){
-  items=hoodieSubcategories;
-  title=t("hoodies");
+ if(activeNestedGroup){
+  items=nestedSubcategories[activeNestedGroup]||[];
+  title=t(activeNestedGroup);
  }
 
  area.innerHTML=`
  <div class="section-head" style="margin:15px 0 10px">
- <div><div class="eyebrow muted">${title}</div></div>
- <button class="link" onclick="${activeNestedGroup?"closeNestedGroup()":"showAllCategories()"}">${t("back")}</button>
+  <div><div class="eyebrow muted">${title}</div></div>
+  <button class="link" onclick="${activeNestedGroup?"closeNestedGroup()":"showAllCategories()"}">${t("back")}</button>
  </div>
  <div class="subcategory-grid">
- ${items.map(s=>`<button class="subcategory" onclick="${s.nested?"openNestedGroup()":`setSubcategory('${s.key}')`}">
- <img src="${s.image}" alt="${t(s.label)}" loading="lazy">
- <span>${t(s.label)} ↗</span>
- </button>`).join("")}
+  ${items.map(s=>`
+   <button class="subcategory" onclick="${s.nested?`openNestedGroup('${s.key}')`:`setSubcategory('${s.key}')`}">
+    <img src="${s.image}" alt="${t(s.label)}" loading="lazy">
+    <span>${t(s.label)} ↗</span>
+   </button>
+  `).join("")}
  </div>`;
 }
 
 function renderProducts(){
  const query=(document.getElementById("search")?.value||"").toLowerCase();
+
  const filtered=products.filter(p=>{
   const name=productName(p).toLowerCase();
   const ruName=translations.ru[p.nameKey].toLowerCase();
+
   return (activeFilter==="all"||p.category===activeFilter)&&
    (!activeSubcategory||p.sub===activeSubcategory)&&
    (!activeLook||p.look===activeLook)&&
@@ -505,11 +519,12 @@ function renderProducts(){
  renderSubcategories();
 
  const heading=document.getElementById("catalogHeading");
+
  if(activeLook){
   const lookTitle=activeLook==="classic"?t("classicLook"):activeLook==="oversize"?t("oversizeLook"):t("sportLook");
   heading.innerHTML=`<button class="back-button" onclick="clearLook()">‹</button><div class="page-title">${lookTitle.replace(" ↗","")}</div>`;
  }else if(activeCategory){
-  const title=activeNestedGroup?t("hoodies"):categoryName(activeCategory);
+  const title=activeNestedGroup?t(activeNestedGroup):categoryName(activeCategory);
   heading.innerHTML=`<button class="back-button" onclick="${activeNestedGroup?"closeNestedGroup()":"showAllCategories()"}">‹</button><div class="page-title">${title}</div>`;
  }else{
   heading.innerHTML=`<div class="page-title">${t("catalog")}</div>`;
@@ -522,7 +537,7 @@ function setFilter(category){
  activeFilter=category;
  activeCategory=category==="all"?null:category;
  activeSubcategory=null;
- activeNestedGroup=false;
+ activeNestedGroup=null;
  activeLook=null;
  buildFilters();
  renderProducts();
@@ -532,21 +547,21 @@ function openCategory(category){
  activeFilter=category;
  activeCategory=category;
  activeSubcategory=null;
- activeNestedGroup=false;
+ activeNestedGroup=null;
  activeLook=null;
  showPage("catalog");
  buildFilters();
  renderProducts();
 }
 
-function openNestedGroup(){
- activeNestedGroup=true;
+function openNestedGroup(group){
+ activeNestedGroup=group;
  activeSubcategory=null;
  renderProducts();
 }
 
 function closeNestedGroup(){
- activeNestedGroup=false;
+ activeNestedGroup=null;
  activeSubcategory=null;
  renderProducts();
 }
@@ -561,7 +576,7 @@ function showAllCategories(){
  activeFilter="all";
  activeCategory=null;
  activeSubcategory=null;
- activeNestedGroup=false;
+ activeNestedGroup=null;
  activeLook=null;
  buildFilters();
  renderProducts();
@@ -572,7 +587,7 @@ function openLook(look){
  activeFilter="all";
  activeCategory=null;
  activeSubcategory=null;
- activeNestedGroup=false;
+ activeNestedGroup=null;
  buildFilters();
  showPage("catalog");
  renderProducts();
@@ -601,7 +616,9 @@ function openProduct(id){
  document.getElementById("productModal").classList.add("open");
 }
 
-function closeModal(){document.getElementById("productModal").classList.remove("open")}
+function closeModal(){
+ document.getElementById("productModal").classList.remove("open");
+}
 
 function selectSize(button){
  document.querySelectorAll(".size").forEach(b=>b.classList.remove("selected"));
@@ -629,10 +646,17 @@ function updateCart(){
  const items=document.getElementById("cartItems");
  const empty=document.getElementById("cartEmpty");
  const summary=document.getElementById("cartSummary");
+
  if(!cart.length){
-  items.innerHTML="";empty.style.display="block";summary.style.display="none";return;
+  items.innerHTML="";
+  empty.style.display="block";
+  summary.style.display="none";
+  return;
  }
- empty.style.display="none";summary.style.display="block";
+
+ empty.style.display="none";
+ summary.style.display="block";
+
  items.innerHTML=cart.map((item,index)=>{
   const p=products.find(x=>x.id===item.id);
   return `<div class="cart-row">
@@ -649,6 +673,7 @@ function updateCart(){
   <button class="remove" onclick="removeCart(${index})">${t("remove")}</button>
   </div></div>`;
  }).join("");
+
  const total=cart.reduce((sum,item)=>sum+products.find(p=>p.id===item.id).price*item.quantity,0);
  document.getElementById("total").textContent=money(total);
 }
@@ -658,7 +683,11 @@ function changeCartQuantity(index,amount){
  if(cart[index].quantity<=0)cart.splice(index,1);
  updateCart();
 }
-function removeCart(index){cart.splice(index,1);updateCart()}
+
+function removeCart(index){
+ cart.splice(index,1);
+ updateCart();
+}
 
 function showPage(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
@@ -676,14 +705,26 @@ function checkout(){
  });
  const total=items.reduce((sum,item)=>sum+item.price*item.quantity,0);
  const order={type:"new_order",brand:"XEVEN WEAR",language:lang,items,total,currency:"UZS",telegramUser:tg?.initDataUnsafe?.user||null};
- if(tg&&tg.sendData){tg.sendData(JSON.stringify(order));alert(t("orderSent"))}
- else{alert(t("orderDemo"))}
+
+ if(tg&&tg.sendData){
+  tg.sendData(JSON.stringify(order));
+  alert(t("orderSent"));
+ }else{
+  alert(t("orderDemo"));
+ }
 }
 
 const tg=window.Telegram?.WebApp;
+
 if(tg){
- tg.ready();tg.expand();
- try{tg.setHeaderColor("#f7f7f5");tg.setBackgroundColor("#f7f7f5")}catch(e){}
+ tg.ready();
+ tg.expand();
+
+ try{
+  tg.setHeaderColor("#f7f7f5");
+  tg.setBackgroundColor("#f7f7f5");
+ }catch(e){}
+
  const firstName=tg.initDataUnsafe?.user?.first_name;
  if(firstName)document.getElementById("userName").textContent="Привет, "+firstName+"!";
 }
