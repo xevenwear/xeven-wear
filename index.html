@@ -14,7 +14,7 @@
 :root{--bg:#f7f7f5;--white:#fff;--black:#111;--gray:#777;--line:#e9e9e6}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--black);font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-button,input,select{font:inherit}button{cursor:pointer}
+button,input{font:inherit}button{cursor:pointer}
 .app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:90px}
 header{height:70px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:rgba(247,247,245,.96);backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
 .logo{font-size:21px;font-weight:800;letter-spacing:3px;line-height:1}
@@ -22,7 +22,7 @@ header{height:70px;padding:0 16px;display:flex;align-items:center;justify-conten
 .header-actions{display:flex;align-items:center;gap:8px}
 .circle{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:white;display:grid;place-items:center;position:relative;color:#111}
 .circle svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.language-button{height:40px;min-width:49px;padding:0 11px;border:1px solid var(--line);border-radius:22px;background:white;font-size:11px;font-weight:800;letter-spacing:.5px}
+.language-button{height:40px;min-width:49px;padding:0 11px;border:1px solid var(--line);border-radius:22px;background:white;font-size:11px;font-weight:800}
 .counter{position:absolute;right:-3px;top:-3px;background:#111;color:white;width:16px;height:16px;border-radius:50%;font-size:9px;display:grid;place-items:center}
 main{padding:0 16px}
 .page{display:none}.page.active{display:block}
@@ -44,7 +44,8 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .category img{width:100%;height:100%;object-fit:cover}
 .category:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.65))}
 .category span{position:absolute;z-index:1;bottom:15px;left:14px;font-weight:800;font-size:13px;right:8px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:19px 11px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px 11px}
+#homeProducts{grid-template-columns:repeat(2,minmax(0,1fr))}
 .product{min-width:0}
 .photo{height:225px;border-radius:17px;overflow:hidden;background:#e8e8e5;position:relative}
 .photo img{width:100%;height:100%;object-fit:cover;transition:.4s}
@@ -74,7 +75,13 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .subcategory:after{content:"";position:absolute;inset:25% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.72))}
 .subcategory span{position:absolute;z-index:1;bottom:13px;left:12px;right:8px;font-size:12px;font-weight:800}
 .catalog-heading{display:flex;align-items:center;gap:10px;margin-top:22px}
-.back-button{width:35px;height:35px;border:1px solid var(--line);background:white;border-radius:50%;font-size:18px}
+.back-button{width:35px;height:35px;border:1px solid var(--line);background:white;border-radius:50%;font-size:18px;flex-shrink:0}
+.look-grid{display:grid;grid-template-columns:1fr;gap:15px;margin-top:22px}
+.look-card{height:220px;border:0;border-radius:20px;overflow:hidden;position:relative;background:#ddd;padding:0;text-align:left;color:white}
+.look-card img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.look-card:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 30%,rgba(0,0,0,.7))}
+.look-card span{position:absolute;z-index:2;left:18px;bottom:18px;font-size:21px;font-weight:800;letter-spacing:-.5px}
+.look-card:hover img{transform:scale(1.03)}
 .bottom-nav{position:fixed;z-index:30;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.97);backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:10px 5px calc(10px + env(safe-area-inset-bottom))}
 .nav-item{border:0;background:none;color:#888;font-size:9px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nav-item b{font-size:20px;font-weight:500}
@@ -204,26 +211,20 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 
 <section class="page" id="outfits">
   <div class="page-title" data-i18n="looks">Луки.</div>
-  <p class="description" data-i18n="looksDescription">Готовые сочетания одежды для повседневной жизни.</p>
-  <div class="section">
-    <div class="cart-row">
-      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80">
-      <div class="cart-row-info">
-        <div class="eyebrow muted" data-i18n="everydayLook">ПОВСЕДНЕВНЫЙ ЛУК</div>
-        <h3 data-i18n="everydayTitle">На каждый день</h3>
-        <p class="description" data-i18n="everydayDescription">Удобные вещи, спокойные оттенки и свободный силуэт.</p>
-        <button class="link" onclick="showPage('catalog')" data-i18n="seeClothes">СМОТРЕТЬ ОДЕЖДУ ↗</button>
-      </div>
-    </div>
-    <div class="cart-row">
-      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=500&q=80">
-      <div class="cart-row-info">
-        <div class="eyebrow muted" data-i18n="cityLook">ГОРОДСКОЙ ЛУК</div>
-        <h3 data-i18n="cityTitle">Городской стиль</h3>
-        <p class="description" data-i18n="cityDescription">Современное сочетание вещей для прогулок и встреч.</p>
-        <button class="link" onclick="showPage('catalog')" data-i18n="seeClothes">СМОТРЕТЬ ОДЕЖДУ ↗</button>
-      </div>
-    </div>
+  <p class="description" data-i18n="looksDescription">Выбери стиль и посмотри подходящие товары.</p>
+  <div class="look-grid">
+    <button class="look-card" onclick="openLook('classic')">
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85" alt="">
+      <span data-i18n="classicLook">Классический лук ↗</span>
+    </button>
+    <button class="look-card" onclick="openLook('oversize')">
+      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=85" alt="">
+      <span data-i18n="oversizeLook">Оверсайз лук ↗</span>
+    </button>
+    <button class="look-card" onclick="openLook('sport')">
+      <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1000&q=85" alt="">
+      <span data-i18n="sportLook">Спортивный лук ↗</span>
+    </button>
   </div>
 </section>
 
@@ -301,16 +302,15 @@ heroEyebrow:"НОВАЯ КОЛЛЕКЦИЯ",heroTitle:"ТВОЙ СТИЛЬ.<br>�
 chooseStyle:"ВЫБИРАЙ СВОЁ",categories:"Категории",outerwear:"ВЕРХНЯЯ ОДЕЖДА ↗",tshirts:"ФУТБОЛКИ И ПОЛО ↗",trousers:"БРЮКИ И ДЖИНСЫ ↗",shoes:"ОБУВЬ ↗",accessories:"АКСЕССУАРЫ ↗",looks:"Луки",
 newArrivals:"НОВЫЕ ПОСТУПЛЕНИЯ",newProducts:"Новинки",allProducts:"ВЕСЬ КАТАЛОГ",editorialTitle:"ОДЕВАЙСЯ<br>ПО-СВОЕМУ.",seeLooks:"СМОТРЕТЬ ЛУКИ ↗",ourStyle:"НАШ СТИЛЬ",yourStyle:"Твой стиль. Твои правила.",brandDescription:"XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.",
 catalog:"Каталог",catalogDescription:"Выбирай вещи, которые подходят твоему стилю.",searchPlaceholder:"Поиск товаров...",productsHeading:"Товары",back:"Назад к разделам",
-everydayLook:"ПОВСЕДНЕВНЫЙ ЛУК",everydayTitle:"На каждый день",everydayDescription:"Удобные вещи, спокойные оттенки и свободный силуэт.",cityLook:"ГОРОДСКОЙ ЛУК",cityTitle:"Городской стиль",cityDescription:"Современное сочетание вещей для прогулок и встреч.",seeClothes:"СМОТРЕТЬ ОДЕЖДУ ↗",looksDescription:"Готовые сочетания одежды для повседневной жизни.",
+looksDescription:"Выбери стиль и посмотри подходящие товары.",classicLook:"Классический лук ↗",oversizeLook:"Оверсайз лук ↗",sportLook:"Спортивный лук ↗",
 favorites:"Избранное.",favEmptyTitle:"Пока здесь пусто",favEmptyText:"Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.",openCatalog:"ОТКРЫТЬ КАТАЛОГ",
 cart:"Корзина.",cartEmptyTitle:"Корзина пока пуста",cartEmptyText:"Добавь товары из каталога — они появятся здесь.",goCatalog:"ПЕРЕЙТИ В КАТАЛОГ",total:"Итого",checkoutNote:"После оформления заказа мы свяжемся с тобой в Telegram.",checkoutButton:"ОФОРМИТЬ ЗАКАЗ ↗",
 profile:"Профиль.",welcome:"Твой стиль начинается здесь.",personalAccount:"Личный кабинет покупателя",myOrders:"Мои заказы",soon:"Скоро",help:"Помощь",
 home:"Главная",catalogNav:"Каталог",looksNav:"Луки",favoritesNav:"Избранное",profileNav:"Профиль",chooseSize:"Выбери подходящий размер.",quantity:"Количество:",addToCart:"ДОБАВИТЬ В КОРЗИНУ",
 selectSize:"Сначала выбери размер.",added:"Товар добавлен в корзину.",remove:"УДАЛИТЬ",size:"Размер:",all:"Все",noProducts:"В этом разделе пока нет товаров.",selectCategory:"Выбери подраздел",orderDemo:"Это демонстрационная версия. Для настоящего оформления заказа нужно подключить сервер и Telegram-бота.",orderSent:"Данные заказа отправлены. Для получения заказа ботом требуется настройка серверной части.",
 outer:"Верхняя одежда",tees:"Футболки и поло",trousersCategory:"Брюки и джинсы",shoesCategory:"Обувь",accessoriesCategory:"Аксессуары",
-zip:"Худи на молнии",hoodie:"Худи без молнии",halfzip:"Худи с полузамком",sweatshirt:"Свитшоты",
-tshirt:"Футболки",polo:"Поло",
-pants:"Брюки",jeans:"Джинсы",oversize:"Оверсайз",
+hoodies:"Худи",zip:"Худи на молнии",halfzip:"Худи с полузамком",sweatshirt:"Свитшоты",
+tshirt:"Футболки",polo:"Поло",pants:"Брюки",jeans:"Джинсы",oversize:"Оверсайз",
 sneakers:"Кроссовки",formalShoes:"Туфли",casualShoes:"Повседневная обувь",
 crossbody:"Сумки через плечо",sportBags:"Спортивные сумки",schoolBags:"Школьные и повседневные сумки",barsetka:"Барсетки",miniBags:"Маленькие сумки",
 product1:"Базовая футболка оверсайз",product2:"Худи на молнии",product3:"Кроссовки в городском стиле",product4:"Сумка через плечо",product5:"Классическая чёрная футболка",product6:"Минималистичные кроссовки",
@@ -321,16 +321,15 @@ heroEyebrow:"YANGI TO‘PLAM",heroTitle:"SENING USLUBING.<br>SENING QOIDALARING.
 chooseStyle:"O‘ZINGGA MOSINI TANLA",categories:"Bo‘limlar",outerwear:"USTKI KIYIMLAR ↗",tshirts:"FUTBOLKALAR VA POLO ↗",trousers:"SHIMLAR VA JINSILAR ↗",shoes:"POYABZALLAR ↗",accessories:"AKSESSUARLAR ↗",looks:"Looklar",
 newArrivals:"YANGI KELGANLAR",newProducts:"Yangi mahsulotlar",allProducts:"BARCHA MAHSULOTLAR",editorialTitle:"O‘ZINGGA<br>XOS KIYIN.",seeLooks:"LOOKLARNI KO‘RISH ↗",ourStyle:"BIZNING USLUB",yourStyle:"Sening uslubing. Sening qoidalaring.",brandDescription:"XEVEN WEAR — o‘z uslubini tanlaydiganlar uchun kiyimlar.",
 catalog:"Katalog",catalogDescription:"O‘zingga mos kiyimlarni tanla.",searchPlaceholder:"Mahsulotlarni qidirish...",productsHeading:"Mahsulotlar",back:"Bo‘limlarga qaytish",
-everydayLook:"KUNDALIK LOOK",everydayTitle:"Har kun uchun",everydayDescription:"Qulay kiyimlar, sokin ranglar va erkin bichim.",cityLook:"SHAHAR LOOKI",cityTitle:"Shahar uslubi",cityDescription:"Sayr va uchrashuvlar uchun zamonaviy kiyimlar uyg‘unligi.",seeClothes:"KIYIMLARNI KO‘RISH ↗",looksDescription:"Kundalik hayot uchun tayyor kiyim uyg‘unliklari.",
+looksDescription:"Uslubni tanla va mos mahsulotlarni ko‘r.",classicLook:"Classic look ↗",oversizeLook:"Oversize look ↗",sportLook:"Sport look ↗",
 favorites:"Sevimlilar.",favEmptyTitle:"Hozircha bu yer bo‘sh",favEmptyText:"Yoqtirgan kiyimlaringni saqlash uchun yurakcha belgisini bos.",openCatalog:"KATALOGNI OCHISH",
 cart:"Savatcha.",cartEmptyTitle:"Savatcha hozircha bo‘sh",cartEmptyText:"Katalogdan mahsulot qo‘sh — ular shu yerda ko‘rinadi.",goCatalog:"KATALOGGA O‘TISH",total:"Jami",checkoutNote:"Buyurtmadan so‘ng Telegram orqali sen bilan bog‘lanamiz.",checkoutButton:"BUYURTMANI RASMIYLASHTIRISH ↗",
 profile:"Profil.",welcome:"Sening uslubing shu yerdan boshlanadi.",personalAccount:"Xaridorning shaxsiy kabineti",myOrders:"Buyurtmalarim",soon:"Tez orada",help:"Yordam",
 home:"Bosh sahifa",catalogNav:"Katalog",looksNav:"Looklar",favoritesNav:"Sevimlilar",profileNav:"Profil",chooseSize:"O‘zingga mos o‘lchamni tanla.",quantity:"Soni:",addToCart:"SAVATCHAGA QO‘SHISH",
 selectSize:"Avval o‘lchamni tanla.",added:"Mahsulot savatchaga qo‘shildi.",remove:"O‘CHIRISH",size:"O‘lcham:",all:"Barchasi",noProducts:"Bu bo‘limda hozircha mahsulot yo‘q.",selectCategory:"Ichki bo‘limni tanla",orderDemo:"Bu namoyish versiyasi. Haqiqiy buyurtma uchun server va Telegram botini ulash kerak.",orderSent:"Buyurtma ma'lumotlari yuborildi. Bot orqali qabul qilish uchun server sozlamasi kerak.",
 outer:"Ustki kiyimlar",tees:"Futbolkalar va polo",trousersCategory:"Shimlar va jinsilar",shoesCategory:"Poyabzallar",accessoriesCategory:"Aksessuarlar",
-zip:"Molniyali xudi",hoodie:"Molniyasiz xudi",halfzip:"Yarim zamokli xudi",sweatshirt:"Svitshotlar",
-tshirt:"Futbolkalar",polo:"Polo",
-pants:"Shimlar",jeans:"Jinsilar",oversize:"Oversize",
+hoodies:"Xudilar",zip:"Molniyali xudi",halfzip:"Yarim zamokli xudi",sweatshirt:"Svitshotlar",
+tshirt:"Futbolkalar",polo:"Polo",pants:"Shimlar",jeans:"Jinsilar",oversize:"Oversize",
 sneakers:"Krossovkalar",formalShoes:"Klassik tuflilar",casualShoes:"Kundalik poyabzal",
 crossbody:"Yelkaga osiladigan sumkalar",sportBags:"Sport sumkalari",schoolBags:"Maktab va kundalik sumkalar",barsetka:"Barsetkalar",miniBags:"Kichik sumkalar",
 product1:"Keng bichimli futbolka",product2:"Molniyali xudi",product3:"Shahar uslubidagi krossovkalar",product4:"Yelkaga osiladigan sumka",product5:"Klassik qora futbolka",product6:"Minimalistik krossovkalar",
@@ -349,10 +348,7 @@ const categories=[
 
 const subcategories={
 "Верхняя одежда":[
- {key:"zip",label:"zip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
- {key:"hoodie",label:"hoodie",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
- {key:"halfzip",label:"halfzip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
- {key:"sweatshirt",label:"sweatshirt",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"}
+ {key:"hoodies",label:"hoodies",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",nested:true}
 ],
 "Футболки и поло":[
  {key:"tshirt",label:"tshirt",image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"},
@@ -377,13 +373,19 @@ const subcategories={
 ]
 };
 
+const hoodieSubcategories=[
+ {key:"zip",label:"zip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
+ {key:"halfzip",label:"halfzip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
+ {key:"sweatshirt",label:"sweatshirt",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"}
+];
+
 const products=[
-{id:1,nameKey:"product1",category:"Футболки и поло",sub:"tshirt",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["S","M","L","XL"]},
-{id:2,nameKey:"product2",category:"Верхняя одежда",sub:"zip",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
-{id:3,nameKey:"product3",category:"Обувь",sub:"sneakers",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["40","41","42","43","44"]},
-{id:4,nameKey:"product4",category:"Аксессуары",sub:"crossbody",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["Единый"]},
-{id:5,nameKey:"product5",category:"Футболки и поло",sub:"tshirt",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
-{id:6,nameKey:"product6",category:"Обувь",sub:"sneakers",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["40","41","42","43","44"]}
+{id:1,nameKey:"product1",category:"Футболки и поло",sub:"tshirt",look:"oversize",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["S","M","L","XL"]},
+{id:2,nameKey:"product2",category:"Верхняя одежда",sub:"zip",look:"oversize",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
+{id:3,nameKey:"product3",category:"Обувь",sub:"sneakers",look:"sport",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["40","41","42","43","44"]},
+{id:4,nameKey:"product4",category:"Аксессуары",sub:"crossbody",look:"sport",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["Единый"]},
+{id:5,nameKey:"product5",category:"Футболки и поло",sub:"tshirt",look:"classic",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
+{id:6,nameKey:"product6",category:"Обувь",sub:"sneakers",look:"classic",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["40","41","42","43","44"]}
 ];
 
 let lang="ru";
@@ -395,6 +397,8 @@ let selectedQuantity=1;
 let activeFilter="all";
 let activeCategory=null;
 let activeSubcategory=null;
+let activeNestedGroup=false;
+let activeLook=null;
 
 function t(key){return translations[lang][key]||key}
 function productName(p){return t(p.nameKey)}
@@ -458,14 +462,22 @@ function renderSubcategories(){
   area.innerHTML="";
   return;
  }
- const items=subcategories[activeCategory];
+
+ let items=subcategories[activeCategory];
+ let title=t("selectCategory");
+
+ if(activeCategory==="Верхняя одежда"&&activeNestedGroup){
+  items=hoodieSubcategories;
+  title=t("hoodies");
+ }
+
  area.innerHTML=`
  <div class="section-head" style="margin:15px 0 10px">
- <div><div class="eyebrow muted">${t("selectCategory")}</div></div>
- <button class="link" onclick="clearSubcategory()">${t("back")}</button>
+ <div><div class="eyebrow muted">${title}</div></div>
+ <button class="link" onclick="${activeNestedGroup?"closeNestedGroup()":"showAllCategories()"}">${t("back")}</button>
  </div>
  <div class="subcategory-grid">
- ${items.map(s=>`<button class="subcategory" onclick="setSubcategory('${s.key}')">
+ ${items.map(s=>`<button class="subcategory" onclick="${s.nested?"openNestedGroup()":`setSubcategory('${s.key}')`}">
  <img src="${s.image}" alt="${t(s.label)}" loading="lazy">
  <span>${t(s.label)} ↗</span>
  </button>`).join("")}
@@ -479,6 +491,7 @@ function renderProducts(){
   const ruName=translations.ru[p.nameKey].toLowerCase();
   return (activeFilter==="all"||p.category===activeFilter)&&
    (!activeSubcategory||p.sub===activeSubcategory)&&
+   (!activeLook||p.look===activeLook)&&
    (!query||name.includes(query)||ruName.includes(query));
  });
 
@@ -492,11 +505,16 @@ function renderProducts(){
  renderSubcategories();
 
  const heading=document.getElementById("catalogHeading");
- if(activeCategory!=="all"&&activeCategory){
-  heading.innerHTML=`<button class="back-button" onclick="showAllCategories()">‹</button><div class="page-title">${categoryName(activeCategory)}</div>`;
+ if(activeLook){
+  const lookTitle=activeLook==="classic"?t("classicLook"):activeLook==="oversize"?t("oversizeLook"):t("sportLook");
+  heading.innerHTML=`<button class="back-button" onclick="clearLook()">‹</button><div class="page-title">${lookTitle.replace(" ↗","")}</div>`;
+ }else if(activeCategory){
+  const title=activeNestedGroup?t("hoodies"):categoryName(activeCategory);
+  heading.innerHTML=`<button class="back-button" onclick="${activeNestedGroup?"closeNestedGroup()":"showAllCategories()"}">‹</button><div class="page-title">${title}</div>`;
  }else{
   heading.innerHTML=`<div class="page-title">${t("catalog")}</div>`;
  }
+
  document.getElementById("productsHeading").style.display=filtered.length?"flex":"none";
 }
 
@@ -504,6 +522,8 @@ function setFilter(category){
  activeFilter=category;
  activeCategory=category==="all"?null:category;
  activeSubcategory=null;
+ activeNestedGroup=false;
+ activeLook=null;
  buildFilters();
  renderProducts();
 }
@@ -512,8 +532,22 @@ function openCategory(category){
  activeFilter=category;
  activeCategory=category;
  activeSubcategory=null;
+ activeNestedGroup=false;
+ activeLook=null;
  showPage("catalog");
  buildFilters();
+ renderProducts();
+}
+
+function openNestedGroup(){
+ activeNestedGroup=true;
+ activeSubcategory=null;
+ renderProducts();
+}
+
+function closeNestedGroup(){
+ activeNestedGroup=false;
+ activeSubcategory=null;
  renderProducts();
 }
 
@@ -523,17 +557,30 @@ function setSubcategory(key){
  document.getElementById("catalogProducts").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-function clearSubcategory(){
- activeSubcategory=null;
- renderProducts();
-}
-
 function showAllCategories(){
  activeFilter="all";
  activeCategory=null;
  activeSubcategory=null;
+ activeNestedGroup=false;
+ activeLook=null;
  buildFilters();
  renderProducts();
+}
+
+function openLook(look){
+ activeLook=look;
+ activeFilter="all";
+ activeCategory=null;
+ activeSubcategory=null;
+ activeNestedGroup=false;
+ buildFilters();
+ showPage("catalog");
+ renderProducts();
+}
+
+function clearLook(){
+ activeLook=null;
+ showPage("outfits");
 }
 
 function toggleFavorite(id){
