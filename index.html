@@ -28,9 +28,9 @@ header{height:70px;padding:0 16px;display:flex;align-items:center;justify-conten
 main{padding:0 16px}
 .page{display:none}
 .page.active{display:block}
-.hero{height:465px;margin-top:14px;border-radius:25px;overflow:hidden;position:relative;background:#aaa}
-.hero img{width:100%;height:100%;object-fit:cover}
-.hero:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.72))}
+.hero{height:465px;margin-top:14px;border-radius:25px;overflow:hidden;position:relative;background:#c9c5bd}
+.hero img{width:100%;height:100%;object-fit:cover;object-position:center}
+.hero:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.65))}
 .hero-content{position:absolute;bottom:25px;left:21px;z-index:2;color:white}
 .eyebrow{font-size:10px;letter-spacing:2px;font-weight:800}
 .hero h1{font-size:43px;line-height:.98;letter-spacing:-3px;margin:13px 0 20px;font-weight:800}
@@ -140,7 +140,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 
 <section class="page active" id="home">
   <div class="hero">
-    <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1100&q=85">
+    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=90" alt="Мужская одежда XEVEN WEAR">
     <div class="hero-content">
       <div class="eyebrow" data-i18n="heroEyebrow">НОВАЯ КОЛЛЕКЦИЯ</div>
       <h1 data-i18n="heroTitle">ТВОЙ СТИЛЬ.<br>ТВОИ ПРАВИЛА.</h1>
@@ -154,22 +154,22 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
     </div>
     <div class="categories">
       <button class="category" onclick="openCategory('Верхняя одежда')">
-        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80"><span data-i18n="outerwear">ВЕРХНЯЯ ОДЕЖДА ↗</span>
+        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=90" alt="Верхняя одежда"><span data-i18n="outerwear">ВЕРХНЯЯ ОДЕЖДА ↗</span>
       </button>
       <button class="category" onclick="openCategory('Футболки и поло')">
-        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80"><span data-i18n="tshirts">ФУТБОЛКИ И ПОЛО ↗</span>
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=90" alt="Футболки и поло"><span data-i18n="tshirts">ФУТБОЛКИ И ПОЛО ↗</span>
       </button>
       <button class="category" onclick="openCategory('Брюки и джинсы')">
-        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80"><span data-i18n="trousers">БРЮКИ И ДЖИНСЫ ↗</span>
+        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=90" alt="Брюки и джинсы"><span data-i18n="trousers">БРЮКИ И ДЖИНСЫ ↗</span>
       </button>
       <button class="category" onclick="openCategory('Обувь')">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80"><span data-i18n="shoes">ОБУВЬ ↗</span>
+        <img src="https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=800&q=90" alt="Обувь"><span data-i18n="shoes">ОБУВЬ ↗</span>
       </button>
       <button class="category" onclick="openCategory('Аксессуары')">
-        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80"><span data-i18n="accessories">АКСЕССУАРЫ ↗</span>
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=90" alt="Аксессуары"><span data-i18n="accessories">АКСЕССУАРЫ ↗</span>
       </button>
       <button class="category" onclick="showPage('outfits')">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"><span data-i18n="looks">ЛУКИ ↗</span>
+        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=90" alt="Мужские образы"><span data-i18n="looks">ЛУКИ ↗</span>
       </button>
     </div>
   </section>
@@ -183,7 +183,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
   </section>
 
   <div class="editorial">
-    <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1000&q=80">
+    <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200&q=90" alt="Коллекция XEVEN WEAR">
     <div class="editorial-content">
       <div class="eyebrow">XEVEN WEAR</div>
       <h2 data-i18n="editorialTitle">ОДЕВАЙСЯ<br>ПО-СВОЕМУ.</h2>
@@ -219,15 +219,15 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
   <p class="description" data-i18n="looksDescription">Выбери стиль и посмотри подходящие товары.</p>
   <div class="look-grid">
     <button class="look-card" onclick="openLook('classic')">
-      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85" alt="">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=90" alt="Классический мужской образ">
       <span data-i18n="classicLook">Классический лук ↗</span>
     </button>
     <button class="look-card" onclick="openLook('oversize')">
-      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1000&q=85" alt="">
+      <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200&q=90" alt="Оверсайз одежда">
       <span data-i18n="oversizeLook">Оверсайз лук ↗</span>
     </button>
     <button class="look-card" onclick="openLook('sport')">
-      <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1000&q=85" alt="">
+      <img src="https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=1200&q=90" alt="Спортивная обувь и одежда">
       <span data-i18n="sportLook">Спортивный лук ↗</span>
     </button>
   </div>
@@ -333,11 +333,11 @@ profile:"Profil.",welcome:"Sening uslubing shu yerdan boshlanadi.",personalAccou
 home:"Bosh sahifa",catalogNav:"Katalog",looksNav:"Looklar",favoritesNav:"Sevimlilar",profileNav:"Profil",chooseSize:"O‘zingga mos o‘lchamni tanla.",quantity:"Soni:",addToCart:"SAVATCHAGA QO‘SHISH",
 selectSize:"Avval o‘lchamni tanla.",added:"Mahsulot savatchaga qo‘shildi.",remove:"O‘CHIRISH",size:"O‘lcham:",all:"Barchasi",noProducts:"Bu bo‘limda hozircha mahsulot yo‘q.",selectCategory:"Ichki bo‘limni tanla",orderDemo:"Bu namoyish versiyasi. Haqiqiy buyurtma uchun server va Telegram botini ulash kerak.",orderSent:"Buyurtma ma'lumotlari yuborildi. Bot orqali qabul qilish uchun server sozlamasi kerak.",
 outer:"Ustki kiyimlar",tees:"Futbolkalar va polo",trousersCategory:"Shimlar va jinsilar",shoesCategory:"Poyabzallar",accessoriesCategory:"Aksessuarlar",
-jackets:"Kurtkalar",hoodies:"Xudilar",zip:"Zipperli xudi",sweaters:"Sviterlar",cardigans:"Kardiganlar",vests:"Jiletlар",blazers:"Pidjaklar",coats:"Palto",windbreakers:"Vetrovkalar",
+jackets:"Kurtkalar",hoodies:"Xudilar",zip:"Zip-xudi",sweaters:"Sviterlar",cardigans:"Kardiganlar",vests:"Jiletkalar",blazers:"Pidjaklar",coats:"Palto",windbreakers:"Vetrovkalar",
 tshirt:"Futbolkalar",polo:"Polo",longSleeves:"Uzun yengli futbolkalar",pants:"Shimlar",jeans:"Jinsilar",oversize:"Oversize",
 sneakers:"Krossovkalar",classicShoes:"Klassik poyabzal",summerShoes:"Yozgi poyabzal",sportSneakers:"Sport krossovkalari",
 hats:"Bosh kiyimlar",bags:"Sumkalar va ryukzaklar",jewelryWatches:"Taqinchoqlar va soatlar",otherAccessories:"Boshqa aksessuarlar",barsetka:"Barsetkalar",
-product1:"Keng bichimli futbolka",product2:"Zipperli xudi",product3:"Shahar uslubidagi krossovkalar",product4:"Yelkaga osiladigan sumka",product5:"Klassik qora futbolka",product6:"Minimalistik krossovkalar",
+product1:"Keng bichimli futbolka",product2:"Zip-xudi",product3:"Shahar uslubidagi krossovkalar",product4:"Yelkaga osiladigan sumka",product5:"Klassik qora futbolka",product6:"Minimalistik krossovkalar",
 newTag:"YANGI",choose:"TANLASH +"
 }
 };
@@ -353,53 +353,53 @@ const categories=[
 
 const subcategories={
 "Верхняя одежда":[
- {key:"jackets",label:"jackets",image:"https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&w=600&q=80"},
- {key:"hoodies",label:"hoodies",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
- {key:"zip",label:"zip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
- {key:"sweaters",label:"sweaters",image:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80"},
- {key:"cardigans",label:"cardigans",image:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80"},
- {key:"vests",label:"vests",image:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80"},
- {key:"blazers",label:"blazers",image:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80"},
- {key:"coats",label:"coats",image:"https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=600&q=80"},
- {key:"windbreakers",label:"windbreakers",image:"https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&w=600&q=80"}
+ {key:"jackets",label:"jackets",image:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=700&q=85"},
+ {key:"hoodies",label:"hoodies",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=85"},
+ {key:"zip",label:"zip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=85"},
+ {key:"sweaters",label:"sweaters",image:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=700&q=85"},
+ {key:"cardigans",label:"cardigans",image:"https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=700&q=85"},
+ {key:"vests",label:"vests",image:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=700&q=85"},
+ {key:"blazers",label:"blazers",image:"https://images.unsplash.com/photo-1593032465175-481ac7f401a0?auto=format&fit=crop&w=700&q=85"},
+ {key:"coats",label:"coats",image:"https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=700&q=85"},
+ {key:"windbreakers",label:"windbreakers",image:"https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&w=700&q=85"}
 ],
 "Футболки и поло":[
- {key:"tshirt",label:"tshirt",image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"},
- {key:"polo",label:"polo",image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=600&q=80"},
- {key:"longSleeves",label:"longSleeves",image:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80"}
+ {key:"tshirt",label:"tshirt",image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=85"},
+ {key:"polo",label:"polo",image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=85"},
+ {key:"longSleeves",label:"longSleeves",image:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=700&q=85"}
 ],
 "Брюки и джинсы":[
- {key:"pants",label:"pants",image:"https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=600&q=80"},
- {key:"jeans",label:"jeans",image:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80"},
- {key:"oversize",label:"oversize",image:"https://images.unsplash.com/photo-1511196044526-5cb3bcb7071b?auto=format&fit=crop&w=600&q=80"}
+ {key:"pants",label:"pants",image:"https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=700&q=85"},
+ {key:"jeans",label:"jeans",image:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=85"},
+ {key:"oversize",label:"oversize",image:"https://images.unsplash.com/photo-1511196044526-5cb3bcb7071b?auto=format&fit=crop&w=700&q=85"}
 ],
 "Обувь":[
- {key:"sneakers",label:"sneakers",image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=600&q=80"},
- {key:"classicShoes",label:"classicShoes",image:"https://images.unsplash.com/photo-1614252369475-531ecasf?auto=format&fit=crop&w=600&q=80"},
- {key:"summerShoes",label:"summerShoes",image:"https://images.unsplash.com/photo-1531310197839-ccf54634509e?auto=format&fit=crop&w=600&q=80"},
- {key:"sportSneakers",label:"sportSneakers",image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"}
+ {key:"sneakers",label:"sneakers",image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=85"},
+ {key:"classicShoes",label:"classicShoes",image:"https://images.unsplash.com/photo-1614252369475-531ecasf?auto=format&fit=crop&w=700&q=85"},
+ {key:"summerShoes",label:"summerShoes",image:"https://images.unsplash.com/photo-1531310197839-ccf54634509e?auto=format&fit=crop&w=700&q=85"},
+ {key:"sportSneakers",label:"sportSneakers",image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=85"}
 ],
 "Аксессуары":[
- {key:"hats",label:"hats",image:"https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=600&q=80"},
- {key:"bags",label:"bags",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",nested:true},
- {key:"jewelryWatches",label:"jewelryWatches",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"},
- {key:"otherAccessories",label:"otherAccessories",image:"https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=600&q=80"}
+ {key:"hats",label:"hats",image:"https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=700&q=85"},
+ {key:"bags",label:"bags",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=85",nested:true},
+ {key:"jewelryWatches",label:"jewelryWatches",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=85"},
+ {key:"otherAccessories",label:"otherAccessories",image:"https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=700&q=85"}
 ]
 };
 
 const nestedSubcategories={
 bags:[
- {key:"barsetka",label:"barsetka",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"}
+ {key:"barsetka",label:"barsetka",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=85"}
 ]
 };
 
 const products=[
-{id:1,nameKey:"product1",category:"Футболки и поло",sub:"tshirt",look:"oversize",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["S","M","L","XL"]},
-{id:2,nameKey:"product2",category:"Верхняя одежда",sub:"zip",look:"oversize",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
-{id:3,nameKey:"product3",category:"Обувь",sub:"sportSneakers",look:"sport",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["40","41","42","43","44"]},
-{id:4,nameKey:"product4",category:"Аксессуары",sub:"barsetka",look:"sport",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["Единый"]},
-{id:5,nameKey:"product5",category:"Футболки и поло",sub:"tshirt",look:"classic",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
-{id:6,nameKey:"product6",category:"Обувь",sub:"sneakers",look:"classic",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["40","41","42","43","44"]}
+{id:1,nameKey:"product1",category:"Футболки и поло",sub:"tshirt",look:"oversize",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=90",tag:true,sizes:["S","M","L","XL"]},
+{id:2,nameKey:"product2",category:"Верхняя одежда",sub:"zip",look:"oversize",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=90",tag:false,sizes:["S","M","L","XL"]},
+{id:3,nameKey:"product3",category:"Обувь",sub:"sportSneakers",look:"sport",price:529000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=800&q=90",tag:true,sizes:["40","41","42","43","44"]},
+{id:4,nameKey:"product4",category:"Аксессуары",sub:"barsetka",look:"sport",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=90",tag:false,sizes:["Единый"]},
+{id:5,nameKey:"product5",category:"Футболки и поло",sub:"tshirt",look:"classic",price:169000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=90",tag:false,sizes:["S","M","L","XL"]},
+{id:6,nameKey:"product6",category:"Обувь",sub:"sneakers",look:"classic",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=800&q=90",tag:false,sizes:["40","41","42","43","44"]}
 ];
 
 let lang="ru";
