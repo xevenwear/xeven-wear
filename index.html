@@ -2,208 +2,587 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080808">
-  <title>XEVEN WEAR — Quality in Every Detail</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f7f5">
+<title>XEVEN WEAR — Streetwear</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    body {
-      background: #080808;
-      color: #fff;
-      font-family: Arial, sans-serif;
-    }
-
-    header {
-      height: 75px;
-      padding: 0 6%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #252525;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: 3px;
-    }
-
-    .logo span { color: #999; }
-
-    button {
-      background: none;
-      color: white;
-      border: 1px solid #555;
-      padding: 10px 15px;
-      cursor: pointer;
-    }
-
-    .hero {
-      min-height: 480px;
-      padding: 100px 7%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .tag {
-      color: #999;
-      letter-spacing: 4px;
-      font-size: 11px;
-      margin-bottom: 25px;
-    }
-
-    h1 {
-      font-size: clamp(45px, 9vw, 100px);
-      letter-spacing: -4px;
-      line-height: 1;
-      max-width: 850px;
-    }
-
-    .subtitle {
-      color: #aaa;
-      margin-top: 25px;
-      letter-spacing: 3px;
-      font-size: 12px;
-    }
-
-    .shop-btn {
-      margin-top: 40px;
-      background: white;
-      color: black;
-      border: none;
-      padding: 17px 30px;
-      width: fit-content;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-    .section {
-      padding: 55px 7%;
-      border-top: 1px solid #252525;
-    }
-
-    .section h2 {
-      font-size: 25px;
-      letter-spacing: 3px;
-      margin-bottom: 25px;
-    }
-
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .category {
-      border: 1px solid #333;
-      padding: 35px 15px;
-      text-align: center;
-      color: #ddd;
-      letter-spacing: 2px;
-    }
-
-    footer {
-      padding: 35px 7%;
-      color: #777;
-      border-top: 1px solid #252525;
-      font-size: 11px;
-      letter-spacing: 2px;
-    }
-
-    @media(max-width: 600px) {
-      header { padding: 0 5%; }
-      .hero { min-height: 420px; padding: 75px 6%; }
-      .categories { grid-template-columns: 1fr; }
-      h1 { letter-spacing: -2px; }
-    }
-  </style>
+<style>
+:root {
+  --bg:#f7f7f5;
+  --white:#fff;
+  --black:#111;
+  --gray:#777;
+  --line:#e9e9e6;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--black);
+  font-family:Manrope,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:90px}
+header{
+  height:68px;padding:0 18px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:20;
+  background:rgba(247,247,245,.94);backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--line)
+}
+.logo{font-size:20px;font-weight:800;letter-spacing:3px}
+.logo small{display:block;font-size:8px;letter-spacing:5px;color:var(--gray)}
+.header-actions{display:flex;gap:9px}
+.circle{
+  width:39px;height:39px;border:0;border-radius:50%;
+  background:white;font-size:18px;position:relative
+}
+.counter{
+  position:absolute;right:-3px;top:-3px;background:#111;color:white;
+  width:16px;height:16px;border-radius:50%;font-size:9px;
+  display:grid;place-items:center
+}
+main{padding:0 16px}
+.page{display:none}
+.page.active{display:block}
+.hero{
+  height:465px;margin-top:14px;border-radius:25px;overflow:hidden;
+  position:relative;background:#aaa
+}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero:after{
+  content:"";position:absolute;inset:35% 0 0;
+  background:linear-gradient(transparent,rgba(0,0,0,.72))
+}
+.hero-content{position:absolute;bottom:25px;left:21px;z-index:2;color:white}
+.eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;text-transform:uppercase}
+.hero h1{
+  font-size:43px;line-height:.98;letter-spacing:-3px;
+  margin:13px 0 20px;font-weight:800
+}
+.primary{
+  border:0;background:#111;color:#fff;border-radius:30px;
+  padding:14px 20px;font-size:11px;font-weight:800;letter-spacing:.5px
+}
+.primary.white{background:white;color:#111}
+.section{padding-top:34px}
+.section-head{
+  display:flex;justify-content:space-between;align-items:end;margin-bottom:15px
+}
+h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
+.muted{color:var(--gray)}
+.link{
+  border:0;background:none;border-bottom:1px solid #111;
+  padding:0 0 3px;font-size:10px;font-weight:800
+}
+.categories{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.category{
+  height:185px;border:0;border-radius:18px;overflow:hidden;
+  position:relative;background:#ddd;padding:0;color:white;text-align:left
+}
+.category img{width:100%;height:100%;object-fit:cover}
+.category:after{
+  content:"";position:absolute;inset:40% 0 0;
+  background:linear-gradient(transparent,rgba(0,0,0,.6))
+}
+.category span{
+  position:absolute;z-index:1;bottom:15px;left:14px;
+  font-weight:800;font-size:15px
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:19px 11px}
+.product{min-width:0}
+.photo{
+  height:225px;border-radius:17px;overflow:hidden;
+  background:#e8e8e5;position:relative
+}
+.photo img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.product:hover .photo img{transform:scale(1.04)}
+.tag{
+  position:absolute;top:10px;left:10px;background:white;
+  border-radius:20px;padding:6px 9px;font-size:8px;font-weight:800
+}
+.heart{
+  position:absolute;top:8px;right:8px;width:32px;height:32px;
+  border:0;border-radius:50%;background:rgba(255,255,255,.95);
+  font-size:17px
+}
+.product-info{padding:10px 2px}
+.product-name{font-size:12px;font-weight:700}
+.product-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:5px;margin-top:7px
+}
+.price{font-size:11px;font-weight:800}
+.add{
+  border:0;background:#111;color:white;border-radius:20px;
+  padding:8px 10px;font-size:9px;font-weight:800
+}
+.editorial{
+  margin-top:35px;height:260px;border-radius:22px;
+  overflow:hidden;position:relative
+}
+.editorial img{width:100%;height:100%;object-fit:cover}
+.editorial:after{
+  content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)
+}
+.editorial-content{position:absolute;z-index:2;top:25px;left:20px;color:white}
+.editorial h2{font-size:31px;line-height:1.05;margin:13px 0 20px}
+.page-title{
+  font-size:31px;letter-spacing:-2px;margin:24px 0 5px
+}
+.description{font-size:11px;color:var(--gray);line-height:1.6}
+.search{
+  width:100%;padding:14px 17px;border:1px solid var(--line);
+  border-radius:30px;background:white;outline:none;margin:18px 0
+}
+.filters{display:flex;gap:8px;overflow:auto;padding-bottom:16px}
+.filter{
+  flex-shrink:0;border:1px solid var(--line);border-radius:25px;
+  background:white;padding:9px 14px;font-size:10px
+}
+.filter.active{background:#111;color:white}
+.bottom-nav{
+  position:fixed;z-index:30;bottom:0;left:50%;transform:translateX(-50%);
+  width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);
+  background:rgba(255,255,255,.97);backdrop-filter:blur(15px);
+  border-top:1px solid var(--line);
+  padding:10px 5px calc(10px + env(safe-area-inset-bottom))
+}
+.nav-item{
+  border:0;background:none;color:#888;font-size:9px;font-weight:700;
+  display:flex;flex-direction:column;align-items:center;gap:4px
+}
+.nav-item b{font-size:20px;font-weight:500}
+.nav-item.active{color:#111}
+.empty{
+  background:white;border-radius:18px;padding:35px 18px;
+  text-align:center;margin-top:20px
+}
+.empty h3{font-size:16px}
+.empty p{font-size:11px;color:#777;line-height:1.6}
+.cart-row{
+  display:flex;gap:12px;background:white;border-radius:16px;
+  padding:10px;margin:10px 0
+}
+.cart-row img{width:85px;height:100px;object-fit:cover;border-radius:12px}
+.cart-row-info{flex:1}
+.cart-row-info h3{font-size:12px;margin:4px 0}
+.remove{border:0;background:none;color:#888;font-size:10px;padding:8px 0}
+.summary{background:white;border-radius:18px;padding:18px;margin-top:15px}
+.summary-line{display:flex;justify-content:space-between;font-size:13px}
+.profile-box{background:white;border-radius:18px;padding:20px;margin-top:20px}
+.profile-line{
+  padding:16px 0;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;font-size:12px
+}
+.profile-line:last-child{border:0}
+footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35px 0}
+.modal{
+  display:none;position:fixed;inset:0;z-index:50;
+  background:rgba(0,0,0,.45);align-items:end;justify-content:center
+}
+.modal.open{display:flex}
+.modal-box{
+  background:white;width:min(520px,100%);border-radius:23px 23px 0 0;
+  padding:20px 20px calc(25px + env(safe-area-inset-bottom));
+  max-height:85vh;overflow:auto
+}
+.modal-box img{width:100%;height:250px;object-fit:cover;border-radius:16px}
+.modal-box h2{font-size:22px;margin:15px 0 7px}
+.sizes{display:flex;gap:8px;margin:15px 0}
+.size{
+  width:43px;height:40px;border:1px solid var(--line);
+  background:white;border-radius:10px;font-size:11px
+}
+.size.selected{background:#111;color:white}
+.modal-close{float:right;border:0;background:#eee;border-radius:50%;width:32px;height:32px}
+@media(min-width:520px){.app{box-shadow:0 0 45px #0000000a}}
+</style>
 </head>
 
 <body>
-  <header>
-    <div class="logo">XEVEN<span> WEAR</span></div>
-    <button id="language" onclick="changeLanguage()">UZ</button>
-  </header>
+<div class="app">
 
-  <main>
-    <section class="hero">
-      <div class="tag" id="tag">PREMIUM FASHION STORE</div>
-      <h1 id="heading">QUALITY<br>IN EVERY<br>DETAIL.</h1>
-      <p class="subtitle" id="subtitle">
-        STYLE IS A CHOICE. QUALITY IS A STANDARD.
-      </p>
-      <button class="shop-btn" id="shop"
-        onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">
-        EXPLORE COLLECTION
+<header>
+  <div class="logo">XEVEN<small>WEAR / EST. 2026</small></div>
+  <div class="header-actions">
+    <button class="circle" onclick="showPage('catalog')">⌕</button>
+    <button class="circle" onclick="showPage('cart')">♧<span class="counter" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section class="page active" id="home">
+  <div class="hero">
+    <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1100&q=85">
+    <div class="hero-content">
+      <div class="eyebrow">New season / 2026</div>
+      <h1>OWN YOUR<br>EVERYDAY.</h1>
+      <button class="primary white" onclick="showPage('catalog')">EXPLORE COLLECTION ↗</button>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-head">
+      <div><div class="eyebrow muted">Find your style</div><h2>Категории</h2></div>
+      <span class="muted" style="font-size:10px">01 / 04</span>
+    </div>
+    <div class="categories">
+      <button class="category" onclick="openCategory('Одежда')">
+        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80"><span>ОДЕЖДА ↗</span>
       </button>
-    </section>
+      <button class="category" onclick="openCategory('Обувь')">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80"><span>ОБУВЬ ↗</span>
+      </button>
+      <button class="category" onclick="openCategory('Аксессуары')">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80"><span>АКСЕССУАРЫ ↗</span>
+      </button>
+      <button class="category" onclick="showPage('outfits')">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"><span>ОБРАЗЫ ↗</span>
+      </button>
+    </div>
+  </section>
 
-    <section class="section" id="catalog">
-      <h2 id="catalogTitle">COLLECTION</h2>
-      <div class="categories">
-        <div class="category" id="clothes">CLOTHING</div>
-        <div class="category" id="shoes">FOOTWEAR</div>
-        <div class="category" id="looks">TOTAL LOOKS</div>
+  <section class="section">
+    <div class="section-head">
+      <div><div class="eyebrow muted">Just dropped</div><h2>Новинки</h2></div>
+      <button class="link" onclick="showPage('catalog')">ВЕСЬ КАТАЛОГ</button>
+    </div>
+    <div class="grid" id="homeProducts"></div>
+  </section>
+
+  <div class="editorial">
+    <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1000&q=80">
+    <div class="editorial-content">
+      <div class="eyebrow">Xeven selection</div>
+      <h2>LESS NOISE.<br>MORE STYLE.</h2>
+      <button class="primary white" onclick="showPage('outfits')">OUR LOOKS ↗</button>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="eyebrow muted">Xeven community</div>
+    <h2>Твой стиль. Твои правила.</h2>
+    <p class="description">XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.</p>
+  </section>
+  <footer>XEVEN WEAR — OWN YOUR EVERYDAY</footer>
+</section>
+
+<!-- CATALOG -->
+<section class="page" id="catalog">
+  <div class="page-title">Каталог.</div>
+  <div class="description">Выбирай вещи, которые говорят за тебя.</div>
+  <input class="search" id="search" placeholder="Поиск товаров..." oninput="renderProducts()">
+  <div class="filters">
+    <button class="filter active" onclick="setFilter('Все',this)">Все</button>
+    <button class="filter" onclick="setFilter('Одежда',this)">Одежда</button>
+    <button class="filter" onclick="setFilter('Обувь',this)">Обувь</button>
+    <button class="filter" onclick="setFilter('Аксессуары',this)">Аксессуары</button>
+  </div>
+  <div class="grid" id="catalogProducts"></div>
+  <footer>XEVEN WEAR</footer>
+</section>
+
+<!-- OUTFITS -->
+<section class="page" id="outfits">
+  <div class="page-title">Образы.</div>
+  <p class="description">Готовые сочетания для твоего повседневного стиля.</p>
+  <div class="section">
+    <div class="cart-row">
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80">
+      <div class="cart-row-info">
+        <div class="eyebrow muted">LOOK 01 / DAILY</div>
+        <h3>Urban Daily</h3>
+        <p class="description">Свободный силуэт, спокойные оттенки и чистые линии.</p>
+        <button class="link" onclick="showPage('catalog')">СМОТРЕТЬ ВЕЩИ ↗</button>
       </div>
-    </section>
-  </main>
+    </div>
+    <div class="cart-row">
+      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=500&q=80">
+      <div class="cart-row-info">
+        <div class="eyebrow muted">LOOK 02 / MINIMAL</div>
+        <h3>Minimal Street</h3>
+        <p class="description">Минимализм, который легко сочетать каждый день.</p>
+        <button class="link" onclick="showPage('catalog')">СМОТРЕТЬ ВЕЩИ ↗</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    XEVEN WEAR © 2026 — QUALITY IN EVERY DETAIL
-  </footer>
+<!-- FAVORITES -->
+<section class="page" id="favorites">
+  <div class="page-title">Избранное.</div>
+  <div class="grid" id="favoriteProducts"></div>
+  <div class="empty" id="favEmpty">
+    <h3>Пока здесь пусто</h3>
+    <p>Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.</p>
+    <button class="primary" onclick="showPage('catalog')">ОТКРЫТЬ КАТАЛОГ</button>
+  </div>
+</section>
 
-  <script>
-    const translations = {
-      ru: {
-        tag: "ПРЕМИАЛЬНЫЙ МАГАЗИН ОДЕЖДЫ",
-        heading: "КАЧЕСТВО<br>В КАЖДОЙ<br>ДЕТАЛИ.",
-        subtitle: "СТИЛЬ — ЭТО ВЫБОР. КАЧЕСТВО — СТАНДАРТ.",
-        shop: "СМОТРЕТЬ КОЛЛЕКЦИЮ",
-        catalog: "КОЛЛЕКЦИЯ",
-        clothes: "ОДЕЖДА",
-        shoes: "ОБУВЬ",
-        looks: "ГОТОВЫЕ ОБРАЗЫ"
-      },
-      uz: {
-        tag: "PREMIUM KIYIM DO‘KONI",
-        heading: "HAR BIR<br>DETALDA<br>SIFAT.",
-        subtitle: "USLUB — TANLOV. SIFAT — STANDART.",
-        shop: "KOLLEKSIYANI KO‘RISH",
-        catalog: "KOLLEKSIYA",
-        clothes: "KIYIMLAR",
-        shoes: "POYABZAL",
-        looks: "TAYYOR OBRAZLAR"
-      }
-    };
+<!-- CART -->
+<section class="page" id="cart">
+  <div class="page-title">Корзина.</div>
+  <div id="cartItems"></div>
+  <div class="empty" id="cartEmpty">
+    <h3>Корзина пока пуста</h3>
+    <p>Добавь товары из каталога — они появятся здесь.</p>
+    <button class="primary" onclick="showPage('catalog')">ПЕРЕЙТИ В КАТАЛОГ</button>
+  </div>
+  <div class="summary" id="cartSummary" style="display:none">
+    <div class="summary-line"><b>Итого</b><b id="total">0 сум</b></div>
+    <p class="description">Данные заказа будут отправлены в Telegram-бот после его подключения.</p>
+    <button class="primary" style="width:100%" onclick="checkout()">ПЕРЕЙТИ К ОФОРМЛЕНИЮ ↗</button>
+  </div>
+</section>
 
-    let currentLanguage =
-      localStorage.getItem("xeven-language") || "ru";
+<!-- PROFILE -->
+<section class="page" id="profile">
+  <div class="page-title">Профиль.</div>
+  <div class="profile-box">
+    <div class="eyebrow muted">WELCOME TO XEVEN</div>
+    <h2 id="userName">Твой стиль начинается здесь.</h2>
+    <p class="description">Личный кабинет покупателя</p>
+    <div class="profile-line"><span>Язык</span>
+      <select id="language" style="border:0;background:white">
+        <option value="ru">Русский</option>
+        <option value="uz">O‘zbekcha</option>
+      </select>
+    </div>
+    <div class="profile-line"><span>Мои заказы</span><span class="muted">Скоро</span></div>
+    <div class="profile-line"><span>Помощь</span><span>↗</span></div>
+  </div>
+  <footer>XEVEN WEAR</footer>
+</section>
 
-    function renderLanguage() {
-      const t = translations[currentLanguage];
+</main>
 
-      document.getElementById("tag").textContent = t.tag;
-      document.getElementById("heading").innerHTML = t.heading;
-      document.getElementById("subtitle").textContent = t.subtitle;
-      document.getElementById("shop").textContent = t.shop;
-      document.getElementById("catalogTitle").textContent = t.catalog;
-      document.getElementById("clothes").textContent = t.clothes;
-      document.getElementById("shoes").textContent = t.shoes;
-      document.getElementById("looks").textContent = t.looks;
-      document.getElementById("language").textContent =
-        currentLanguage === "ru" ? "UZ" : "RU";
-    }
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home" onclick="showPage('home')"><b>⌂</b>Главная</button>
+  <button class="nav-item" data-page="catalog" onclick="showPage('catalog')"><b>▦</b>Каталог</button>
+  <button class="nav-item" data-page="outfits" onclick="showPage('outfits')"><b>✳</b>Образы</button>
+  <button class="nav-item" data-page="favorites" onclick="showPage('favorites')"><b>♡</b>Избранное</button>
+  <button class="nav-item" data-page="profile" onclick="showPage('profile')"><b>◯</b>Профиль</button>
+</nav>
 
-    function changeLanguage() {
-      currentLanguage = currentLanguage === "ru" ? "uz" : "ru";
-      localStorage.setItem("xeven-language", currentLanguage);
-      renderLanguage();
-    }
+<!-- PRODUCT MODAL -->
+<div class="modal" id="productModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <img id="modalImage" src="" alt="">
+    <h2 id="modalName"></h2>
+    <div class="price" id="modalPrice"></div>
+    <p class="description">Выбери подходящий размер.</p>
+    <div class="sizes" id="modalSizes">
+      <button class="size" onclick="selectSize(this)">S</button>
+      <button class="size" onclick="selectSize(this)">M</button>
+      <button class="size" onclick="selectSize(this)">L</button>
+      <button class="size" onclick="selectSize(this)">XL</button>
+      <button class="size" onclick="selectSize(this)">XXL</button>
+    </div>
+    <button class="primary" style="width:100%" onclick="addSelectedToCart()">ДОБАВИТЬ В КОРЗИНУ</button>
+  </div>
+</div>
 
-    renderLanguage();
-  </script>
+</div>
+
+<script>
+const products=[
+ {id:1,name:"Essential Oversize Tee",category:"Одежда",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:"NEW"},
+ {id:2,name:"Urban Zip Hoodie",category:"Одежда",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:"DROP 01"},
+ {id:3,name:"Street Sneakers",category:"Обувь",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:"NEW"},
+ {id:4,name:"Daily Crossbody",category:"Аксессуары",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:""},
+ {id:5,name:"Classic Black Tee",category:"Одежда",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:""},
+ {id:6,name:"Minimal Sneakers",category:"Обувь",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:""}
+];
+
+let favorites=new Set();
+let cart=[];
+let selectedProduct=null;
+let selectedSize="";
+let activeFilter="Все";
+
+function money(n){
+ return new Intl.NumberFormat("ru-RU").format(n)+" сум";
+}
+
+function card(p){
+ return `<article class="product">
+ <div class="photo">
+ <img src="${p.image}" alt="${p.name}" loading="lazy">
+ ${p.tag?`<span class="tag">${p.tag}</span>`:""}
+ <button class="heart" onclick="toggleFavorite(${p.id})">${favorites.has(p.id)?"♥":"♡"}</button>
+ </div>
+ <div class="product-info">
+ <div class="product-name">${p.name}</div>
+ <div class="product-bottom">
+ <span class="price">${money(p.price)}</span>
+ <button class="add" onclick="openProduct(${p.id})">ВЫБРАТЬ +</button>
+ </div>
+ </div>
+ </article>`;
+}
+
+function renderProducts(){
+ const query=(document.getElementById("search")?.value||"").toLowerCase();
+ const filtered=products.filter(p=>
+ (activeFilter==="Все"||p.category===activeFilter)&&
+ p.name.toLowerCase().includes(query)
+ );
+ document.getElementById("catalogProducts").innerHTML=filtered.map(card).join("");
+ document.getElementById("homeProducts").innerHTML=products.slice(0,4).map(card).join("");
+ document.getElementById("favoriteProducts").innerHTML=products.filter(p=>favorites.has(p.id)).map(card).join("");
+ document.getElementById("favEmpty").style.display=favorites.size?"none":"block";
+}
+
+function setFilter(category,button){
+ activeFilter=category;
+ document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ renderProducts();
+}
+
+function openCategory(category){
+ showPage("catalog");
+ activeFilter=category;
+ document.querySelectorAll(".filter").forEach(b=>{
+ b.classList.toggle("active",b.textContent===category);
+ });
+ renderProducts();
+}
+
+function toggleFavorite(id){
+ favorites.has(id)?favorites.delete(id):favorites.add(id);
+ renderProducts();
+}
+
+function openProduct(id){
+ selectedProduct=products.find(p=>p.id===id);
+ selectedSize="";
+ document.getElementById("modalImage").src=selectedProduct.image;
+ document.getElementById("modalName").textContent=selectedProduct.name;
+ document.getElementById("modalPrice").textContent=money(selectedProduct.price);
+ document.querySelectorAll(".size").forEach(b=>b.classList.remove("selected"));
+ document.getElementById("productModal").classList.add("open");
+}
+
+function closeModal(){
+ document.getElementById("productModal").classList.remove("open");
+}
+
+function selectSize(button){
+ document.querySelectorAll(".size").forEach(b=>b.classList.remove("selected"));
+ button.classList.add("selected");
+ selectedSize=button.textContent;
+}
+
+function addSelectedToCart(){
+ if(!selectedSize){
+ alert("Сначала выбери размер.");
+ return;
+ }
+ cart.push({id:selectedProduct.id,size:selectedSize});
+ updateCart();
+ closeModal();
+}
+
+function updateCart(){
+ document.getElementById("cartCount").textContent=cart.length;
+ const items=document.getElementById("cartItems");
+ const empty=document.getElementById("cartEmpty");
+ const summary=document.getElementById("cartSummary");
+
+ if(!cart.length){
+ items.innerHTML="";
+ empty.style.display="block";
+ summary.style.display="none";
+ return;
+ }
+
+ empty.style.display="none";
+ summary.style.display="block";
+
+ items.innerHTML=cart.map((item,index)=>{
+ const p=products.find(x=>x.id===item.id);
+ return `<div class="cart-row">
+ <img src="${p.image}" alt="${p.name}">
+ <div class="cart-row-info">
+ <h3>${p.name}</h3>
+ <p class="description">Размер: ${item.size}</p>
+ <b class="price">${money(p.price)}</b><br>
+ <button class="remove" onclick="removeCart(${index})">УДАЛИТЬ</button>
+ </div>
+ </div>`;
+ }).join("");
+
+ const total=cart.reduce((sum,item)=>{
+ return sum+products.find(p=>p.id===item.id).price;
+ },0);
+
+ document.getElementById("total").textContent=money(total);
+}
+
+function removeCart(index){
+ cart.splice(index,1);
+ updateCart();
+}
+
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>{
+ p.classList.toggle("active",p.id===id);
+ });
+ document.querySelectorAll(".nav-item").forEach(b=>{
+ b.classList.toggle("active",b.dataset.page===id);
+ });
+ if(id==="cart")updateCart();
+ if(id==="favorites")renderProducts();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function checkout(){
+ const tg=window.Telegram?.WebApp;
+ const items=cart.map(item=>{
+ const p=products.find(x=>x.id===item.id);
+ return {id:p.id,name:p.name,size:item.size,price:p.price};
+ });
+ const total=items.reduce((sum,item)=>sum+item.price,0);
+
+ const order={
+ type:"new_order",
+ brand:"XEVEN WEAR",
+ items:items,
+ total:total,
+ currency:"UZS"
+ };
+
+ if(tg && tg.sendData){
+ tg.sendData(JSON.stringify(order));
+ alert("Заказ передан Mini App. Для получения его ботом нужна настройка серверной части.");
+ }else{
+ alert("Это демонстрационный режим. Для настоящего оформления подключим Telegram-бота.");
+ }
+}
+
+const tg=window.Telegram?.WebApp;
+if(tg){
+ tg.ready();
+ tg.expand();
+ try{
+ tg.setHeaderColor("#f7f7f5");
+ tg.setBackgroundColor("#f7f7f5");
+ }catch(e){}
+ const firstName=tg.initDataUnsafe?.user?.first_name;
+ if(firstName)document.getElementById("userName").textContent="Привет, "+firstName+"!";
+}
+
+renderProducts();
+updateCart();
+</script>
 </body>
 </html>
