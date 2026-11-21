@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f7f7f5">
-<title>XEVEN WEAR — Streetwear</title>
+<title>XEVEN WEAR</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +17,6 @@
   --black:#111;
   --gray:#777;
   --line:#e9e9e6;
-  --radius:18px;
 }
 *{box-sizing:border-box}
 body{
@@ -25,7 +24,7 @@ body{
   font-family:Manrope,Arial,sans-serif;
   -webkit-font-smoothing:antialiased;
 }
-button,input{font:inherit}
+button,input,select{font:inherit}
 button{cursor:pointer}
 .app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:90px}
 header{
@@ -66,7 +65,7 @@ main{padding:0 16px}
 }
 .primary{
   border:0;background:#111;color:#fff;border-radius:30px;
-  padding:14px 20px;font-size:11px;font-weight:800;letter-spacing:.5px
+  padding:14px 20px;font-size:11px;font-weight:800;letter-spacing:.3px
 }
 .primary.white{background:white;color:#111}
 .section{padding-top:34px}
@@ -91,7 +90,7 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 }
 .category span{
   position:absolute;z-index:1;bottom:15px;left:14px;
-  font-weight:800;font-size:15px
+  font-weight:800;font-size:14px
 }
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:19px 11px}
 .product{min-width:0}
@@ -177,7 +176,7 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .profile-box{background:white;border-radius:18px;padding:20px;margin-top:20px}
 .profile-line{
   padding:16px 0;border-bottom:1px solid var(--line);
-  display:flex;justify-content:space-between;font-size:12px
+  display:flex;justify-content:space-between;align-items:center;font-size:12px
 }
 .profile-line:last-child{border:0}
 footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35px 0}
@@ -193,13 +192,15 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 }
 .modal-box img{width:100%;height:250px;object-fit:cover;border-radius:16px}
 .modal-box h2{font-size:22px;margin:15px 0 7px}
-.sizes{display:flex;gap:8px;margin:15px 0}
+.sizes{display:flex;gap:8px;margin:15px 0;flex-wrap:wrap}
 .size{
-  width:43px;height:40px;border:1px solid var(--line);
-  background:white;border-radius:10px;font-size:11px
+  min-width:43px;height:40px;border:1px solid var(--line);
+  background:white;border-radius:10px;font-size:11px;padding:0 10px
 }
 .size.selected{background:#111;color:white}
 .modal-close{float:right;border:0;background:#eee;border-radius:50%;width:32px;height:32px}
+.quantity{display:flex;align-items:center;gap:12px;margin:12px 0}
+.quantity button{width:30px;height:30px;border:1px solid var(--line);background:white;border-radius:50%}
 @media(min-width:520px){.app{box-shadow:0 0 45px #0000000a}}
 </style>
 </head>
@@ -217,42 +218,47 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 
 <main>
 
-<!-- HOME -->
 <section class="page active" id="home">
   <div class="hero">
     <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1100&q=85">
     <div class="hero-content">
-      <div class="eyebrow">New season / 2026</div>
-      <h1>OWN YOUR<br>EVERYDAY.</h1>
-      <button class="primary white" onclick="showPage('catalog')">EXPLORE COLLECTION ↗</button>
+      <div class="eyebrow" data-i18n="heroEyebrow">НОВАЯ КОЛЛЕКЦИЯ</div>
+      <h1 data-i18n="heroTitle">ТВОЙ СТИЛЬ.<br>ТВОИ ПРАВИЛА.</h1>
+      <button class="primary white" onclick="showPage('catalog')" data-i18n="heroButton">СМОТРЕТЬ КАТАЛОГ ↗</button>
     </div>
   </div>
 
   <section class="section">
     <div class="section-head">
-      <div><div class="eyebrow muted">Find your style</div><h2>Категории</h2></div>
-      <span class="muted" style="font-size:10px">01 / 04</span>
+      <div><div class="eyebrow muted" data-i18n="chooseStyle">ВЫБИРАЙ СВОЁ</div><h2 data-i18n="categories">Категории</h2></div>
+      <span class="muted" style="font-size:10px">01 / 05</span>
     </div>
     <div class="categories">
-      <button class="category" onclick="openCategory('Одежда')">
-        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80"><span>ОДЕЖДА ↗</span>
+      <button class="category" onclick="openCategory('Верхняя одежда')">
+        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80"><span data-i18n="outerwear">ВЕРХНЯЯ ОДЕЖДА ↗</span>
+      </button>
+      <button class="category" onclick="openCategory('Футболки и поло')">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80"><span data-i18n="tshirts">ФУТБОЛКИ И ПОЛО ↗</span>
+      </button>
+      <button class="category" onclick="openCategory('Брюки и джинсы')">
+        <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80"><span data-i18n="trousers">БРЮКИ И ДЖИНСЫ ↗</span>
       </button>
       <button class="category" onclick="openCategory('Обувь')">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80"><span>ОБУВЬ ↗</span>
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80"><span data-i18n="shoes">ОБУВЬ ↗</span>
       </button>
       <button class="category" onclick="openCategory('Аксессуары')">
-        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80"><span>АКСЕССУАРЫ ↗</span>
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80"><span data-i18n="accessories">АКСЕССУАРЫ ↗</span>
       </button>
       <button class="category" onclick="showPage('outfits')">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"><span>ОБРАЗЫ ↗</span>
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"><span data-i18n="looks">ОБРАЗЫ ↗</span>
       </button>
     </div>
   </section>
 
   <section class="section">
     <div class="section-head">
-      <div><div class="eyebrow muted">Just dropped</div><h2>Новинки</h2></div>
-      <button class="link" onclick="showPage('catalog')">ВЕСЬ КАТАЛОГ</button>
+      <div><div class="eyebrow muted" data-i18n="newArrivals">НОВЫЕ ПОСТУПЛЕНИЯ</div><h2 data-i18n="newProducts">Новинки</h2></div>
+      <button class="link" onclick="showPage('catalog')" data-i18n="allProducts">ВЕСЬ КАТАЛОГ</button>
     </div>
     <div class="grid" id="homeProducts"></div>
   </section>
@@ -260,103 +266,94 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
   <div class="editorial">
     <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1000&q=80">
     <div class="editorial-content">
-      <div class="eyebrow">Xeven selection</div>
-      <h2>LESS NOISE.<br>MORE STYLE.</h2>
-      <button class="primary white" onclick="showPage('outfits')">OUR LOOKS ↗</button>
+      <div class="eyebrow">XEVEN WEAR</div>
+      <h2 data-i18n="editorialTitle">ОДЕВАЙСЯ<br>ПО-СВОЕМУ.</h2>
+      <button class="primary white" onclick="showPage('outfits')" data-i18n="seeLooks">СМОТРЕТЬ ОБРАЗЫ ↗</button>
     </div>
   </div>
 
   <section class="section">
-    <div class="eyebrow muted">Xeven community</div>
-    <h2>Твой стиль. Твои правила.</h2>
-    <p class="description">XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.</p>
+    <div class="eyebrow muted" data-i18n="ourStyle">НАШ СТИЛЬ</div>
+    <h2 data-i18n="yourStyle">Твой стиль. Твои правила.</h2>
+    <p class="description" data-i18n="brandDescription">XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.</p>
   </section>
-  <footer>XEVEN WEAR — OWN YOUR EVERYDAY</footer>
+  <footer>XEVEN WEAR</footer>
 </section>
 
-<!-- CATALOG -->
 <section class="page" id="catalog">
-  <div class="page-title">Каталог.</div>
-  <div class="description">Выбирай вещи, которые говорят за тебя.</div>
-  <input class="search" id="search" placeholder="Поиск товаров..." oninput="renderProducts()">
-  <div class="filters">
-    <button class="filter active" onclick="setFilter('Все',this)">Все</button>
-    <button class="filter" onclick="setFilter('Одежда',this)">Одежда</button>
-    <button class="filter" onclick="setFilter('Обувь',this)">Обувь</button>
-    <button class="filter" onclick="setFilter('Аксессуары',this)">Аксессуары</button>
-  </div>
+  <div class="page-title" data-i18n="catalog">Каталог.</div>
+  <div class="description" data-i18n="catalogDescription">Выбирай вещи, которые подходят твоему стилю.</div>
+  <input class="search" id="search" placeholder="Поиск товаров..." oninput="renderProducts()" data-i18n-placeholder="searchPlaceholder">
+  <div class="filters" id="filters"></div>
   <div class="grid" id="catalogProducts"></div>
   <footer>XEVEN WEAR</footer>
 </section>
 
-<!-- OUTFITS -->
 <section class="page" id="outfits">
-  <div class="page-title">Образы.</div>
-  <p class="description">Готовые сочетания для твоего повседневного стиля.</p>
+  <div class="page-title" data-i18n="looks">Образы.</div>
+  <p class="description" data-i18n="looksDescription">Готовые сочетания одежды для повседневной жизни.</p>
   <div class="section">
     <div class="cart-row">
       <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80">
       <div class="cart-row-info">
-        <div class="eyebrow muted">LOOK 01 / DAILY</div>
-        <h3>Urban Daily</h3>
-        <p class="description">Свободный силуэт, спокойные оттенки и чистые линии.</p>
-        <button class="link" onclick="showPage('catalog')">СМОТРЕТЬ ВЕЩИ ↗</button>
+        <div class="eyebrow muted" data-i18n="everydayLook">ПОВСЕДНЕВНЫЙ ОБРАЗ</div>
+        <h3 data-i18n="everydayTitle">На каждый день</h3>
+        <p class="description" data-i18n="everydayDescription">Удобные вещи, спокойные оттенки и свободный силуэт.</p>
+        <button class="link" onclick="showPage('catalog')" data-i18n="seeClothes">СМОТРЕТЬ ОДЕЖДУ ↗</button>
       </div>
     </div>
     <div class="cart-row">
       <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=500&q=80">
       <div class="cart-row-info">
-        <div class="eyebrow muted">LOOK 02 / MINIMAL</div>
-        <h3>Minimal Street</h3>
-        <p class="description">Минимализм, который легко сочетать каждый день.</p>
-        <button class="link" onclick="showPage('catalog')">СМОТРЕТЬ ВЕЩИ ↗</button>
+        <div class="eyebrow muted" data-i18n="cityLook">ГОРОДСКОЙ ОБРАЗ</div>
+        <h3 data-i18n="cityTitle">Городской стиль</h3>
+        <p class="description" data-i18n="cityDescription">Современное сочетание вещей для прогулок и встреч.</p>
+        <button class="link" onclick="showPage('catalog')" data-i18n="seeClothes">СМОТРЕТЬ ОДЕЖДУ ↗</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FAVORITES -->
 <section class="page" id="favorites">
-  <div class="page-title">Избранное.</div>
+  <div class="page-title" data-i18n="favorites">Избранное.</div>
   <div class="grid" id="favoriteProducts"></div>
   <div class="empty" id="favEmpty">
-    <h3>Пока здесь пусто</h3>
-    <p>Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.</p>
-    <button class="primary" onclick="showPage('catalog')">ОТКРЫТЬ КАТАЛОГ</button>
+    <h3 data-i18n="favEmptyTitle">Пока здесь пусто</h3>
+    <p data-i18n="favEmptyText">Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.</p>
+    <button class="primary" onclick="showPage('catalog')" data-i18n="openCatalog">ОТКРЫТЬ КАТАЛОГ</button>
   </div>
 </section>
 
-<!-- CART -->
 <section class="page" id="cart">
-  <div class="page-title">Корзина.</div>
+  <div class="page-title" data-i18n="cart">Корзина.</div>
   <div id="cartItems"></div>
   <div class="empty" id="cartEmpty">
-    <h3>Корзина пока пуста</h3>
-    <p>Добавь товары из каталога — они появятся здесь.</p>
-    <button class="primary" onclick="showPage('catalog')">ПЕРЕЙТИ В КАТАЛОГ</button>
+    <h3 data-i18n="cartEmptyTitle">Корзина пока пуста</h3>
+    <p data-i18n="cartEmptyText">Добавь товары из каталога — они появятся здесь.</p>
+    <button class="primary" onclick="showPage('catalog')" data-i18n="goCatalog">ПЕРЕЙТИ В КАТАЛОГ</button>
   </div>
   <div class="summary" id="cartSummary" style="display:none">
-    <div class="summary-line"><b>Итого</b><b id="total">0 сум</b></div>
-    <p class="description">Данные заказа будут отправлены в Telegram-бот после его подключения.</p>
-    <button class="primary" style="width:100%" onclick="checkout()">ПЕРЕЙТИ К ОФОРМЛЕНИЮ ↗</button>
+    <div class="summary-line"><b data-i18n="total">Итого</b><b id="total">0 сум</b></div>
+    <p class="description" data-i18n="checkoutNote">После оформления заказа мы свяжемся с тобой в Telegram.</p>
+    <button class="primary" style="width:100%" onclick="checkout()" data-i18n="checkoutButton">ОФОРМИТЬ ЗАКАЗ ↗</button>
   </div>
 </section>
 
-<!-- PROFILE -->
 <section class="page" id="profile">
-  <div class="page-title">Профиль.</div>
+  <div class="page-title" data-i18n="profile">Профиль.</div>
   <div class="profile-box">
-    <div class="eyebrow muted">WELCOME TO XEVEN</div>
-    <h2 id="userName">Твой стиль начинается здесь.</h2>
-    <p class="description">Личный кабинет покупателя</p>
-    <div class="profile-line"><span>Язык</span>
-      <select id="language" style="border:0;background:white">
-        <option value="ru">Русский</option>
-        <option value="uz">O‘zbekcha</option>
+    <div class="eyebrow muted">XEVEN WEAR</div>
+    <h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2>
+    <p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p>
+    <div class="profile-line">
+      <span data-i18n="language">Язык</span>
+      <select id="language" onchange="changeLanguage(this.value)" style="border:0;background:white;padding:5px">
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="uz">🇺🇿 O‘zbekcha</option>
       </select>
     </div>
-    <div class="profile-line"><span>Мои заказы</span><span class="muted">Скоро</span></div>
-    <div class="profile-line"><span>Помощь</span><span>↗</span></div>
+    <div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><span class="muted" data-i18n="soon">Скоро</span></div>
+    <div class="profile-line"><span data-i18n="help">Помощь</span><span>↗</span></div>
   </div>
   <footer>XEVEN WEAR</footer>
 </section>
@@ -364,66 +361,259 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 </main>
 
 <nav class="bottom-nav">
-  <button class="nav-item active" data-page="home" onclick="showPage('home')"><b>⌂</b>Главная</button>
-  <button class="nav-item" data-page="catalog" onclick="showPage('catalog')"><b>▦</b>Каталог</button>
-  <button class="nav-item" data-page="outfits" onclick="showPage('outfits')"><b>✳</b>Образы</button>
-  <button class="nav-item" data-page="favorites" onclick="showPage('favorites')"><b>♡</b>Избранное</button>
-  <button class="nav-item" data-page="profile" onclick="showPage('profile')"><b>◯</b>Профиль</button>
+  <button class="nav-item active" data-page="home" onclick="showPage('home')"><b>⌂</b><span data-i18n="home">Главная</span></button>
+  <button class="nav-item" data-page="catalog" onclick="showPage('catalog')"><b>▦</b><span data-i18n="catalogNav">Каталог</span></button>
+  <button class="nav-item" data-page="outfits" onclick="showPage('outfits')"><b>✳</b><span data-i18n="looksNav">Образы</span></button>
+  <button class="nav-item" data-page="favorites" onclick="showPage('favorites')"><b>♡</b><span data-i18n="favoritesNav">Избранное</span></button>
+  <button class="nav-item" data-page="profile" onclick="showPage('profile')"><b>◯</b><span data-i18n="profileNav">Профиль</span></button>
 </nav>
 
-<!-- PRODUCT MODAL -->
 <div class="modal" id="productModal" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <img id="modalImage" src="" alt="">
     <h2 id="modalName"></h2>
     <div class="price" id="modalPrice"></div>
-    <p class="description">Выбери подходящий размер.</p>
-    <div class="sizes" id="modalSizes">
-      <button class="size" onclick="selectSize(this)">S</button>
-      <button class="size" onclick="selectSize(this)">M</button>
-      <button class="size" onclick="selectSize(this)">L</button>
-      <button class="size" onclick="selectSize(this)">XL</button>
-      <button class="size" onclick="selectSize(this)">XXL</button>
+    <p class="description" data-i18n="chooseSize">Выбери подходящий размер.</p>
+    <div class="sizes" id="modalSizes"></div>
+    <div class="quantity">
+      <span data-i18n="quantity">Количество:</span>
+      <button onclick="changeQuantity(-1)">−</button>
+      <b id="quantityValue">1</b>
+      <button onclick="changeQuantity(1)">+</button>
     </div>
-    <button class="primary" style="width:100%" onclick="addSelectedToCart()">ДОБАВИТЬ В КОРЗИНУ</button>
+    <button class="primary" style="width:100%" onclick="addSelectedToCart()" data-i18n="addToCart">ДОБАВИТЬ В КОРЗИНУ</button>
   </div>
 </div>
 
 </div>
 
 <script>
-const products=[
- {id:1,name:"Essential Oversize Tee",category:"Одежда",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:"NEW"},
- {id:2,name:"Urban Zip Hoodie",category:"Одежда",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:"DROP 01"},
- {id:3,name:"Street Sneakers",category:"Обувь",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:"NEW"},
- {id:4,name:"Daily Crossbody",category:"Аксессуары",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:""},
- {id:5,name:"Classic Black Tee",category:"Одежда",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:""},
- {id:6,name:"Minimal Sneakers",category:"Обувь",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:""}
+const translations={
+ru:{
+heroEyebrow:"НОВАЯ КОЛЛЕКЦИЯ",
+heroTitle:"ТВОЙ СТИЛЬ.<br>ТВОИ ПРАВИЛА.",
+heroButton:"СМОТРЕТЬ КАТАЛОГ ↗",
+chooseStyle:"ВЫБИРАЙ СВОЁ",
+categories:"Категории",
+outerwear:"ВЕРХНЯЯ ОДЕЖДА ↗",
+tshirts:"ФУТБОЛКИ И ПОЛО ↗",
+trousers:"БРЮКИ И ДЖИНСЫ ↗",
+shoes:"ОБУВЬ ↗",
+accessories:"АКСЕССУАРЫ ↗",
+looks:"Образы",
+newArrivals:"НОВЫЕ ПОСТУПЛЕНИЯ",
+newProducts:"Новинки",
+allProducts:"ВЕСЬ КАТАЛОГ",
+editorialTitle:"ОДЕВАЙСЯ<br>ПО-СВОЕМУ.",
+seeLooks:"СМОТРЕТЬ ОБРАЗЫ ↗",
+ourStyle:"НАШ СТИЛЬ",
+yourStyle:"Твой стиль. Твои правила.",
+brandDescription:"XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.",
+catalog:"Каталог.",
+catalogDescription:"Выбирай вещи, которые подходят твоему стилю.",
+searchPlaceholder:"Поиск товаров...",
+everydayLook:"ПОВСЕДНЕВНЫЙ ОБРАЗ",
+everydayTitle:"На каждый день",
+everydayDescription:"Удобные вещи, спокойные оттенки и свободный силуэт.",
+cityLook:"ГОРОДСКОЙ ОБРАЗ",
+cityTitle:"Городской стиль",
+cityDescription:"Современное сочетание вещей для прогулок и встреч.",
+seeClothes:"СМОТРЕТЬ ОДЕЖДУ ↗",
+looksDescription:"Готовые сочетания одежды для повседневной жизни.",
+favorites:"Избранное.",
+favEmptyTitle:"Пока здесь пусто",
+favEmptyText:"Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.",
+openCatalog:"ОТКРЫТЬ КАТАЛОГ",
+cart:"Корзина.",
+cartEmptyTitle:"Корзина пока пуста",
+cartEmptyText:"Добавь товары из каталога — они появятся здесь.",
+goCatalog:"ПЕРЕЙТИ В КАТАЛОГ",
+total:"Итого",
+checkoutNote:"После оформления заказа мы свяжемся с тобой в Telegram.",
+checkoutButton:"ОФОРМИТЬ ЗАКАЗ ↗",
+profile:"Профиль.",
+welcome:"Твой стиль начинается здесь.",
+personalAccount:"Личный кабинет покупателя",
+language:"Язык",
+myOrders:"Мои заказы",
+soon:"Скоро",
+help:"Помощь",
+home:"Главная",
+catalogNav:"Каталог",
+looksNav:"Образы",
+favoritesNav:"Избранное",
+profileNav:"Профиль",
+chooseSize:"Выбери подходящий размер.",
+quantity:"Количество:",
+addToCart:"ДОБАВИТЬ В КОРЗИНУ",
+selectSize:"Сначала выбери размер.",
+added:"Товар добавлен в корзину.",
+remove:"УДАЛИТЬ",
+size:"Размер:",
+all:"Все",
+categoryOuterwear:"Верхняя одежда",
+categoryTshirts:"Футболки и поло",
+categoryTrousers:"Брюки и джинсы",
+categoryShoes:"Обувь",
+categoryAccessories:"Аксессуары",
+noProducts:"Товары не найдены",
+orderDemo:"Это демонстрационная версия. Для настоящего оформления заказа нужно подключить сервер и Telegram-бота.",
+orderSent:"Данные заказа отправлены. Для получения заказа ботом требуется настройка серверной части."
+},
+uz:{
+heroEyebrow:"YANGI TO‘PLAM",
+heroTitle:"SENING USLUBING.<br>SENING QOIDALARING.",
+heroButton:"KATALOGNI KO‘RISH ↗",
+chooseStyle:"O‘ZINGGA MOSINI TANLA",
+categories:"Bo‘limlar",
+outerwear:"USTKI KIYIMLAR ↗",
+tshirts:"FUTBOLKALAR VA POLO ↗",
+trousers:"SHIMLAR VA JINSILAR ↗",
+shoes:"POYABZALLAR ↗",
+accessories:"AKSESSUARLAR ↗",
+looks:"Obrazlar",
+newArrivals:"YANGI KELGANLAR",
+newProducts:"Yangi mahsulotlar",
+allProducts:"BARCHA MAHSULOTLAR",
+editorialTitle:"O‘ZINGGA<br>XOS KIYIN.",
+seeLooks:"OBRAZLARNI KO‘RISH ↗",
+ourStyle:"BIZNING USLUB",
+yourStyle:"Sening uslubing. Sening qoidalaring.",
+brandDescription:"XEVEN WEAR — o‘z uslubini tanlaydiganlar uchun kiyimlar.",
+catalog:"Katalog.",
+catalogDescription:"O‘zingga mos kiyimlarni tanla.",
+searchPlaceholder:"Mahsulotlarni qidirish...",
+everydayLook:"KUNDALIK OBRAZ",
+everydayTitle:"Har kun uchun",
+everydayDescription:"Qulay kiyimlar, sokin ranglar va erkin bichim.",
+cityLook:"SHAHAR USLUBI",
+cityTitle:"Shahar uslubi",
+cityDescription:"Sayr va uchrashuvlar uchun zamonaviy kiyimlar uyg‘unligi.",
+seeClothes:"KIYIMLARNI KO‘RISH ↗",
+looksDescription:"Kundalik hayot uchun tayyor kiyim uyg‘unliklari.",
+favorites:"Sevimlilar.",
+favEmptyTitle:"Hozircha bu yer bo‘sh",
+favEmptyText:"Yoqtirgan kiyimlaringni saqlash uchun yurakcha belgisini bos.",
+openCatalog:"KATALOGNI OCHISH",
+cart:"Savatcha.",
+cartEmptyTitle:"Savatcha hozircha bo‘sh",
+cartEmptyText:"Katalogdan mahsulot qo‘sh — ular shu yerda ko‘rinadi.",
+goCatalog:"KATALOGGA O‘TISH",
+total:"Jami",
+checkoutNote:"Buyurtmadan so‘ng Telegram orqali sen bilan bog‘lanamiz.",
+checkoutButton:"BUYURTMANI RASMIYLASHTIRISH ↗",
+profile:"Profil.",
+welcome:"Sening uslubing shu yerdan boshlanadi.",
+personalAccount:"Xaridorning shaxsiy kabineti",
+language:"Til",
+myOrders:"Buyurtmalarim",
+soon:"Tez orada",
+help:"Yordam",
+home:"Bosh sahifa",
+catalogNav:"Katalog",
+looksNav:"Obrazlar",
+favoritesNav:"Sevimlilar",
+profileNav:"Profil",
+chooseSize:"O‘zingga mos o‘lchamni tanla.",
+quantity:"Soni:",
+addToCart:"SAVATCHAGA QO‘SHISH",
+selectSize:"Avval o‘lchamni tanla.",
+added:"Mahsulot savatchaga qo‘shildi.",
+remove:"O‘CHIRISH",
+size:"O‘lcham:",
+all:"Barchasi",
+categoryOuterwear:"Ustki kiyimlar",
+categoryTshirts:"Futbolkalar va polo",
+categoryTrousers:"Shimlar va jinsilar",
+categoryShoes:"Poyabzallar",
+categoryAccessories:"Aksessuarlar",
+noProducts:"Mahsulotlar topilmadi",
+orderDemo:"Bu namoyish versiyasi. Haqiqiy buyurtma uchun server va Telegram botini ulash kerak.",
+orderSent:"Buyurtma ma'lumotlari yuborildi. Bot orqali qabul qilish uchun server sozlamasi kerak."
+}
+};
+
+const categories=[
+ {key:"all",ru:"Все",uz:"Barchasi"},
+ {key:"Верхняя одежда",ru:"Верхняя одежда",uz:"Ustki kiyimlar"},
+ {key:"Футболки и поло",ru:"Футболки и поло",uz:"Futbolkalar va polo"},
+ {key:"Брюки и джинсы",ru:"Брюки и джинсы",uz:"Shimlar va jinsilar"},
+ {key:"Обувь",ru:"Обувь",uz:"Poyabzallar"},
+ {key:"Аксессуары",ru:"Аксессуары",uz:"Aksessuarlar"}
 ];
 
+const products=[
+ {id:1,name:{ru:"Базовая футболка оверсайз",uz:"Keng bichimli futbolka"},category:"Футболки и поло",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:"НОВИНКА",sizes:["S","M","L","XL"]},
+ {id:2,name:{ru:"Худи на молнии",uz:"Molniyali xudi"},category:"Верхняя одежда",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["S","M","L","XL"]},
+ {id:3,name:{ru:"Кроссовки в городском стиле",uz:"Shahar uslubidagi krossovkalar"},category:"Обувь",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:"НОВИНКА",sizes:["40","41","42","43","44"]},
+ {id:4,name:{ru:"Сумка через плечо",uz:"Yelkaga osiladigan sumka"},category:"Аксессуары",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["Единый"]},
+ {id:5,name:{ru:"Классическая чёрная футболка",uz:"Klassik qora futbolka"},category:"Футболки и поло",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["S","M","L","XL"]},
+ {id:6,name:{ru:"Минималистичные кроссовки",uz:"Minimalistik krossovkalar"},category:"Обувь",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["40","41","42","43","44"]}
+];
+
+let lang="ru";
 let favorites=new Set();
 let cart=[];
 let selectedProduct=null;
 let selectedSize="";
-let activeFilter="Все";
+let selectedQuantity=1;
+let activeFilter="all";
 
+function t(key){return translations[lang][key]||key}
+function productName(p){return p.name[lang]||p.name.ru}
 function money(n){
- return new Intl.NumberFormat("ru-RU").format(n)+" сум";
+ return new Intl.NumberFormat(lang==="ru"?"ru-RU":"uz-UZ").format(n)+" сум";
+}
+function categoryName(key){
+ const c=categories.find(x=>x.key===key);
+ return c?(lang==="ru"?c.ru:c.uz):key;
+}
+
+function applyLanguage(){
+ document.documentElement.lang=lang;
+ document.querySelectorAll("[data-i18n]").forEach(el=>{
+   const key=el.dataset.i18n;
+   if(translations[lang][key]!==undefined)el.innerHTML=translations[lang][key];
+ });
+ document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
+   el.placeholder=t(el.dataset.i18nPlaceholder);
+ });
+ document.getElementById("language").value=lang;
+ buildFilters();
+ renderProducts();
+ updateCart();
+ if(selectedProduct){
+   document.getElementById("modalName").textContent=productName(selectedProduct);
+   document.getElementById("modalPrice").textContent=money(selectedProduct.price);
+ }
+}
+
+function changeLanguage(value){
+ lang=value;
+ applyLanguage();
+}
+
+function buildFilters(){
+ const container=document.getElementById("filters");
+ container.innerHTML=categories.map(c=>{
+   const label=c.key==="all"?t("all"):categoryName(c.key);
+   return `<button class="filter ${activeFilter===c.key?"active":""}" onclick="setFilter('${c.key}',this)">${label}</button>`;
+ }).join("");
 }
 
 function card(p){
  return `<article class="product">
  <div class="photo">
- <img src="${p.image}" alt="${p.name}" loading="lazy">
- ${p.tag?`<span class="tag">${p.tag}</span>`:""}
+ <img src="${p.image}" alt="${productName(p)}" loading="lazy">
+ ${p.tag?`<span class="tag">${lang==="uz"&&p.tag==="НОВИНКА"?"YANGI":p.tag}</span>`:""}
  <button class="heart" onclick="toggleFavorite(${p.id})">${favorites.has(p.id)?"♥":"♡"}</button>
  </div>
  <div class="product-info">
- <div class="product-name">${p.name}</div>
+ <div class="product-name">${productName(p)}</div>
  <div class="product-bottom">
  <span class="price">${money(p.price)}</span>
- <button class="add" onclick="openProduct(${p.id})">ВЫБРАТЬ +</button>
+ <button class="add" onclick="openProduct(${p.id})">${lang==="ru"?"ВЫБРАТЬ +":"TANLASH +"}</button>
  </div>
  </div>
  </article>`;
@@ -431,29 +621,29 @@ function card(p){
 
 function renderProducts(){
  const query=(document.getElementById("search")?.value||"").toLowerCase();
- const filtered=products.filter(p=>
- (activeFilter==="Все"||p.category===activeFilter)&&
- p.name.toLowerCase().includes(query)
- );
- document.getElementById("catalogProducts").innerHTML=filtered.map(card).join("");
+ const filtered=products.filter(p=>{
+   const name=productName(p).toLowerCase();
+   const otherName=p.name.ru.toLowerCase();
+   return (activeFilter==="all"||p.category===activeFilter)&&
+     (!query||name.includes(query)||otherName.includes(query));
+ });
+ document.getElementById("catalogProducts").innerHTML=
+   filtered.length?filtered.map(card).join():`<p class="description">${t("noProducts")}</p>`;
  document.getElementById("homeProducts").innerHTML=products.slice(0,4).map(card).join("");
  document.getElementById("favoriteProducts").innerHTML=products.filter(p=>favorites.has(p.id)).map(card).join("");
  document.getElementById("favEmpty").style.display=favorites.size?"none":"block";
 }
 
-function setFilter(category,button){
+function setFilter(category){
  activeFilter=category;
- document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
- button.classList.add("active");
+ buildFilters();
  renderProducts();
 }
 
 function openCategory(category){
  showPage("catalog");
  activeFilter=category;
- document.querySelectorAll(".filter").forEach(b=>{
- b.classList.toggle("active",b.textContent===category);
- });
+ buildFilters();
  renderProducts();
 }
 
@@ -465,10 +655,14 @@ function toggleFavorite(id){
 function openProduct(id){
  selectedProduct=products.find(p=>p.id===id);
  selectedSize="";
+ selectedQuantity=1;
  document.getElementById("modalImage").src=selectedProduct.image;
- document.getElementById("modalName").textContent=selectedProduct.name;
+ document.getElementById("modalName").textContent=productName(selectedProduct);
  document.getElementById("modalPrice").textContent=money(selectedProduct.price);
- document.querySelectorAll(".size").forEach(b=>b.classList.remove("selected"));
+ document.getElementById("quantityValue").textContent=selectedQuantity;
+ document.getElementById("modalSizes").innerHTML=selectedProduct.sizes.map(size=>
+   `<button class="size" onclick="selectSize(this)">${size}</button>`
+ ).join("");
  document.getElementById("productModal").classList.add("open");
 }
 
@@ -482,50 +676,68 @@ function selectSize(button){
  selectedSize=button.textContent;
 }
 
+function changeQuantity(amount){
+ selectedQuantity=Math.max(1,Math.min(20,selectedQuantity+amount));
+ document.getElementById("quantityValue").textContent=selectedQuantity;
+}
+
 function addSelectedToCart(){
  if(!selectedSize){
- alert("Сначала выбери размер.");
+ alert(t("selectSize"));
  return;
  }
- cart.push({id:selectedProduct.id,size:selectedSize});
+ const existing=cart.find(item=>item.id===selectedProduct.id&&item.size===selectedSize);
+ if(existing)existing.quantity+=selectedQuantity;
+ else cart.push({id:selectedProduct.id,size:selectedSize,quantity:selectedQuantity});
  updateCart();
  closeModal();
+ alert(t("added"));
 }
 
 function updateCart(){
- document.getElementById("cartCount").textContent=cart.length;
+ document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.quantity,0);
  const items=document.getElementById("cartItems");
  const empty=document.getElementById("cartEmpty");
  const summary=document.getElementById("cartSummary");
 
  if(!cart.length){
- items.innerHTML="";
- empty.style.display="block";
- summary.style.display="none";
- return;
+   items.innerHTML="";
+   empty.style.display="block";
+   summary.style.display="none";
+   return;
  }
 
  empty.style.display="none";
  summary.style.display="block";
 
  items.innerHTML=cart.map((item,index)=>{
- const p=products.find(x=>x.id===item.id);
- return `<div class="cart-row">
- <img src="${p.image}" alt="${p.name}">
- <div class="cart-row-info">
- <h3>${p.name}</h3>
- <p class="description">Размер: ${item.size}</p>
- <b class="price">${money(p.price)}</b><br>
- <button class="remove" onclick="removeCart(${index})">УДАЛИТЬ</button>
- </div>
- </div>`;
+   const p=products.find(x=>x.id===item.id);
+   return `<div class="cart-row">
+   <img src="${p.image}" alt="${productName(p)}">
+   <div class="cart-row-info">
+   <h3>${productName(p)}</h3>
+   <p class="description">${t("size")} ${item.size}</p>
+   <b class="price">${money(p.price*item.quantity)}</b>
+   <div class="quantity">
+     <button onclick="changeCartQuantity(${index},-1)">−</button>
+     <b>${item.quantity}</b>
+     <button onclick="changeCartQuantity(${index},1)">+</button>
+   </div>
+   <button class="remove" onclick="removeCart(${index})">${t("remove")}</button>
+   </div>
+   </div>`;
  }).join("");
 
  const total=cart.reduce((sum,item)=>{
- return sum+products.find(p=>p.id===item.id).price;
+   return sum+products.find(p=>p.id===item.id).price*item.quantity;
  },0);
-
  document.getElementById("total").textContent=money(total);
+}
+
+function changeCartQuantity(index,amount){
+ cart[index].quantity+=amount;
+ if(cart[index].quantity<=0)cart.splice(index,1);
+ updateCart();
 }
 
 function removeCart(index){
@@ -535,10 +747,10 @@ function removeCart(index){
 
 function showPage(id){
  document.querySelectorAll(".page").forEach(p=>{
- p.classList.toggle("active",p.id===id);
+   p.classList.toggle("active",p.id===id);
  });
  document.querySelectorAll(".nav-item").forEach(b=>{
- b.classList.toggle("active",b.dataset.page===id);
+   b.classList.toggle("active",b.dataset.page===id);
  });
  if(id==="cart")updateCart();
  if(id==="favorites")renderProducts();
@@ -548,24 +760,32 @@ function showPage(id){
 function checkout(){
  const tg=window.Telegram?.WebApp;
  const items=cart.map(item=>{
- const p=products.find(x=>x.id===item.id);
- return {id:p.id,name:p.name,size:item.size,price:p.price};
+   const p=products.find(x=>x.id===item.id);
+   return {
+     id:p.id,
+     name:productName(p),
+     size:item.size,
+     quantity:item.quantity,
+     price:p.price
+   };
  });
- const total=items.reduce((sum,item)=>sum+item.price,0);
+ const total=items.reduce((sum,item)=>sum+item.price*item.quantity,0);
 
  const order={
- type:"new_order",
- brand:"XEVEN WEAR",
- items:items,
- total:total,
- currency:"UZS"
+   type:"new_order",
+   brand:"XEVEN WEAR",
+   language:lang,
+   items:items,
+   total:total,
+   currency:"UZS",
+   telegramUser:tg?.initDataUnsafe?.user||null
  };
 
- if(tg && tg.sendData){
- tg.sendData(JSON.stringify(order));
- alert("Заказ передан Mini App. Для получения его ботом нужна настройка серверной части.");
+ if(tg&&tg.sendData){
+   tg.sendData(JSON.stringify(order));
+   alert(t("orderSent"));
  }else{
- alert("Это демонстрационный режим. Для настоящего оформления подключим Telegram-бота.");
+   alert(t("orderDemo"));
  }
 }
 
@@ -574,15 +794,18 @@ if(tg){
  tg.ready();
  tg.expand();
  try{
- tg.setHeaderColor("#f7f7f5");
- tg.setBackgroundColor("#f7f7f5");
+   tg.setHeaderColor("#f7f7f5");
+   tg.setBackgroundColor("#f7f7f5");
  }catch(e){}
  const firstName=tg.initDataUnsafe?.user?.first_name;
- if(firstName)document.getElementById("userName").textContent="Привет, "+firstName+"!";
+ if(firstName)document.getElementById("userName").textContent=
+   (lang==="ru"?"Привет, ":"Salom, ")+firstName+"!";
 }
 
+buildFilters();
 renderProducts();
 updateCart();
+applyLanguage();
 </script>
 </body>
 </html>
