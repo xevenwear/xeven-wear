@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <title>XEVEN WEAR — Quality in Every Detail</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #080808;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      height: 75px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #252525;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 3px;
+    }
+
+    .logo span { color: #999; }
+
+    button {
+      background: none;
+      color: white;
+      border: 1px solid #555;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 480px;
+      padding: 100px 7%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tag {
+      color: #999;
+      letter-spacing: 4px;
+      font-size: 11px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: clamp(45px, 9vw, 100px);
+      letter-spacing: -4px;
+      line-height: 1;
+      max-width: 850px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-top: 25px;
+      letter-spacing: 3px;
+      font-size: 12px;
+    }
+
+    .shop-btn {
+      margin-top: 40px;
+      background: white;
+      color: black;
+      border: none;
+      padding: 17px 30px;
+      width: fit-content;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .section {
+      padding: 55px 7%;
+      border-top: 1px solid #252525;
+    }
+
+    .section h2 {
+      font-size: 25px;
+      letter-spacing: 3px;
+      margin-bottom: 25px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .category {
+      border: 1px solid #333;
+      padding: 35px 15px;
+      text-align: center;
+      color: #ddd;
+      letter-spacing: 2px;
+    }
+
+    footer {
+      padding: 35px 7%;
+      color: #777;
+      border-top: 1px solid #252525;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+
+    @media(max-width: 600px) {
+      header { padding: 0 5%; }
+      .hero { min-height: 420px; padding: 75px 6%; }
+      .categories { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -2px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">XEVEN<span> WEAR</span></div>
+    <button id="language" onclick="changeLanguage()">UZ</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="tag" id="tag">PREMIUM FASHION STORE</div>
+      <h1 id="heading">QUALITY<br>IN EVERY<br>DETAIL.</h1>
+      <p class="subtitle" id="subtitle">
+        STYLE IS A CHOICE. QUALITY IS A STANDARD.
+      </p>
+      <button class="shop-btn" id="shop"
+        onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">
+        EXPLORE COLLECTION
+      </button>
+    </section>
+
+    <section class="section" id="catalog">
+      <h2 id="catalogTitle">COLLECTION</h2>
+      <div class="categories">
+        <div class="category" id="clothes">CLOTHING</div>
+        <div class="category" id="shoes">FOOTWEAR</div>
+        <div class="category" id="looks">TOTAL LOOKS</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    XEVEN WEAR © 2026 — QUALITY IN EVERY DETAIL
+  </footer>
+
+  <script>
+    const translations = {
+      ru: {
+        tag: "ПРЕМИАЛЬНЫЙ МАГАЗИН ОДЕЖДЫ",
+        heading: "КАЧЕСТВО<br>В КАЖДОЙ<br>ДЕТАЛИ.",
+        subtitle: "СТИЛЬ — ЭТО ВЫБОР. КАЧЕСТВО — СТАНДАРТ.",
+        shop: "СМОТРЕТЬ КОЛЛЕКЦИЮ",
+        catalog: "КОЛЛЕКЦИЯ",
+        clothes: "ОДЕЖДА",
+        shoes: "ОБУВЬ",
+        looks: "ГОТОВЫЕ ОБРАЗЫ"
+      },
+      uz: {
+        tag: "PREMIUM KIYIM DO‘KONI",
+        heading: "HAR BIR<br>DETALDA<br>SIFAT.",
+        subtitle: "USLUB — TANLOV. SIFAT — STANDART.",
+        shop: "KOLLEKSIYANI KO‘RISH",
+        catalog: "KOLLEKSIYA",
+        clothes: "KIYIMLAR",
+        shoes: "POYABZAL",
+        looks: "TAYYOR OBRAZLAR"
+      }
+    };
+
+    let currentLanguage =
+      localStorage.getItem("xeven-language") || "ru";
+
+    function renderLanguage() {
+      const t = translations[currentLanguage];
+
+      document.getElementById("tag").textContent = t.tag;
+      document.getElementById("heading").innerHTML = t.heading;
+      document.getElementById("subtitle").textContent = t.subtitle;
+      document.getElementById("shop").textContent = t.shop;
+      document.getElementById("catalogTitle").textContent = t.catalog;
+      document.getElementById("clothes").textContent = t.clothes;
+      document.getElementById("shoes").textContent = t.shoes;
+      document.getElementById("looks").textContent = t.looks;
+      document.getElementById("language").textContent =
+        currentLanguage === "ru" ? "UZ" : "RU";
+    }
+
+    function changeLanguage() {
+      currentLanguage = currentLanguage === "ru" ? "uz" : "ru";
+      localStorage.setItem("xeven-language", currentLanguage);
+      renderLanguage();
+    }
+
+    renderLanguage();
+  </script>
+</body>
+</html>
