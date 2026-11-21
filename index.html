@@ -11,192 +11,94 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg:#f7f7f5;
-  --white:#fff;
-  --black:#111;
-  --gray:#777;
-  --line:#e9e9e6;
-}
+:root{--bg:#f7f7f5;--white:#fff;--black:#111;--gray:#777;--line:#e9e9e6}
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--black);
-  font-family:Manrope,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
-button,input,select{font:inherit}
-button{cursor:pointer}
+body{margin:0;background:var(--bg);color:var(--black);font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit}button{cursor:pointer}
 .app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:90px}
-header{
-  height:68px;padding:0 18px;display:flex;align-items:center;
-  justify-content:space-between;position:sticky;top:0;z-index:20;
-  background:rgba(247,247,245,.94);backdrop-filter:blur(15px);
-  border-bottom:1px solid var(--line)
-}
-.logo{font-size:20px;font-weight:800;letter-spacing:3px}
-.logo small{display:block;font-size:8px;letter-spacing:5px;color:var(--gray)}
-.header-actions{display:flex;gap:9px}
-.circle{
-  width:39px;height:39px;border:0;border-radius:50%;
-  background:white;font-size:18px;position:relative
-}
-.counter{
-  position:absolute;right:-3px;top:-3px;background:#111;color:white;
-  width:16px;height:16px;border-radius:50%;font-size:9px;
-  display:grid;place-items:center
-}
+header{height:70px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:rgba(247,247,245,.96);backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
+.logo{font-size:21px;font-weight:800;letter-spacing:3px;line-height:1}
+.logo small{display:block;font-size:8px;letter-spacing:5px;color:var(--gray);margin-top:5px}
+.header-actions{display:flex;align-items:center;gap:8px}
+.circle{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:white;display:grid;place-items:center;position:relative;color:#111}
+.circle svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.language-button{height:40px;min-width:49px;padding:0 11px;border:1px solid var(--line);border-radius:22px;background:white;font-size:11px;font-weight:800;letter-spacing:.5px}
+.counter{position:absolute;right:-3px;top:-3px;background:#111;color:white;width:16px;height:16px;border-radius:50%;font-size:9px;display:grid;place-items:center}
 main{padding:0 16px}
-.page{display:none}
-.page.active{display:block}
-.hero{
-  height:465px;margin-top:14px;border-radius:25px;overflow:hidden;
-  position:relative;background:#aaa
-}
+.page{display:none}.page.active{display:block}
+.hero{height:465px;margin-top:14px;border-radius:25px;overflow:hidden;position:relative;background:#aaa}
 .hero img{width:100%;height:100%;object-fit:cover}
-.hero:after{
-  content:"";position:absolute;inset:35% 0 0;
-  background:linear-gradient(transparent,rgba(0,0,0,.72))
-}
+.hero:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.72))}
 .hero-content{position:absolute;bottom:25px;left:21px;z-index:2;color:white}
-.eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;text-transform:uppercase}
-.hero h1{
-  font-size:43px;line-height:.98;letter-spacing:-3px;
-  margin:13px 0 20px;font-weight:800
-}
-.primary{
-  border:0;background:#111;color:#fff;border-radius:30px;
-  padding:14px 20px;font-size:11px;font-weight:800;letter-spacing:.3px
-}
+.eyebrow{font-size:10px;letter-spacing:2px;font-weight:800}
+.hero h1{font-size:43px;line-height:.98;letter-spacing:-3px;margin:13px 0 20px;font-weight:800}
+.primary{border:0;background:#111;color:#fff;border-radius:30px;padding:14px 20px;font-size:11px;font-weight:800;letter-spacing:.3px}
 .primary.white{background:white;color:#111}
 .section{padding-top:34px}
-.section-head{
-  display:flex;justify-content:space-between;align-items:end;margin-bottom:15px
-}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:15px}
 h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .muted{color:var(--gray)}
-.link{
-  border:0;background:none;border-bottom:1px solid #111;
-  padding:0 0 3px;font-size:10px;font-weight:800
-}
+.link{border:0;background:none;border-bottom:1px solid #111;padding:0 0 3px;font-size:10px;font-weight:800}
 .categories{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.category{
-  height:185px;border:0;border-radius:18px;overflow:hidden;
-  position:relative;background:#ddd;padding:0;color:white;text-align:left
-}
+.category{height:185px;border:0;border-radius:18px;overflow:hidden;position:relative;background:#ddd;padding:0;color:white;text-align:left}
 .category img{width:100%;height:100%;object-fit:cover}
-.category:after{
-  content:"";position:absolute;inset:40% 0 0;
-  background:linear-gradient(transparent,rgba(0,0,0,.6))
-}
-.category span{
-  position:absolute;z-index:1;bottom:15px;left:14px;
-  font-weight:800;font-size:14px
-}
+.category:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.65))}
+.category span{position:absolute;z-index:1;bottom:15px;left:14px;font-weight:800;font-size:13px;right:8px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:19px 11px}
 .product{min-width:0}
-.photo{
-  height:225px;border-radius:17px;overflow:hidden;
-  background:#e8e8e5;position:relative
-}
+.photo{height:225px;border-radius:17px;overflow:hidden;background:#e8e8e5;position:relative}
 .photo img{width:100%;height:100%;object-fit:cover;transition:.4s}
 .product:hover .photo img{transform:scale(1.04)}
-.tag{
-  position:absolute;top:10px;left:10px;background:white;
-  border-radius:20px;padding:6px 9px;font-size:8px;font-weight:800
-}
-.heart{
-  position:absolute;top:8px;right:8px;width:32px;height:32px;
-  border:0;border-radius:50%;background:rgba(255,255,255,.95);
-  font-size:17px
-}
+.tag{position:absolute;top:10px;left:10px;background:white;border-radius:20px;padding:6px 9px;font-size:8px;font-weight:800}
+.heart{position:absolute;top:8px;right:8px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.95);font-size:17px}
 .product-info{padding:10px 2px}
 .product-name{font-size:12px;font-weight:700}
-.product-bottom{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:5px;margin-top:7px
-}
+.product-bottom{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:7px}
 .price{font-size:11px;font-weight:800}
-.add{
-  border:0;background:#111;color:white;border-radius:20px;
-  padding:8px 10px;font-size:9px;font-weight:800
-}
-.editorial{
-  margin-top:35px;height:260px;border-radius:22px;
-  overflow:hidden;position:relative
-}
+.add{border:0;background:#111;color:white;border-radius:20px;padding:8px 10px;font-size:9px;font-weight:800}
+.editorial{margin-top:35px;height:260px;border-radius:22px;overflow:hidden;position:relative}
 .editorial img{width:100%;height:100%;object-fit:cover}
-.editorial:after{
-  content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)
-}
+.editorial:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)}
 .editorial-content{position:absolute;z-index:2;top:25px;left:20px;color:white}
 .editorial h2{font-size:31px;line-height:1.05;margin:13px 0 20px}
-.page-title{
-  font-size:31px;letter-spacing:-2px;margin:24px 0 5px
-}
+.page-title{font-size:31px;letter-spacing:-2px;margin:24px 0 5px}
 .description{font-size:11px;color:var(--gray);line-height:1.6}
-.search{
-  width:100%;padding:14px 17px;border:1px solid var(--line);
-  border-radius:30px;background:white;outline:none;margin:18px 0
-}
-.filters{display:flex;gap:8px;overflow:auto;padding-bottom:16px}
-.filter{
-  flex-shrink:0;border:1px solid var(--line);border-radius:25px;
-  background:white;padding:9px 14px;font-size:10px
-}
+.search{width:100%;padding:14px 17px;border:1px solid var(--line);border-radius:30px;background:white;outline:none;margin:18px 0}
+.filters{display:flex;gap:8px;overflow:auto;padding-bottom:16px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filter{flex-shrink:0;border:1px solid var(--line);border-radius:25px;background:white;padding:9px 14px;font-size:10px}
 .filter.active{background:#111;color:white}
-.bottom-nav{
-  position:fixed;z-index:30;bottom:0;left:50%;transform:translateX(-50%);
-  width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);
-  background:rgba(255,255,255,.97);backdrop-filter:blur(15px);
-  border-top:1px solid var(--line);
-  padding:10px 5px calc(10px + env(safe-area-inset-bottom))
-}
-.nav-item{
-  border:0;background:none;color:#888;font-size:9px;font-weight:700;
-  display:flex;flex-direction:column;align-items:center;gap:4px
-}
+.subcategory-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:14px 0 23px}
+.subcategory{height:125px;border:0;border-radius:16px;overflow:hidden;position:relative;padding:0;text-align:left;background:#ddd;color:white}
+.subcategory img{width:100%;height:100%;object-fit:cover}
+.subcategory:after{content:"";position:absolute;inset:25% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.72))}
+.subcategory span{position:absolute;z-index:1;bottom:13px;left:12px;right:8px;font-size:12px;font-weight:800}
+.catalog-heading{display:flex;align-items:center;gap:10px;margin-top:22px}
+.back-button{width:35px;height:35px;border:1px solid var(--line);background:white;border-radius:50%;font-size:18px}
+.bottom-nav{position:fixed;z-index:30;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.97);backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:10px 5px calc(10px + env(safe-area-inset-bottom))}
+.nav-item{border:0;background:none;color:#888;font-size:9px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nav-item b{font-size:20px;font-weight:500}
 .nav-item.active{color:#111}
-.empty{
-  background:white;border-radius:18px;padding:35px 18px;
-  text-align:center;margin-top:20px
-}
-.empty h3{font-size:16px}
-.empty p{font-size:11px;color:#777;line-height:1.6}
-.cart-row{
-  display:flex;gap:12px;background:white;border-radius:16px;
-  padding:10px;margin:10px 0
-}
+.empty{background:white;border-radius:18px;padding:35px 18px;text-align:center;margin-top:20px}
+.empty h3{font-size:16px}.empty p{font-size:11px;color:#777;line-height:1.6}
+.cart-row{display:flex;gap:12px;background:white;border-radius:16px;padding:10px;margin:10px 0}
 .cart-row img{width:85px;height:100px;object-fit:cover;border-radius:12px}
-.cart-row-info{flex:1}
+.cart-row-info{flex:1;min-width:0}
 .cart-row-info h3{font-size:12px;margin:4px 0}
 .remove{border:0;background:none;color:#888;font-size:10px;padding:8px 0}
 .summary{background:white;border-radius:18px;padding:18px;margin-top:15px}
 .summary-line{display:flex;justify-content:space-between;font-size:13px}
 .profile-box{background:white;border-radius:18px;padding:20px;margin-top:20px}
-.profile-line{
-  padding:16px 0;border-bottom:1px solid var(--line);
-  display:flex;justify-content:space-between;align-items:center;font-size:12px
-}
+.profile-line{padding:16px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:12px}
 .profile-line:last-child{border:0}
 footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35px 0}
-.modal{
-  display:none;position:fixed;inset:0;z-index:50;
-  background:rgba(0,0,0,.45);align-items:end;justify-content:center
-}
+.modal{display:none;position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.45);align-items:end;justify-content:center}
 .modal.open{display:flex}
-.modal-box{
-  background:white;width:min(520px,100%);border-radius:23px 23px 0 0;
-  padding:20px 20px calc(25px + env(safe-area-inset-bottom));
-  max-height:85vh;overflow:auto
-}
+.modal-box{background:white;width:min(520px,100%);border-radius:23px 23px 0 0;padding:20px 20px calc(25px + env(safe-area-inset-bottom));max-height:85vh;overflow:auto}
 .modal-box img{width:100%;height:250px;object-fit:cover;border-radius:16px}
 .modal-box h2{font-size:22px;margin:15px 0 7px}
 .sizes{display:flex;gap:8px;margin:15px 0;flex-wrap:wrap}
-.size{
-  min-width:43px;height:40px;border:1px solid var(--line);
-  background:white;border-radius:10px;font-size:11px;padding:0 10px
-}
+.size{min-width:43px;height:40px;border:1px solid var(--line);background:white;border-radius:10px;font-size:11px;padding:0 10px}
 .size.selected{background:#111;color:white}
 .modal-close{float:right;border:0;background:#eee;border-radius:50%;width:32px;height:32px}
 .quantity{display:flex;align-items:center;gap:12px;margin:12px 0}
@@ -209,10 +111,16 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 <div class="app">
 
 <header>
-  <div class="logo">XEVEN<small>WEAR / EST. 2026</small></div>
+  <div class="logo">XEVEN<small>WEAR</small></div>
   <div class="header-actions">
-    <button class="circle" onclick="showPage('catalog')">⌕</button>
-    <button class="circle" onclick="showPage('cart')">♧<span class="counter" id="cartCount">0</span></button>
+    <button class="circle" aria-label="Поиск" onclick="openSearch()">
+      <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg>
+    </button>
+    <button class="circle" aria-label="Корзина" onclick="showPage('cart')">
+      <svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 12H5.2L4 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg>
+      <span class="counter" id="cartCount">0</span>
+    </button>
+    <button class="language-button" id="languageButton" onclick="toggleLanguage()">RU</button>
   </div>
 </header>
 
@@ -231,7 +139,6 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
   <section class="section">
     <div class="section-head">
       <div><div class="eyebrow muted" data-i18n="chooseStyle">ВЫБИРАЙ СВОЁ</div><h2 data-i18n="categories">Категории</h2></div>
-      <span class="muted" style="font-size:10px">01 / 05</span>
     </div>
     <div class="categories">
       <button class="category" onclick="openCategory('Верхняя одежда')">
@@ -250,7 +157,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
         <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80"><span data-i18n="accessories">АКСЕССУАРЫ ↗</span>
       </button>
       <button class="category" onclick="showPage('outfits')">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"><span data-i18n="looks">ОБРАЗЫ ↗</span>
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80"><span data-i18n="looks">ЛУКИ ↗</span>
       </button>
     </div>
   </section>
@@ -268,7 +175,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
     <div class="editorial-content">
       <div class="eyebrow">XEVEN WEAR</div>
       <h2 data-i18n="editorialTitle">ОДЕВАЙСЯ<br>ПО-СВОЕМУ.</h2>
-      <button class="primary white" onclick="showPage('outfits')" data-i18n="seeLooks">СМОТРЕТЬ ОБРАЗЫ ↗</button>
+      <button class="primary white" onclick="showPage('outfits')" data-i18n="seeLooks">СМОТРЕТЬ ЛУКИ ↗</button>
     </div>
   </div>
 
@@ -281,22 +188,28 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 </section>
 
 <section class="page" id="catalog">
-  <div class="page-title" data-i18n="catalog">Каталог.</div>
-  <div class="description" data-i18n="catalogDescription">Выбирай вещи, которые подходят твоему стилю.</div>
+  <div class="catalog-heading" id="catalogHeading">
+    <div class="page-title" data-i18n="catalog">Каталог</div>
+  </div>
+  <div class="description" id="catalogDescription" data-i18n="catalogDescription">Выбирай вещи, которые подходят твоему стилю.</div>
   <input class="search" id="search" placeholder="Поиск товаров..." oninput="renderProducts()" data-i18n-placeholder="searchPlaceholder">
   <div class="filters" id="filters"></div>
+  <div id="subcategoryArea"></div>
+  <div class="section-head" id="productsHeading" style="margin-top:10px">
+    <h2 style="font-size:18px" data-i18n="productsHeading">Товары</h2>
+  </div>
   <div class="grid" id="catalogProducts"></div>
   <footer>XEVEN WEAR</footer>
 </section>
 
 <section class="page" id="outfits">
-  <div class="page-title" data-i18n="looks">Образы.</div>
+  <div class="page-title" data-i18n="looks">Луки.</div>
   <p class="description" data-i18n="looksDescription">Готовые сочетания одежды для повседневной жизни.</p>
   <div class="section">
     <div class="cart-row">
       <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80">
       <div class="cart-row-info">
-        <div class="eyebrow muted" data-i18n="everydayLook">ПОВСЕДНЕВНЫЙ ОБРАЗ</div>
+        <div class="eyebrow muted" data-i18n="everydayLook">ПОВСЕДНЕВНЫЙ ЛУК</div>
         <h3 data-i18n="everydayTitle">На каждый день</h3>
         <p class="description" data-i18n="everydayDescription">Удобные вещи, спокойные оттенки и свободный силуэт.</p>
         <button class="link" onclick="showPage('catalog')" data-i18n="seeClothes">СМОТРЕТЬ ОДЕЖДУ ↗</button>
@@ -305,7 +218,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
     <div class="cart-row">
       <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=500&q=80">
       <div class="cart-row-info">
-        <div class="eyebrow muted" data-i18n="cityLook">ГОРОДСКОЙ ОБРАЗ</div>
+        <div class="eyebrow muted" data-i18n="cityLook">ГОРОДСКОЙ ЛУК</div>
         <h3 data-i18n="cityTitle">Городской стиль</h3>
         <p class="description" data-i18n="cityDescription">Современное сочетание вещей для прогулок и встреч.</p>
         <button class="link" onclick="showPage('catalog')" data-i18n="seeClothes">СМОТРЕТЬ ОДЕЖДУ ↗</button>
@@ -345,13 +258,6 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
     <div class="eyebrow muted">XEVEN WEAR</div>
     <h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2>
     <p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p>
-    <div class="profile-line">
-      <span data-i18n="language">Язык</span>
-      <select id="language" onchange="changeLanguage(this.value)" style="border:0;background:white;padding:5px">
-        <option value="ru">🇷🇺 Русский</option>
-        <option value="uz">🇺🇿 O‘zbekcha</option>
-      </select>
-    </div>
     <div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><span class="muted" data-i18n="soon">Скоро</span></div>
     <div class="profile-line"><span data-i18n="help">Помощь</span><span>↗</span></div>
   </div>
@@ -363,7 +269,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 <nav class="bottom-nav">
   <button class="nav-item active" data-page="home" onclick="showPage('home')"><b>⌂</b><span data-i18n="home">Главная</span></button>
   <button class="nav-item" data-page="catalog" onclick="showPage('catalog')"><b>▦</b><span data-i18n="catalogNav">Каталог</span></button>
-  <button class="nav-item" data-page="outfits" onclick="showPage('outfits')"><b>✳</b><span data-i18n="looksNav">Образы</span></button>
+  <button class="nav-item" data-page="outfits" onclick="showPage('outfits')"><b>✳</b><span data-i18n="looksNav">Луки</span></button>
   <button class="nav-item" data-page="favorites" onclick="showPage('favorites')"><b>♡</b><span data-i18n="favoritesNav">Избранное</span></button>
   <button class="nav-item" data-page="profile" onclick="showPage('profile')"><b>◯</b><span data-i18n="profileNav">Профиль</span></button>
 </nav>
@@ -391,165 +297,93 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 <script>
 const translations={
 ru:{
-heroEyebrow:"НОВАЯ КОЛЛЕКЦИЯ",
-heroTitle:"ТВОЙ СТИЛЬ.<br>ТВОИ ПРАВИЛА.",
-heroButton:"СМОТРЕТЬ КАТАЛОГ ↗",
-chooseStyle:"ВЫБИРАЙ СВОЁ",
-categories:"Категории",
-outerwear:"ВЕРХНЯЯ ОДЕЖДА ↗",
-tshirts:"ФУТБОЛКИ И ПОЛО ↗",
-trousers:"БРЮКИ И ДЖИНСЫ ↗",
-shoes:"ОБУВЬ ↗",
-accessories:"АКСЕССУАРЫ ↗",
-looks:"Образы",
-newArrivals:"НОВЫЕ ПОСТУПЛЕНИЯ",
-newProducts:"Новинки",
-allProducts:"ВЕСЬ КАТАЛОГ",
-editorialTitle:"ОДЕВАЙСЯ<br>ПО-СВОЕМУ.",
-seeLooks:"СМОТРЕТЬ ОБРАЗЫ ↗",
-ourStyle:"НАШ СТИЛЬ",
-yourStyle:"Твой стиль. Твои правила.",
-brandDescription:"XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.",
-catalog:"Каталог.",
-catalogDescription:"Выбирай вещи, которые подходят твоему стилю.",
-searchPlaceholder:"Поиск товаров...",
-everydayLook:"ПОВСЕДНЕВНЫЙ ОБРАЗ",
-everydayTitle:"На каждый день",
-everydayDescription:"Удобные вещи, спокойные оттенки и свободный силуэт.",
-cityLook:"ГОРОДСКОЙ ОБРАЗ",
-cityTitle:"Городской стиль",
-cityDescription:"Современное сочетание вещей для прогулок и встреч.",
-seeClothes:"СМОТРЕТЬ ОДЕЖДУ ↗",
-looksDescription:"Готовые сочетания одежды для повседневной жизни.",
-favorites:"Избранное.",
-favEmptyTitle:"Пока здесь пусто",
-favEmptyText:"Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.",
-openCatalog:"ОТКРЫТЬ КАТАЛОГ",
-cart:"Корзина.",
-cartEmptyTitle:"Корзина пока пуста",
-cartEmptyText:"Добавь товары из каталога — они появятся здесь.",
-goCatalog:"ПЕРЕЙТИ В КАТАЛОГ",
-total:"Итого",
-checkoutNote:"После оформления заказа мы свяжемся с тобой в Telegram.",
-checkoutButton:"ОФОРМИТЬ ЗАКАЗ ↗",
-profile:"Профиль.",
-welcome:"Твой стиль начинается здесь.",
-personalAccount:"Личный кабинет покупателя",
-language:"Язык",
-myOrders:"Мои заказы",
-soon:"Скоро",
-help:"Помощь",
-home:"Главная",
-catalogNav:"Каталог",
-looksNav:"Образы",
-favoritesNav:"Избранное",
-profileNav:"Профиль",
-chooseSize:"Выбери подходящий размер.",
-quantity:"Количество:",
-addToCart:"ДОБАВИТЬ В КОРЗИНУ",
-selectSize:"Сначала выбери размер.",
-added:"Товар добавлен в корзину.",
-remove:"УДАЛИТЬ",
-size:"Размер:",
-all:"Все",
-categoryOuterwear:"Верхняя одежда",
-categoryTshirts:"Футболки и поло",
-categoryTrousers:"Брюки и джинсы",
-categoryShoes:"Обувь",
-categoryAccessories:"Аксессуары",
-noProducts:"Товары не найдены",
-orderDemo:"Это демонстрационная версия. Для настоящего оформления заказа нужно подключить сервер и Telegram-бота.",
-orderSent:"Данные заказа отправлены. Для получения заказа ботом требуется настройка серверной части."
+heroEyebrow:"НОВАЯ КОЛЛЕКЦИЯ",heroTitle:"ТВОЙ СТИЛЬ.<br>ТВОИ ПРАВИЛА.",heroButton:"СМОТРЕТЬ КАТАЛОГ ↗",
+chooseStyle:"ВЫБИРАЙ СВОЁ",categories:"Категории",outerwear:"ВЕРХНЯЯ ОДЕЖДА ↗",tshirts:"ФУТБОЛКИ И ПОЛО ↗",trousers:"БРЮКИ И ДЖИНСЫ ↗",shoes:"ОБУВЬ ↗",accessories:"АКСЕССУАРЫ ↗",looks:"Луки",
+newArrivals:"НОВЫЕ ПОСТУПЛЕНИЯ",newProducts:"Новинки",allProducts:"ВЕСЬ КАТАЛОГ",editorialTitle:"ОДЕВАЙСЯ<br>ПО-СВОЕМУ.",seeLooks:"СМОТРЕТЬ ЛУКИ ↗",ourStyle:"НАШ СТИЛЬ",yourStyle:"Твой стиль. Твои правила.",brandDescription:"XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.",
+catalog:"Каталог",catalogDescription:"Выбирай вещи, которые подходят твоему стилю.",searchPlaceholder:"Поиск товаров...",productsHeading:"Товары",back:"Назад к разделам",
+everydayLook:"ПОВСЕДНЕВНЫЙ ЛУК",everydayTitle:"На каждый день",everydayDescription:"Удобные вещи, спокойные оттенки и свободный силуэт.",cityLook:"ГОРОДСКОЙ ЛУК",cityTitle:"Городской стиль",cityDescription:"Современное сочетание вещей для прогулок и встреч.",seeClothes:"СМОТРЕТЬ ОДЕЖДУ ↗",looksDescription:"Готовые сочетания одежды для повседневной жизни.",
+favorites:"Избранное.",favEmptyTitle:"Пока здесь пусто",favEmptyText:"Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.",openCatalog:"ОТКРЫТЬ КАТАЛОГ",
+cart:"Корзина.",cartEmptyTitle:"Корзина пока пуста",cartEmptyText:"Добавь товары из каталога — они появятся здесь.",goCatalog:"ПЕРЕЙТИ В КАТАЛОГ",total:"Итого",checkoutNote:"После оформления заказа мы свяжемся с тобой в Telegram.",checkoutButton:"ОФОРМИТЬ ЗАКАЗ ↗",
+profile:"Профиль.",welcome:"Твой стиль начинается здесь.",personalAccount:"Личный кабинет покупателя",myOrders:"Мои заказы",soon:"Скоро",help:"Помощь",
+home:"Главная",catalogNav:"Каталог",looksNav:"Луки",favoritesNav:"Избранное",profileNav:"Профиль",chooseSize:"Выбери подходящий размер.",quantity:"Количество:",addToCart:"ДОБАВИТЬ В КОРЗИНУ",
+selectSize:"Сначала выбери размер.",added:"Товар добавлен в корзину.",remove:"УДАЛИТЬ",size:"Размер:",all:"Все",noProducts:"В этом разделе пока нет товаров.",selectCategory:"Выбери подраздел",orderDemo:"Это демонстрационная версия. Для настоящего оформления заказа нужно подключить сервер и Telegram-бота.",orderSent:"Данные заказа отправлены. Для получения заказа ботом требуется настройка серверной части.",
+outer:"Верхняя одежда",tees:"Футболки и поло",trousersCategory:"Брюки и джинсы",shoesCategory:"Обувь",accessoriesCategory:"Аксессуары",
+zip:"Худи на молнии",hoodie:"Худи без молнии",halfzip:"Худи с полузамком",sweatshirt:"Свитшоты",
+tshirt:"Футболки",polo:"Поло",
+pants:"Брюки",jeans:"Джинсы",oversize:"Оверсайз",
+sneakers:"Кроссовки",formalShoes:"Туфли",casualShoes:"Повседневная обувь",
+crossbody:"Сумки через плечо",sportBags:"Спортивные сумки",schoolBags:"Школьные и повседневные сумки",barsetka:"Барсетки",miniBags:"Маленькие сумки",
+product1:"Базовая футболка оверсайз",product2:"Худи на молнии",product3:"Кроссовки в городском стиле",product4:"Сумка через плечо",product5:"Классическая чёрная футболка",product6:"Минималистичные кроссовки",
+newTag:"НОВИНКА",choose:"ВЫБРАТЬ +"
 },
 uz:{
-heroEyebrow:"YANGI TO‘PLAM",
-heroTitle:"SENING USLUBING.<br>SENING QOIDALARING.",
-heroButton:"KATALOGNI KO‘RISH ↗",
-chooseStyle:"O‘ZINGGA MOSINI TANLA",
-categories:"Bo‘limlar",
-outerwear:"USTKI KIYIMLAR ↗",
-tshirts:"FUTBOLKALAR VA POLO ↗",
-trousers:"SHIMLAR VA JINSILAR ↗",
-shoes:"POYABZALLAR ↗",
-accessories:"AKSESSUARLAR ↗",
-looks:"Obrazlar",
-newArrivals:"YANGI KELGANLAR",
-newProducts:"Yangi mahsulotlar",
-allProducts:"BARCHA MAHSULOTLAR",
-editorialTitle:"O‘ZINGGA<br>XOS KIYIN.",
-seeLooks:"OBRAZLARNI KO‘RISH ↗",
-ourStyle:"BIZNING USLUB",
-yourStyle:"Sening uslubing. Sening qoidalaring.",
-brandDescription:"XEVEN WEAR — o‘z uslubini tanlaydiganlar uchun kiyimlar.",
-catalog:"Katalog.",
-catalogDescription:"O‘zingga mos kiyimlarni tanla.",
-searchPlaceholder:"Mahsulotlarni qidirish...",
-everydayLook:"KUNDALIK OBRAZ",
-everydayTitle:"Har kun uchun",
-everydayDescription:"Qulay kiyimlar, sokin ranglar va erkin bichim.",
-cityLook:"SHAHAR USLUBI",
-cityTitle:"Shahar uslubi",
-cityDescription:"Sayr va uchrashuvlar uchun zamonaviy kiyimlar uyg‘unligi.",
-seeClothes:"KIYIMLARNI KO‘RISH ↗",
-looksDescription:"Kundalik hayot uchun tayyor kiyim uyg‘unliklari.",
-favorites:"Sevimlilar.",
-favEmptyTitle:"Hozircha bu yer bo‘sh",
-favEmptyText:"Yoqtirgan kiyimlaringni saqlash uchun yurakcha belgisini bos.",
-openCatalog:"KATALOGNI OCHISH",
-cart:"Savatcha.",
-cartEmptyTitle:"Savatcha hozircha bo‘sh",
-cartEmptyText:"Katalogdan mahsulot qo‘sh — ular shu yerda ko‘rinadi.",
-goCatalog:"KATALOGGA O‘TISH",
-total:"Jami",
-checkoutNote:"Buyurtmadan so‘ng Telegram orqali sen bilan bog‘lanamiz.",
-checkoutButton:"BUYURTMANI RASMIYLASHTIRISH ↗",
-profile:"Profil.",
-welcome:"Sening uslubing shu yerdan boshlanadi.",
-personalAccount:"Xaridorning shaxsiy kabineti",
-language:"Til",
-myOrders:"Buyurtmalarim",
-soon:"Tez orada",
-help:"Yordam",
-home:"Bosh sahifa",
-catalogNav:"Katalog",
-looksNav:"Obrazlar",
-favoritesNav:"Sevimlilar",
-profileNav:"Profil",
-chooseSize:"O‘zingga mos o‘lchamni tanla.",
-quantity:"Soni:",
-addToCart:"SAVATCHAGA QO‘SHISH",
-selectSize:"Avval o‘lchamni tanla.",
-added:"Mahsulot savatchaga qo‘shildi.",
-remove:"O‘CHIRISH",
-size:"O‘lcham:",
-all:"Barchasi",
-categoryOuterwear:"Ustki kiyimlar",
-categoryTshirts:"Futbolkalar va polo",
-categoryTrousers:"Shimlar va jinsilar",
-categoryShoes:"Poyabzallar",
-categoryAccessories:"Aksessuarlar",
-noProducts:"Mahsulotlar topilmadi",
-orderDemo:"Bu namoyish versiyasi. Haqiqiy buyurtma uchun server va Telegram botini ulash kerak.",
-orderSent:"Buyurtma ma'lumotlari yuborildi. Bot orqali qabul qilish uchun server sozlamasi kerak."
+heroEyebrow:"YANGI TO‘PLAM",heroTitle:"SENING USLUBING.<br>SENING QOIDALARING.",heroButton:"KATALOGNI KO‘RISH ↗",
+chooseStyle:"O‘ZINGGA MOSINI TANLA",categories:"Bo‘limlar",outerwear:"USTKI KIYIMLAR ↗",tshirts:"FUTBOLKALAR VA POLO ↗",trousers:"SHIMLAR VA JINSILAR ↗",shoes:"POYABZALLAR ↗",accessories:"AKSESSUARLAR ↗",looks:"Looklar",
+newArrivals:"YANGI KELGANLAR",newProducts:"Yangi mahsulotlar",allProducts:"BARCHA MAHSULOTLAR",editorialTitle:"O‘ZINGGA<br>XOS KIYIN.",seeLooks:"LOOKLARNI KO‘RISH ↗",ourStyle:"BIZNING USLUB",yourStyle:"Sening uslubing. Sening qoidalaring.",brandDescription:"XEVEN WEAR — o‘z uslubini tanlaydiganlar uchun kiyimlar.",
+catalog:"Katalog",catalogDescription:"O‘zingga mos kiyimlarni tanla.",searchPlaceholder:"Mahsulotlarni qidirish...",productsHeading:"Mahsulotlar",back:"Bo‘limlarga qaytish",
+everydayLook:"KUNDALIK LOOK",everydayTitle:"Har kun uchun",everydayDescription:"Qulay kiyimlar, sokin ranglar va erkin bichim.",cityLook:"SHAHAR LOOKI",cityTitle:"Shahar uslubi",cityDescription:"Sayr va uchrashuvlar uchun zamonaviy kiyimlar uyg‘unligi.",seeClothes:"KIYIMLARNI KO‘RISH ↗",looksDescription:"Kundalik hayot uchun tayyor kiyim uyg‘unliklari.",
+favorites:"Sevimlilar.",favEmptyTitle:"Hozircha bu yer bo‘sh",favEmptyText:"Yoqtirgan kiyimlaringni saqlash uchun yurakcha belgisini bos.",openCatalog:"KATALOGNI OCHISH",
+cart:"Savatcha.",cartEmptyTitle:"Savatcha hozircha bo‘sh",cartEmptyText:"Katalogdan mahsulot qo‘sh — ular shu yerda ko‘rinadi.",goCatalog:"KATALOGGA O‘TISH",total:"Jami",checkoutNote:"Buyurtmadan so‘ng Telegram orqali sen bilan bog‘lanamiz.",checkoutButton:"BUYURTMANI RASMIYLASHTIRISH ↗",
+profile:"Profil.",welcome:"Sening uslubing shu yerdan boshlanadi.",personalAccount:"Xaridorning shaxsiy kabineti",myOrders:"Buyurtmalarim",soon:"Tez orada",help:"Yordam",
+home:"Bosh sahifa",catalogNav:"Katalog",looksNav:"Looklar",favoritesNav:"Sevimlilar",profileNav:"Profil",chooseSize:"O‘zingga mos o‘lchamni tanla.",quantity:"Soni:",addToCart:"SAVATCHAGA QO‘SHISH",
+selectSize:"Avval o‘lchamni tanla.",added:"Mahsulot savatchaga qo‘shildi.",remove:"O‘CHIRISH",size:"O‘lcham:",all:"Barchasi",noProducts:"Bu bo‘limda hozircha mahsulot yo‘q.",selectCategory:"Ichki bo‘limni tanla",orderDemo:"Bu namoyish versiyasi. Haqiqiy buyurtma uchun server va Telegram botini ulash kerak.",orderSent:"Buyurtma ma'lumotlari yuborildi. Bot orqali qabul qilish uchun server sozlamasi kerak.",
+outer:"Ustki kiyimlar",tees:"Futbolkalar va polo",trousersCategory:"Shimlar va jinsilar",shoesCategory:"Poyabzallar",accessoriesCategory:"Aksessuarlar",
+zip:"Molniyali xudi",hoodie:"Molniyasiz xudi",halfzip:"Yarim zamokli xudi",sweatshirt:"Svitshotlar",
+tshirt:"Futbolkalar",polo:"Polo",
+pants:"Shimlar",jeans:"Jinsilar",oversize:"Oversize",
+sneakers:"Krossovkalar",formalShoes:"Klassik tuflilar",casualShoes:"Kundalik poyabzal",
+crossbody:"Yelkaga osiladigan sumkalar",sportBags:"Sport sumkalari",schoolBags:"Maktab va kundalik sumkalar",barsetka:"Barsetkalar",miniBags:"Kichik sumkalar",
+product1:"Keng bichimli futbolka",product2:"Molniyali xudi",product3:"Shahar uslubidagi krossovkalar",product4:"Yelkaga osiladigan sumka",product5:"Klassik qora futbolka",product6:"Minimalistik krossovkalar",
+newTag:"YANGI",choose:"TANLASH +"
 }
 };
 
 const categories=[
- {key:"all",ru:"Все",uz:"Barchasi"},
- {key:"Верхняя одежда",ru:"Верхняя одежда",uz:"Ustki kiyimlar"},
- {key:"Футболки и поло",ru:"Футболки и поло",uz:"Futbolkalar va polo"},
- {key:"Брюки и джинсы",ru:"Брюки и джинсы",uz:"Shimlar va jinsilar"},
- {key:"Обувь",ru:"Обувь",uz:"Poyabzallar"},
- {key:"Аксессуары",ru:"Аксессуары",uz:"Aksessuarlar"}
+ {key:"all",label:"all"},
+ {key:"Верхняя одежда",label:"outer"},
+ {key:"Футболки и поло",label:"tees"},
+ {key:"Брюки и джинсы",label:"trousersCategory"},
+ {key:"Обувь",label:"shoesCategory"},
+ {key:"Аксессуары",label:"accessoriesCategory"}
 ];
 
+const subcategories={
+"Верхняя одежда":[
+ {key:"zip",label:"zip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
+ {key:"hoodie",label:"hoodie",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
+ {key:"halfzip",label:"halfzip",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"},
+ {key:"sweatshirt",label:"sweatshirt",image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80"}
+],
+"Футболки и поло":[
+ {key:"tshirt",label:"tshirt",image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80"},
+ {key:"polo",label:"polo",image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=600&q=80"}
+],
+"Брюки и джинсы":[
+ {key:"pants",label:"pants",image:"https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=600&q=80"},
+ {key:"jeans",label:"jeans",image:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80"},
+ {key:"oversize",label:"oversize",image:"https://images.unsplash.com/photo-1511196044526-5cb3bcb7071b?auto=format&fit=crop&w=600&q=80"}
+],
+"Обувь":[
+ {key:"sneakers",label:"sneakers",image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"},
+ {key:"formalShoes",label:"formalShoes",image:"https://images.unsplash.com/photo-1614252369475-531ecasf?auto=format&fit=crop&w=600&q=80"},
+ {key:"casualShoes",label:"casualShoes",image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=600&q=80"}
+],
+"Аксессуары":[
+ {key:"crossbody",label:"crossbody",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"},
+ {key:"sportBags",label:"sportBags",image:"https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&fit=crop&w=600&q=80"},
+ {key:"schoolBags",label:"schoolBags",image:"https://images.unsplash.com/photo-1581605405669-fear?auto=format&fit=crop&w=600&q=80"},
+ {key:"barsetka",label:"barsetka",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"},
+ {key:"miniBags",label:"miniBags",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"}
+]
+};
+
 const products=[
- {id:1,name:{ru:"Базовая футболка оверсайз",uz:"Keng bichimli futbolka"},category:"Футболки и поло",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:"НОВИНКА",sizes:["S","M","L","XL"]},
- {id:2,name:{ru:"Худи на молнии",uz:"Molniyali xudi"},category:"Верхняя одежда",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["S","M","L","XL"]},
- {id:3,name:{ru:"Кроссовки в городском стиле",uz:"Shahar uslubidagi krossovkalar"},category:"Обувь",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:"НОВИНКА",sizes:["40","41","42","43","44"]},
- {id:4,name:{ru:"Сумка через плечо",uz:"Yelkaga osiladigan sumka"},category:"Аксессуары",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["Единый"]},
- {id:5,name:{ru:"Классическая чёрная футболка",uz:"Klassik qora futbolka"},category:"Футболки и поло",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["S","M","L","XL"]},
- {id:6,name:{ru:"Минималистичные кроссовки",uz:"Minimalistik krossovkalar"},category:"Обувь",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:"",sizes:["40","41","42","43","44"]}
+{id:1,nameKey:"product1",category:"Футболки и поло",sub:"tshirt",price:189000,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["S","M","L","XL"]},
+{id:2,nameKey:"product2",category:"Верхняя одежда",sub:"zip",price:349000,image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
+{id:3,nameKey:"product3",category:"Обувь",sub:"sneakers",price:529000,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80",tag:true,sizes:["40","41","42","43","44"]},
+{id:4,nameKey:"product4",category:"Аксессуары",sub:"crossbody",price:219000,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["Единый"]},
+{id:5,nameKey:"product5",category:"Футболки и поло",sub:"tshirt",price:169000,image:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["S","M","L","XL"]},
+{id:6,nameKey:"product6",category:"Обувь",sub:"sneakers",price:459000,image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?auto=format&fit=crop&w=700&q=80",tag:false,sizes:["40","41","42","43","44"]}
 ];
 
 let lang="ru";
@@ -559,90 +393,145 @@ let selectedProduct=null;
 let selectedSize="";
 let selectedQuantity=1;
 let activeFilter="all";
+let activeCategory=null;
+let activeSubcategory=null;
 
 function t(key){return translations[lang][key]||key}
-function productName(p){return p.name[lang]||p.name.ru}
-function money(n){
- return new Intl.NumberFormat(lang==="ru"?"ru-RU":"uz-UZ").format(n)+" сум";
-}
-function categoryName(key){
- const c=categories.find(x=>x.key===key);
- return c?(lang==="ru"?c.ru:c.uz):key;
+function productName(p){return t(p.nameKey)}
+function money(n){return new Intl.NumberFormat(lang==="ru"?"ru-RU":"uz-UZ").format(n)+" сум"}
+function categoryName(key){const c=categories.find(x=>x.key===key);return c?t(c.label):key}
+
+function toggleLanguage(){
+ lang=lang==="ru"?"uz":"ru";
+ applyLanguage();
 }
 
 function applyLanguage(){
  document.documentElement.lang=lang;
  document.querySelectorAll("[data-i18n]").forEach(el=>{
-   const key=el.dataset.i18n;
-   if(translations[lang][key]!==undefined)el.innerHTML=translations[lang][key];
+  const key=el.dataset.i18n;
+  if(translations[lang][key]!==undefined)el.innerHTML=t(key);
  });
- document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
-   el.placeholder=t(el.dataset.i18nPlaceholder);
- });
- document.getElementById("language").value=lang;
+ document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>el.placeholder=t(el.dataset.i18nPlaceholder));
+ document.getElementById("languageButton").textContent=lang.toUpperCase();
  buildFilters();
  renderProducts();
  updateCart();
  if(selectedProduct){
-   document.getElementById("modalName").textContent=productName(selectedProduct);
-   document.getElementById("modalPrice").textContent=money(selectedProduct.price);
+  document.getElementById("modalName").textContent=productName(selectedProduct);
+  document.getElementById("modalPrice").textContent=money(selectedProduct.price);
  }
 }
 
-function changeLanguage(value){
- lang=value;
- applyLanguage();
+function openSearch(){
+ showPage("catalog");
+ setTimeout(()=>document.getElementById("search").focus(),150);
 }
 
 function buildFilters(){
  const container=document.getElementById("filters");
- container.innerHTML=categories.map(c=>{
-   const label=c.key==="all"?t("all"):categoryName(c.key);
-   return `<button class="filter ${activeFilter===c.key?"active":""}" onclick="setFilter('${c.key}',this)">${label}</button>`;
- }).join("");
+ container.innerHTML=categories.map(c=>
+ `<button class="filter ${activeFilter===c.key?"active":""}" onclick="setFilter('${c.key}')">${t(c.label)}</button>`
+ ).join("");
 }
 
 function card(p){
  return `<article class="product">
  <div class="photo">
  <img src="${p.image}" alt="${productName(p)}" loading="lazy">
- ${p.tag?`<span class="tag">${lang==="uz"&&p.tag==="НОВИНКА"?"YANGI":p.tag}</span>`:""}
+ ${p.tag?`<span class="tag">${t("newTag")}</span>`:""}
  <button class="heart" onclick="toggleFavorite(${p.id})">${favorites.has(p.id)?"♥":"♡"}</button>
  </div>
  <div class="product-info">
  <div class="product-name">${productName(p)}</div>
  <div class="product-bottom">
  <span class="price">${money(p.price)}</span>
- <button class="add" onclick="openProduct(${p.id})">${lang==="ru"?"ВЫБРАТЬ +":"TANLASH +"}</button>
+ <button class="add" onclick="openProduct(${p.id})">${t("choose")}</button>
  </div>
  </div>
  </article>`;
 }
 
+function renderSubcategories(){
+ const area=document.getElementById("subcategoryArea");
+ if(!activeCategory||!subcategories[activeCategory]){
+  area.innerHTML="";
+  return;
+ }
+ const items=subcategories[activeCategory];
+ area.innerHTML=`
+ <div class="section-head" style="margin:15px 0 10px">
+ <div><div class="eyebrow muted">${t("selectCategory")}</div></div>
+ <button class="link" onclick="clearSubcategory()">${t("back")}</button>
+ </div>
+ <div class="subcategory-grid">
+ ${items.map(s=>`<button class="subcategory" onclick="setSubcategory('${s.key}')">
+ <img src="${s.image}" alt="${t(s.label)}" loading="lazy">
+ <span>${t(s.label)} ↗</span>
+ </button>`).join("")}
+ </div>`;
+}
+
 function renderProducts(){
  const query=(document.getElementById("search")?.value||"").toLowerCase();
  const filtered=products.filter(p=>{
-   const name=productName(p).toLowerCase();
-   const otherName=p.name.ru.toLowerCase();
-   return (activeFilter==="all"||p.category===activeFilter)&&
-     (!query||name.includes(query)||otherName.includes(query));
+  const name=productName(p).toLowerCase();
+  const ruName=translations.ru[p.nameKey].toLowerCase();
+  return (activeFilter==="all"||p.category===activeFilter)&&
+   (!activeSubcategory||p.sub===activeSubcategory)&&
+   (!query||name.includes(query)||ruName.includes(query));
  });
+
  document.getElementById("catalogProducts").innerHTML=
-   filtered.length?filtered.map(card).join():`<p class="description">${t("noProducts")}</p>`;
- document.getElementById("homeProducts").innerHTML=products.slice(0,4).map(card).join("");
- document.getElementById("favoriteProducts").innerHTML=products.filter(p=>favorites.has(p.id)).map(card).join("");
+  filtered.length?filtered.map(card).join():`<p class="description">${t("noProducts")}</p>`;
+
+ document.getElementById("homeProducts").innerHTML=products.slice(0,4).map(card).join();
+ document.getElementById("favoriteProducts").innerHTML=products.filter(p=>favorites.has(p.id)).map(card).join();
  document.getElementById("favEmpty").style.display=favorites.size?"none":"block";
+
+ renderSubcategories();
+
+ const heading=document.getElementById("catalogHeading");
+ if(activeCategory!=="all"&&activeCategory){
+  heading.innerHTML=`<button class="back-button" onclick="showAllCategories()">‹</button><div class="page-title">${categoryName(activeCategory)}</div>`;
+ }else{
+  heading.innerHTML=`<div class="page-title">${t("catalog")}</div>`;
+ }
+ document.getElementById("productsHeading").style.display=filtered.length?"flex":"none";
 }
 
 function setFilter(category){
  activeFilter=category;
+ activeCategory=category==="all"?null:category;
+ activeSubcategory=null;
  buildFilters();
  renderProducts();
 }
 
 function openCategory(category){
- showPage("catalog");
  activeFilter=category;
+ activeCategory=category;
+ activeSubcategory=null;
+ showPage("catalog");
+ buildFilters();
+ renderProducts();
+}
+
+function setSubcategory(key){
+ activeSubcategory=key;
+ renderProducts();
+ document.getElementById("catalogProducts").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function clearSubcategory(){
+ activeSubcategory=null;
+ renderProducts();
+}
+
+function showAllCategories(){
+ activeFilter="all";
+ activeCategory=null;
+ activeSubcategory=null;
  buildFilters();
  renderProducts();
 }
@@ -661,14 +550,11 @@ function openProduct(id){
  document.getElementById("modalPrice").textContent=money(selectedProduct.price);
  document.getElementById("quantityValue").textContent=selectedQuantity;
  document.getElementById("modalSizes").innerHTML=selectedProduct.sizes.map(size=>
-   `<button class="size" onclick="selectSize(this)">${size}</button>`
- ).join("");
+ `<button class="size" onclick="selectSize(this)">${size}</button>`).join("");
  document.getElementById("productModal").classList.add("open");
 }
 
-function closeModal(){
- document.getElementById("productModal").classList.remove("open");
-}
+function closeModal(){document.getElementById("productModal").classList.remove("open")}
 
 function selectSize(button){
  document.querySelectorAll(".size").forEach(b=>b.classList.remove("selected"));
@@ -682,10 +568,7 @@ function changeQuantity(amount){
 }
 
 function addSelectedToCart(){
- if(!selectedSize){
- alert(t("selectSize"));
- return;
- }
+ if(!selectedSize){alert(t("selectSize"));return}
  const existing=cart.find(item=>item.id===selectedProduct.id&&item.size===selectedSize);
  if(existing)existing.quantity+=selectedQuantity;
  else cart.push({id:selectedProduct.id,size:selectedSize,quantity:selectedQuantity});
@@ -699,38 +582,27 @@ function updateCart(){
  const items=document.getElementById("cartItems");
  const empty=document.getElementById("cartEmpty");
  const summary=document.getElementById("cartSummary");
-
  if(!cart.length){
-   items.innerHTML="";
-   empty.style.display="block";
-   summary.style.display="none";
-   return;
+  items.innerHTML="";empty.style.display="block";summary.style.display="none";return;
  }
-
- empty.style.display="none";
- summary.style.display="block";
-
+ empty.style.display="none";summary.style.display="block";
  items.innerHTML=cart.map((item,index)=>{
-   const p=products.find(x=>x.id===item.id);
-   return `<div class="cart-row">
-   <img src="${p.image}" alt="${productName(p)}">
-   <div class="cart-row-info">
-   <h3>${productName(p)}</h3>
-   <p class="description">${t("size")} ${item.size}</p>
-   <b class="price">${money(p.price*item.quantity)}</b>
-   <div class="quantity">
-     <button onclick="changeCartQuantity(${index},-1)">−</button>
-     <b>${item.quantity}</b>
-     <button onclick="changeCartQuantity(${index},1)">+</button>
-   </div>
-   <button class="remove" onclick="removeCart(${index})">${t("remove")}</button>
-   </div>
-   </div>`;
+  const p=products.find(x=>x.id===item.id);
+  return `<div class="cart-row">
+  <img src="${p.image}" alt="${productName(p)}">
+  <div class="cart-row-info">
+  <h3>${productName(p)}</h3>
+  <p class="description">${t("size")} ${item.size}</p>
+  <b class="price">${money(p.price*item.quantity)}</b>
+  <div class="quantity">
+   <button onclick="changeCartQuantity(${index},-1)">−</button>
+   <b>${item.quantity}</b>
+   <button onclick="changeCartQuantity(${index},1)">+</button>
+  </div>
+  <button class="remove" onclick="removeCart(${index})">${t("remove")}</button>
+  </div></div>`;
  }).join("");
-
- const total=cart.reduce((sum,item)=>{
-   return sum+products.find(p=>p.id===item.id).price*item.quantity;
- },0);
+ const total=cart.reduce((sum,item)=>sum+products.find(p=>p.id===item.id).price*item.quantity,0);
  document.getElementById("total").textContent=money(total);
 }
 
@@ -739,19 +611,11 @@ function changeCartQuantity(index,amount){
  if(cart[index].quantity<=0)cart.splice(index,1);
  updateCart();
 }
-
-function removeCart(index){
- cart.splice(index,1);
- updateCart();
-}
+function removeCart(index){cart.splice(index,1);updateCart()}
 
 function showPage(id){
- document.querySelectorAll(".page").forEach(p=>{
-   p.classList.toggle("active",p.id===id);
- });
- document.querySelectorAll(".nav-item").forEach(b=>{
-   b.classList.toggle("active",b.dataset.page===id);
- });
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
+ document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
  if(id==="cart")updateCart();
  if(id==="favorites")renderProducts();
  window.scrollTo({top:0,behavior:"smooth"});
@@ -760,46 +624,21 @@ function showPage(id){
 function checkout(){
  const tg=window.Telegram?.WebApp;
  const items=cart.map(item=>{
-   const p=products.find(x=>x.id===item.id);
-   return {
-     id:p.id,
-     name:productName(p),
-     size:item.size,
-     quantity:item.quantity,
-     price:p.price
-   };
+  const p=products.find(x=>x.id===item.id);
+  return {id:p.id,name:productName(p),size:item.size,quantity:item.quantity,price:p.price};
  });
  const total=items.reduce((sum,item)=>sum+item.price*item.quantity,0);
-
- const order={
-   type:"new_order",
-   brand:"XEVEN WEAR",
-   language:lang,
-   items:items,
-   total:total,
-   currency:"UZS",
-   telegramUser:tg?.initDataUnsafe?.user||null
- };
-
- if(tg&&tg.sendData){
-   tg.sendData(JSON.stringify(order));
-   alert(t("orderSent"));
- }else{
-   alert(t("orderDemo"));
- }
+ const order={type:"new_order",brand:"XEVEN WEAR",language:lang,items,total,currency:"UZS",telegramUser:tg?.initDataUnsafe?.user||null};
+ if(tg&&tg.sendData){tg.sendData(JSON.stringify(order));alert(t("orderSent"))}
+ else{alert(t("orderDemo"))}
 }
 
 const tg=window.Telegram?.WebApp;
 if(tg){
- tg.ready();
- tg.expand();
- try{
-   tg.setHeaderColor("#f7f7f5");
-   tg.setBackgroundColor("#f7f7f5");
- }catch(e){}
+ tg.ready();tg.expand();
+ try{tg.setHeaderColor("#f7f7f5");tg.setBackgroundColor("#f7f7f5")}catch(e){}
  const firstName=tg.initDataUnsafe?.user?.first_name;
- if(firstName)document.getElementById("userName").textContent=
-   (lang==="ru"?"Привет, ":"Salom, ")+firstName+"!";
+ if(firstName)document.getElementById("userName").textContent="Привет, "+firstName+"!";
 }
 
 buildFilters();
