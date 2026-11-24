@@ -47,7 +47,7 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 #homeProducts{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:19px 11px;width:100%}
 #homeProducts .product{min-width:0;width:100%}
 #homeProducts .photo{width:100%;height:225px}
-.product{min-width:0}
+.product{min-width:0;display:flex;flex-direction:column;height:100%}
 .photo{height:225px;border-radius:17px;overflow:hidden;background:#e8e8e5;position:relative}
 .photo-open{position:absolute;inset:0;z-index:1;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
 .photo img{width:100%;height:100%;object-fit:cover;transition:.4s}
@@ -57,9 +57,9 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .product:hover .photo img{transform:scale(1.04)}
 .tag{position:absolute;z-index:2;top:10px;left:10px;background:white;border-radius:20px;padding:6px 9px;font-size:8px;font-weight:800}
 .heart{position:absolute;z-index:3;top:8px;right:8px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.95);font-size:17px}
-.product-info{padding:10px 2px}
+.product-info{padding:10px 2px;display:flex;flex:1;flex-direction:column}
 .product-name{font-size:12px;font-weight:700}
-.product-bottom{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:7px}
+.product-bottom{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:auto;padding-top:7px}
 .price{font-size:11px;font-weight:800}
 .add{border:0;background:#111;color:white;border-radius:20px;padding:8px 10px;font-size:9px;font-weight:800}
 .editorial{margin-top:35px;height:260px;border-radius:22px;overflow:hidden;position:relative}
