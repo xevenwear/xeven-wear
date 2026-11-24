@@ -237,13 +237,13 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
   <div class="page-title" data-i18n="cart">Корзина.</div>
   <div id="cartItems"></div>
   <div class="empty" id="cartEmpty"><h3 data-i18n="cartEmptyTitle">Корзина пока пуста</h3><p data-i18n="cartEmptyText">Добавь товары из каталога — они появятся здесь.</p><button class="primary" onclick="showPage('catalog')" data-i18n="goCatalog">ПЕРЕЙТИ В КАТАЛОГ</button></div>
-  <div class="summary" id="cartSummary" style="display:none"><div class="summary-line"><b data-i18n="total">Итого</b><b id="total">0 сум</b></div><div class="summary-line prepayment-line"><b data-i18n="prepayment">Предоплата (50%)</b><b id="prepaymentAmount">0 сум</b></div><p class="description payment-breakdown" id="prepaymentBreakdown"></p><p class="description" data-i18n="checkoutNote">Половина суммы — предоплата, остаток оплачивается позже.</p><label class="payment-method"><span data-i18n="paymentMethod">Способ оплаты</span><select id="paymentProvider"><option value="manual_transfer" data-i18n="manualTransfer">Перевод на карту</option></select></label><button class="primary" id="checkoutButton" style="width:100%" onclick="checkout()" data-i18n="checkoutButton">ОФОРМИТЬ ЗАКАЗ ↗</button></div>
+  <div class="summary" id="cartSummary" style="display:none"><div class="summary-line"><b data-i18n="total">Итого</b><b id="total">0 сум</b></div><div class="summary-line prepayment-line"><b data-i18n="prepayment">Предоплата (50%)</b><b id="prepaymentAmount">0 сум</b></div><p class="description payment-breakdown" id="prepaymentBreakdown"></p><p class="description" data-i18n="checkoutNote">Половина заказа — предоплата; хвост к переводу оплачивается сверху, остаток остаётся ровно половиной заказа.</p><label class="payment-method"><span data-i18n="paymentMethod">Способ оплаты</span><select id="paymentProvider"><option value="manual_transfer" data-i18n="manualTransfer">Перевод на карту</option></select></label><button class="primary" id="checkoutButton" style="width:100%" onclick="checkout()" data-i18n="checkoutButton">ОФОРМИТЬ ЗАКАЗ ↗</button></div>
 </section>
 
 <section class="page" id="profile">
   <div class="page-title" data-i18n="profile">Профиль.</div>
-  <div class="profile-box"><div class="eyebrow muted">XEVEN WEAR</div><h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2><p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p><div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><span class="muted" data-i18n="soon">Скоро</span></div><a class="profile-link" href="https://t.me/Xeven_AD" target="_blank" rel="noopener noreferrer" aria-label="Написать XEVEN WEAR в Telegram"><span class="profile-link-copy"><span class="profile-link-title" data-i18n="supportCta">Написать нам в Telegram</span><span class="profile-link-handle" data-i18n="supportHandle">@Xeven_AD · поддержка XEVEN WEAR</span></span><span class="profile-link-arrow">↗</span></a></div>
-  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div id="ownerManualOrders"></div></div>
+  <div class="profile-box"><div class="eyebrow muted">XEVEN WEAR</div><h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2><p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p><div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><button type="button" class="muted" style="border:0;background:none;font:inherit;text-decoration:underline;padding:0" onclick="loadMyOrders()" data-i18n="refreshMyOrders">Обновить</button></div><div id="myOrdersList"></div><a class="profile-link" href="https://t.me/Xeven_AD" target="_blank" rel="noopener noreferrer" aria-label="Написать XEVEN WEAR в Telegram"><span class="profile-link-copy"><span class="profile-link-title" data-i18n="supportCta">Написать нам в Telegram</span><span class="profile-link-handle" data-i18n="supportHandle">@Xeven_AD · поддержка XEVEN WEAR</span></span><span class="profile-link-arrow">↗</span></a></div>
+  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div id="ownerManualOrders"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 1 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
   <footer>XEVEN WEAR</footer>
 </section>
 </main>
@@ -339,33 +339,47 @@ newTag:"YANGI",choose:"TANLASH +",colorLabel:"Rang:",colorBlack:"Qora",colorGray
 const paymentTranslations={
 ru:{
 prepayment:"Предоплата (50%)",paymentMethod:"Способ оплаты",manualTransfer:"Перевод на карту",
-checkoutNote:"Половина суммы — предоплата, остаток оплачивается отдельно.",
+checkoutNote:"Половина заказа — предоплата; хвост к переводу оплачивается сверху, остаток остаётся ровно половиной заказа.",
 prepaymentBreakdown:"50% от {total} = {deposit}",
 transferTitle:"Предоплата заказа",transferInstructions:"Переведи точную сумму через приложение банка. Заказ будет подтверждён после проверки поступления.",
 transferBank:"Банк",transferRecipient:"Получатель",transferCard:"Номер карты",transferAmountLabel:"К переводу сейчас",
 transferSafety:"Никому не отправляй код из SMS или банковского приложения. Вводи его только в приложении своего банка.",transferClose:"ПОНЯТНО",orderReference:"Номер заказа",
-transferBreakdown:"50% от {total} — это {deposit}; хвост для поиска перевода: +{tail} сум.",
+transferBreakdown:"50% от {total} — это {deposit}; дополнительно переведи хвост для поиска: +{tail} сум. Хвост не уменьшает остаток.",
 ownerPayments:"Проверка предоплат",ownerPaymentWarning:"Подтверждай перевод только после проверки поступления в банковском приложении.",refreshOwnerPayments:"Обновить список",
 noOwnerOrders:"Нет заказов, ожидающих ручной проверки.",awaitingTransfer:"Ожидает предоплату",partiallyPaid:"Предоплата подтверждена",
 orderTotal:"Сумма заказа",transferDue:"К переводу",orderRemainder:"Остаток",confirmDeposit:"ПРЕДОПЛАТА ПОЛУЧЕНА",
+balanceDue:"Остаток к переводу",paymentDetailsTitle:"Реквизиты для оплаты",
 confirmBalance:"ОСТАТОК ПОЛУЧЕН",confirmDepositPrompt:"Подтверди только после того, как увидишь перевод в банковском приложении.",
 confirmBalancePrompt:"Подтверди только после того, как увидишь поступление остатка.",ownerOrderFailed:"Не удалось загрузить список. Попробуй ещё раз.",
-ownerOrderUpdated:"Статус заказа обновлён.",ownerOrderUpdateFailed:"Не удалось обновить заказ. Обнови список."
+ownerOrderUpdated:"Статус заказа обновлён.",ownerOrderUpdateFailed:"Не удалось обновить заказ. Обнови список.",
+refreshMyOrders:"Обновить",orderHistoryLoading:"Загружаем заказы…",orderHistoryEmpty:"У тебя пока нет заказов.",
+orderHistoryFailed:"Не удалось загрузить заказы. Попробуй ещё раз.",orderHistoryTelegram:"Открой магазин в Telegram, чтобы посмотреть свои заказы.",
+orderStatusPending:"Ожидает оплаты",orderStatusPaid:"Оплачен",orderStatusCancelled:"Отменён",orderStatusRefunded:"Возврат оформлен",
+quantityUnit:"шт.",
+ownerTestTitle:"Тестовый товар",ownerTestWarning:"Товар за 1 000 сум доступен только владельцу и нужен для проверки оформления.",ownerTestButton:"Добавить тестовый товар в корзину",
+testProduct:"Тестовый товар (только владелец)"
 },
 uz:{
 prepayment:"Oldindan to‘lov (50%)",paymentMethod:"To‘lov usuli",manualTransfer:"Kartaga o‘tkazma",
-checkoutNote:"Summaning yarmi oldindan to‘lanadi, qolgani alohida to‘lanadi.",
+checkoutNote:"Buyurtmaning yarmi oldindan to‘lanadi; o‘tkazma uchun qo‘shimcha summa ustidan to‘lanadi, qoldiq esa buyurtmaning yarmi bo‘lib qoladi.",
 prepaymentBreakdown:"Buyurtma summasining 50%: {deposit} / {total}",
 transferTitle:"Buyurtma uchun oldindan to‘lov",transferInstructions:"Bank ilovasi orqali aniq summani o‘tkazing. Buyurtma pul kelib tushgani tekshirilgach tasdiqlanadi.",
 transferBank:"Bank",transferRecipient:"Qabul qiluvchi",transferCard:"Karta raqami",transferAmountLabel:"Hozir o‘tkaziladigan summa",
 transferSafety:"SMS yoki bank ilovasidagi kodni hech kimga yubormang. Kodni faqat o‘z bankingiz ilovasida kiriting.",transferClose:"TUSHUNDIM",orderReference:"Buyurtma raqami",
-transferBreakdown:"{total} summaning 50%: {deposit}; o‘tkazmani aniqlash uchun qo‘shimcha: +{tail} so‘m.",
+transferBreakdown:"{total} summaning 50%: {deposit}; o‘tkazmani aniqlash uchun qo‘shimcha: +{tail} so‘m. Bu qo‘shimcha qoldiqni kamaytirmaydi.",
 ownerPayments:"Oldindan to‘lovlarni tekshirish",ownerPaymentWarning:"O‘tkazmani faqat bank ilovasida pul tushganini tekshirgach tasdiqlang.",refreshOwnerPayments:"Ro‘yxatni yangilash",
 noOwnerOrders:"Qo‘lda tekshiriladigan buyurtmalar yo‘q.",awaitingTransfer:"Oldindan to‘lov kutilmoqda",partiallyPaid:"Oldindan to‘lov tasdiqlandi",
 orderTotal:"Buyurtma summasi",transferDue:"O‘tkaziladigan summa",orderRemainder:"Qoldiq",confirmDeposit:"OLDINDAN TO‘LOV KELDI",
+balanceDue:"O‘tkaziladigan qoldiq",paymentDetailsTitle:"To‘lov rekvizitlari",
 confirmBalance:"QOLDIQ KELDI",confirmDepositPrompt:"Faqat bank ilovasida pul tushganini ko‘rgach tasdiqlang.",
 confirmBalancePrompt:"Faqat qoldiq tushganini ko‘rgach tasdiqlang.",ownerOrderFailed:"Ro‘yxatni yuklab bo‘lmadi. Qayta urinib ko‘ring.",
-ownerOrderUpdated:"Buyurtma holati yangilandi.",ownerOrderUpdateFailed:"Buyurtmani yangilab bo‘lmadi. Ro‘yxatni yangilang."
+ownerOrderUpdated:"Buyurtma holati yangilandi.",ownerOrderUpdateFailed:"Buyurtmani yangilab bo‘lmadi. Ro‘yxatni yangilang.",
+refreshMyOrders:"Yangilash",orderHistoryLoading:"Buyurtmalar yuklanmoqda…",orderHistoryEmpty:"Hozircha buyurtmalaringiz yo‘q.",
+orderHistoryFailed:"Buyurtmalarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",orderHistoryTelegram:"Buyurtmalaringizni ko‘rish uchun do‘konni Telegram orqali oching.",
+orderStatusPending:"To‘lov kutilmoqda",orderStatusPaid:"To‘langan",orderStatusCancelled:"Bekor qilingan",orderStatusRefunded:"Pul qaytarilgan",
+quantityUnit:"dona",
+ownerTestTitle:"Sinov mahsuloti",ownerTestWarning:"1 000 so‘mlik mahsulot faqat do‘kon egasi uchun va buyurtmani tekshirishga mo‘ljallangan.",ownerTestButton:"Sinov mahsulotini savatchaga qo‘shish",
+testProduct:"Sinov mahsuloti (faqat egasi)"
 }
 };
 
@@ -436,13 +450,41 @@ const products=[
 {id:14,nameKey:"product14",category:"Верхняя одежда",sub:"jackets",outfit:true,photoBackground:"#7c7c7c",price:300000,image:"images/separate-jacket-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-jacket-white.png"},{key:"black",label:"lookBlack",image:"images/separate-jacket-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:15,nameKey:"product15",category:"Брюки и джинсы",sub:"oversize",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-pants-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-pants-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-pants-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-pants-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:16,nameKey:"product16",category:"Верхняя одежда",sub:"hoodies",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-hoodie-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-hoodie-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-hoodie-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-hoodie-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
-{id:17,nameKey:"product17",category:"Обувь",sub:"sneakers",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/nike-dunk.png",sizes:["36","37","38","39","40","41","42","43","44"]}
+{id:17,nameKey:"product17",category:"Обувь",sub:"sneakers",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/nike-dunk.png",sizes:["36","37","38","39","40","41","42","43","44"]},
+{id:999,nameKey:"testProduct",category:"Тест",catalog:false,testOnly:true,price:1000,image:"images/jeans-light.jpg",colors:[{key:"default",image:"images/jeans-light.jpg"}],sizes:["Единый"]}
 ];
 
 const API_BASE_URL="https://xevenwear-orders-api.xevenwear-orders-api.workers.dev";
-let lang="ru",favorites=new Set(),cart=[],selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null;
+const CART_STORAGE_KEY="xevenwear-cart-v1";
+let lang="ru",favorites=new Set(),cart=loadCart(),selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null,isOwner=false;
 let activeFilter="all",activeCategory=null,activeSubcategory=null,activeNestedGroup=null;
 
+function loadCart(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(CART_STORAGE_KEY)||"[]");
+  if(!Array.isArray(saved))throw new Error("Saved cart is not an array");
+  return saved.filter(item=>{
+   if(!item||!Number.isSafeInteger(item.id)||!Number.isSafeInteger(item.quantity)||item.quantity<1)return false;
+   const product=products.find(entry=>entry.id===item.id);
+   if(!product)return false;
+   const color=item.color??0;
+   if(!Number.isInteger(color)||color<0||color>=productColors(product).length)return false;
+   return product.sizeGroups
+    ?product.sizeGroups.every(group=>group.sizes.includes(item[group.key]))
+    :product.sizes.includes(item.size);
+  });
+ }catch(error){
+  console.warn("Unable to restore saved cart",error);
+  return [];
+ }
+}
+function saveCart(){
+ try{
+  localStorage.setItem(CART_STORAGE_KEY,JSON.stringify(cart));
+ }catch(error){
+  console.warn("Unable to save cart",error);
+ }
+}
 function t(key){return paymentTranslations[lang]?.[key]||translations[lang][key]||key}
 function productName(p){return t(p.nameKey)}
 function productColors(p){return p.colors&&p.colors.length?p.colors:[{key:"default",label:null,image:p.image}]}
@@ -570,6 +612,7 @@ function addSelectedToCart(){
  updateCart();closeModal();alert(t("added"));
 }
 function updateCart(){
+ saveCart();
  document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.quantity,0);
  const items=document.getElementById("cartItems"),empty=document.getElementById("cartEmpty"),summary=document.getElementById("cartSummary");
  if(!cart.length){items.innerHTML="";empty.style.display="block";summary.style.display="none";return}
@@ -591,7 +634,7 @@ function removeCart(index){cart.splice(index,1);updateCart()}
 function showPage(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
  document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.page===(id==="look-detail"?"outfits":id)));
- if(id==="cart")updateCart();if(id==="favorites")renderProducts();if(id==="profile")loadOwnerManualOrders();
+ if(id==="cart")updateCart();if(id==="favorites")renderProducts();if(id==="profile"){loadMyOrders();loadOwnerManualOrders()}
  window.scrollTo({top:0,behavior:"smooth"});
 }
 function closePaymentInstructions(){document.getElementById("paymentInstructionsModal").classList.remove("open");currentTransferResult=null}
@@ -608,6 +651,94 @@ function showPaymentInstructions(result){
   .replace("{tail}",String(result.tail));
  document.getElementById("transferRemainder").textContent=`${t("orderRemainder")}: ${money(result.remainingAmount)}`;
  document.getElementById("paymentInstructionsModal").classList.add("open");
+}
+async function loadMyOrders(){
+ const container=document.getElementById("myOrdersList");
+ const tg=window.Telegram?.WebApp;
+ if(!API_BASE_URL||!tg?.initData){container.textContent=t("orderHistoryTelegram");return}
+ container.textContent=t("orderHistoryLoading");
+ try{
+  const response=await fetch(`${API_BASE_URL.replace(/\/+$/,"")}/api/orders/history`,{
+   method:"POST",headers:{"content-type":"application/json"},
+   body:JSON.stringify({initData:tg.initData})
+  });
+  const result=await response.json();
+  if(!response.ok)throw new Error(result.error||t("orderHistoryFailed"));
+  renderMyOrders(result.orders||[]);
+ }catch(error){
+  console.error("Unable to load customer orders",error);
+  container.textContent=t("orderHistoryFailed");
+ }
+}
+function renderMyOrders(orders){
+ const container=document.getElementById("myOrdersList");
+ container.textContent="";
+ if(!orders.length){container.textContent=t("orderHistoryEmpty");return}
+ const statusKeys={
+  pending:"orderStatusPending",awaiting_transfer:"awaitingTransfer",partially_paid:"partiallyPaid",
+  paid:"orderStatusPaid",cancelled:"orderStatusCancelled",refunded:"orderStatusRefunded"
+ };
+ for(const order of orders){
+  const card=document.createElement("div");
+  card.className="manual-order-card";
+  const title=document.createElement("h4");
+  title.textContent=`${t("orderReference")} ${String(order.id||"").slice(0,8)}`;
+  card.appendChild(title);
+  const status=document.createElement("p");
+  status.textContent=t(statusKeys[order.status]||"orderStatusPending");
+  card.appendChild(status);
+  const createdAt=Number(order.created_at);
+  if(Number.isFinite(createdAt)){
+   const date=document.createElement("p");
+   date.className="description";
+   date.textContent=new Date(createdAt).toLocaleString(lang==="ru"?"ru-RU":"uz-UZ");
+   card.appendChild(date);
+  }
+  for(const item of Array.isArray(order.items)?order.items:[]){
+   const line=document.createElement("p");
+   line.textContent=[item.name,item.color,item.sizeLabel,`${item.quantity} ${t("quantityUnit")}`].filter(Boolean).join(" · ");
+   card.appendChild(line);
+  }
+  const total=document.createElement("p");
+  total.textContent=`${t("orderTotal")}: ${money(order.total_uzs)}`;
+  card.appendChild(total);
+  if(order.payment_provider==="manual_transfer"){
+   const amountDue=order.status==="partially_paid"?order.remaining_uzs:order.transfer_uzs;
+   const dueLabel=order.status==="partially_paid"?t("balanceDue"):t("transferDue");
+   const detail=document.createElement("p");
+   detail.textContent=`${dueLabel}: ${money(amountDue)}`;
+   card.appendChild(detail);
+   if(order.status==="awaiting_transfer"){
+    const remainder=document.createElement("p");
+    remainder.textContent=`${t("orderRemainder")}: ${money(order.remaining_uzs)}`;
+    card.appendChild(remainder);
+   }
+   if(order.payment_details){
+    const details=document.createElement("div");
+    details.className="payment-details";
+    const heading=document.createElement("b");
+    heading.textContent=t("paymentDetailsTitle");
+    details.appendChild(heading);
+    for(const [label,value] of [
+     [t("transferBank"),order.payment_details.bank],
+     [t("transferRecipient"),order.payment_details.cardholder],
+     [t("transferCard"),order.payment_details.cardNumber],
+     [dueLabel,money(amountDue)]
+    ]){
+     const row=document.createElement("div");
+     row.className="payment-detail";
+     const labelNode=document.createElement("span");
+     labelNode.textContent=label;
+     const valueNode=document.createElement("b");
+     valueNode.textContent=value;
+     row.append(labelNode,valueNode);
+     details.appendChild(row);
+    }
+    card.appendChild(details);
+   }
+  }
+  container.appendChild(card);
+ }
 }
 async function ownerManualOrderRequest(action,orderId){
  const tg=window.Telegram?.WebApp;
@@ -662,13 +793,22 @@ async function loadOwnerManualOrders(){
  if(!API_BASE_URL||!tg?.initData)return;
  try{
   const result=await ownerManualOrderRequest("list");
+  isOwner=true;
   panel.style.display="block";
   renderOwnerManualOrders(result.orders||[]);
  }catch(error){
-  if(error.status===401||error.status===403){panel.style.display="none";return}
+  if(error.status===401||error.status===403){isOwner=false;panel.style.display="none";return}
   console.error("Unable to load manual orders",error);
   if(panel.style.display!=="none")document.getElementById("ownerManualOrders").textContent=t("ownerOrderFailed");
  }
+}
+function addTestProductToCart(){
+ if(!isOwner)return;
+ const item=cart.find(entry=>entry.id===999);
+ if(item)item.quantity=Math.min(20,item.quantity+1);
+ else cart.push({id:999,size:"Единый",color:0,quantity:1});
+ updateCart();
+ showPage("cart");
 }
 async function confirmOwnerManualOrder(orderId,action){
  const prompt=t(action==="confirm_deposit"?"confirmDepositPrompt":"confirmBalancePrompt");

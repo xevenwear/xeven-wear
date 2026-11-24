@@ -19,7 +19,7 @@ test("validates every required grouped size", () => {
 
 test("rejects unknown products, invalid colors, and unsupported sizes", () => {
   assert.throws(() => validateCart([
-    { id: 999, quantity: 1, sizes: { size: "M" } },
+    { id: 998, quantity: 1, sizes: { size: "M" } },
   ]), /неизвестный товар/);
   assert.throws(() => validateCart([
     { id: 7, colorIndex: 8, quantity: 1, sizes: { size: "M" } },
@@ -27,4 +27,13 @@ test("rejects unknown products, invalid colors, and unsupported sizes", () => {
   assert.throws(() => validateCart([
     { id: 7, colorIndex: 0, quantity: 1, sizes: { size: "ONE" } },
   ]), /размер/);
+});
+
+test("validates the owner-only test item at its server-side price", () => {
+  const order = validateCart([
+    { id: 999, colorIndex: 0, quantity: 1, sizes: { size: "Единый" }, price: 1 },
+  ]);
+  assert.equal(order.total, 1000);
+  assert.equal(order.items[0].unitPrice, 1000);
+  assert.equal(order.items[0].testOnly, true);
 });

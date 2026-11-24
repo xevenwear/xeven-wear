@@ -106,6 +106,13 @@ export const catalog = {
     colors: colors([["default", "images/nike-dunk.png"]]),
     ...simpleSizes(shoeSizes),
   },
+  999: {
+    name: { ru: "Тестовый товар (только владелец)", uz: "Sinov mahsuloti (faqat egasi)" },
+    price: 1000,
+    colors: colors([["default", "images/jeans-light.jpg"]]),
+    ...simpleSizes(["Единый"]),
+    testOnly: true,
+  },
 };
 
 const colorNames = {
@@ -192,6 +199,7 @@ export function validateCart(input, language = "ru") {
       quantity,
       unitPrice,
       totalPrice: unitPrice * quantity,
+      ...(product.testOnly ? { testOnly: true } : {}),
     };
   });
 

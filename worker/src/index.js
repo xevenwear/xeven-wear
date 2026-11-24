@@ -226,8 +226,8 @@ function manualOrderText(order, items) {
     "",
     `Сумма заказа: ${order.total_uzs.toLocaleString("ru-RU")} сум`,
     `<b>К переводу сейчас: ${order.transfer_uzs.toLocaleString("ru-RU")} сум</b>`,
-    `Предоплата 50%: ${order.deposit_uzs.toLocaleString("ru-RU")} сум + хвост ${order.tail_uzs} сум`,
-    `Остаток после предоплаты: ${order.remaining_uzs.toLocaleString("ru-RU")} сум`,
+    `Предоплата: ${order.deposit_uzs.toLocaleString("ru-RU")} сум + хвост ${order.tail_uzs} сум (сверху, не засчитывается в остаток)`,
+    `Остаток ко второй оплате: ${order.remaining_uzs.toLocaleString("ru-RU")} сум`,
   ].join("\n");
 }
 
@@ -430,6 +430,10 @@ async function createOrder(request, env, cors) {
     } catch (error) {
       return json({ error: error.message }, 400, cors);
     }
+    if (validated.items.some((item) => item.testOnly) &&
+        customer.id !== String(env.TELEGRAM_OWNER_CHAT_ID)) {
+      return json({ error: "Тестовый товар доступен только владельцу магазина." }, 403, cors);
+    }
     return createManualTransferOrder(env, cors, body, customer, validated);
   }
 
@@ -450,6 +454,10 @@ async function createOrder(request, env, cors) {
     validated = validateCart(body.items, body.language);
   } catch (error) {
     return json({ error: error.message }, 400, cors);
+  }
+  if (validated.items.some((item) => item.testOnly) &&
+      customer.id !== String(env.TELEGRAM_OWNER_CHAT_ID)) {
+    return json({ error: "Тестовый товар доступен только владельцу магазина." }, 403, cors);
   }
 
   const orderId = crypto.randomUUID();
@@ -985,6 +993,81 @@ async function handleManualOrderAdmin(request, env, cors) {
   return json({ order }, 200, cors);
 }
 
+async function handleCustomerOrderHistory(request, env, cors) {
+  if (!cors) return json({ error: "Origin is not allowed." }, 403);
+  if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
+  if (request.method !== "POST") return json({ error: "Method not allowed." }, 405, cors);
+  if (!requiredEnv(env, ["BOT_TOKEN"])) {
+    return json({ error: "Сервер магазина ещё не настроен." }, 503, cors);
+  }
+
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "Некорректный запрос." }, 400, cors);
+  }
+  if (!body || typeof body !== "object" || Array.isArray(body) ||
+      typeof body.initData !== "string" || body.initData.length > 8192) {
+    return json({ error: "Некорректный запрос." }, 400, cors);
+  }
+
+  let customer;
+  try {
+    customer = await verifyTelegramInitData(body.initData, env.BOT_TOKEN);
+  } catch (error) {
+    return json({ error: error.message }, 401, cors);
+  }
+
+  const [paymentResult, manualResult] = await Promise.all([
+    env.DB.prepare(
+      `SELECT id, created_at, status, payment_provider, total_uzs, items_json
+       FROM orders WHERE customer_telegram_id = ? ORDER BY created_at DESC LIMIT 50`,
+    ).bind(customer.id).all(),
+    env.DB.prepare(
+      `SELECT id, created_at, status, total_uzs, deposit_uzs, transfer_uzs,
+         tail_uzs, remaining_uzs, items_json
+       FROM manual_transfer_orders
+       WHERE customer_telegram_id = ? ORDER BY created_at DESC LIMIT 50`,
+    ).bind(customer.id).all(),
+  ]);
+  const mapOrder = (order, manual = false) => {
+    const items = safeParseJson(order.items_json);
+    const paymentDetails = manual &&
+      ["awaiting_transfer", "partially_paid"].includes(order.status) &&
+      requiredEnv(env, [
+        "MANUAL_TRANSFER_BANK",
+        "MANUAL_TRANSFER_CARDHOLDER",
+        "MANUAL_TRANSFER_CARD_NUMBER",
+      ])
+      ? {
+          bank: env.MANUAL_TRANSFER_BANK,
+          cardholder: env.MANUAL_TRANSFER_CARDHOLDER,
+          cardNumber: env.MANUAL_TRANSFER_CARD_NUMBER,
+        }
+      : null;
+    return {
+      id: order.id,
+      created_at: order.created_at,
+      status: order.status,
+      payment_provider: manual ? "manual_transfer" : order.payment_provider,
+      total_uzs: order.total_uzs,
+      deposit_uzs: manual ? order.deposit_uzs : null,
+      transfer_uzs: manual ? order.transfer_uzs : null,
+      tail_uzs: manual ? order.tail_uzs : null,
+      remaining_uzs: manual ? order.remaining_uzs : null,
+      payment_details: paymentDetails,
+      items: Array.isArray(items) ? items : [],
+    };
+  };
+  const orders = [
+    ...(paymentResult.results || []).map((order) => mapOrder(order)),
+    ...(manualResult.results || []).map((order) => mapOrder(order, true)),
+  ].sort((left, right) => right.created_at - left.created_at).slice(0, 50);
+
+  return json({ orders }, 200, cors);
+}
+
 async function handleRequest(request, env) {
   const url = new URL(request.url);
   const origin = request.headers.get("origin");
@@ -1012,6 +1095,13 @@ async function handleRequest(request, env) {
       return json({ error: "Request is too large." }, 413, cors || {});
     }
     return handleManualOrderAdmin(request, env, cors);
+  }
+
+  if (url.pathname === "/api/orders/history") {
+    if (Number(request.headers.get("content-length") || 0) > 20000) {
+      return json({ error: "Request is too large." }, 413, cors || {});
+    }
+    return handleCustomerOrderHistory(request, env, cors);
   }
 
   if (url.pathname === "/api/orders") {
