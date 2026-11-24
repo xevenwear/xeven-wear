@@ -1,0 +1,16 @@
+name = "xevenwear-orders-api"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+APP_ORIGIN = "https://xevenwear.github.io"
+PUBLIC_SITE_URL = "https://xevenwear.github.io/xeven-wear/"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "xevenwear-orders"
+database_id = "e63a74bf-ec72-413d-996e-a8a8179cc80f"
+
+[triggers]
+crons = ["*/5 * * * *"]
