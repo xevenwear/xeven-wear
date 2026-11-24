@@ -243,7 +243,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 <section class="page" id="profile">
   <div class="page-title" data-i18n="profile">Профиль.</div>
   <div class="profile-box"><div class="eyebrow muted">XEVEN WEAR</div><h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2><p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p><div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><button type="button" class="muted" style="border:0;background:none;font:inherit;text-decoration:underline;padding:0" onclick="loadMyOrders()" data-i18n="refreshMyOrders">Обновить</button></div><div id="myOrdersList"></div><a class="profile-link" href="https://t.me/Xeven_AD" target="_blank" rel="noopener noreferrer" aria-label="Написать XEVEN WEAR в Telegram"><span class="profile-link-copy"><span class="profile-link-title" data-i18n="supportCta">Написать нам в Telegram</span><span class="profile-link-handle" data-i18n="supportHandle">@Xeven_AD · поддержка XEVEN WEAR</span></span><span class="profile-link-arrow">↗</span></a></div>
-  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div id="ownerManualOrders"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 1 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
+  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div id="ownerManualOrders"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
   <footer>XEVEN WEAR</footer>
 </section>
 </main>
@@ -356,7 +356,7 @@ refreshMyOrders:"Обновить",orderHistoryLoading:"Загружаем за�
 orderHistoryFailed:"Не удалось загрузить заказы. Попробуй ещё раз.",orderHistoryTelegram:"Открой магазин в Telegram, чтобы посмотреть свои заказы.",
 orderStatusPending:"Ожидает оплаты",orderStatusPaid:"Оплачен",orderStatusCancelled:"Отменён",orderStatusRefunded:"Возврат оформлен",
 quantityUnit:"шт.",
-ownerTestTitle:"Тестовый товар",ownerTestWarning:"Товар за 1 000 сум доступен только владельцу и нужен для проверки оформления.",ownerTestButton:"Добавить тестовый товар в корзину",
+ownerTestTitle:"Тестовый товар",ownerTestWarning:"Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.",ownerTestButton:"Добавить тестовый товар в корзину",
 testProduct:"Тестовый товар (только владелец)"
 },
 uz:{
@@ -378,7 +378,7 @@ refreshMyOrders:"Yangilash",orderHistoryLoading:"Buyurtmalar yuklanmoqda…",ord
 orderHistoryFailed:"Buyurtmalarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",orderHistoryTelegram:"Buyurtmalaringizni ko‘rish uchun do‘konni Telegram orqali oching.",
 orderStatusPending:"To‘lov kutilmoqda",orderStatusPaid:"To‘langan",orderStatusCancelled:"Bekor qilingan",orderStatusRefunded:"Pul qaytarilgan",
 quantityUnit:"dona",
-ownerTestTitle:"Sinov mahsuloti",ownerTestWarning:"1 000 so‘mlik mahsulot faqat do‘kon egasi uchun va buyurtmani tekshirishga mo‘ljallangan.",ownerTestButton:"Sinov mahsulotini savatchaga qo‘shish",
+ownerTestTitle:"Sinov mahsuloti",ownerTestWarning:"2 000 so‘mlik mahsulot faqat do‘kon egasi uchun va buyurtmani tekshirishga mo‘ljallangan.",ownerTestButton:"Sinov mahsulotini savatchaga qo‘shish",
 testProduct:"Sinov mahsuloti (faqat egasi)"
 }
 };
@@ -451,7 +451,7 @@ const products=[
 {id:15,nameKey:"product15",category:"Брюки и джинсы",sub:"oversize",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-pants-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-pants-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-pants-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-pants-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:16,nameKey:"product16",category:"Верхняя одежда",sub:"hoodies",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-hoodie-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-hoodie-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-hoodie-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-hoodie-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:17,nameKey:"product17",category:"Обувь",sub:"sneakers",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/nike-dunk.png",sizes:["36","37","38","39","40","41","42","43","44"]},
-{id:999,nameKey:"testProduct",category:"Тест",catalog:false,testOnly:true,price:1000,image:"images/jeans-light.jpg",colors:[{key:"default",image:"images/jeans-light.jpg"}],sizes:["Единый"]}
+{id:999,nameKey:"testProduct",category:"Тест",catalog:false,testOnly:true,price:2000,image:"images/jeans-light.jpg",colors:[{key:"default",image:"images/jeans-light.jpg"}],sizes:["Единый"]}
 ];
 
 const API_BASE_URL="https://xevenwear-orders-api.xevenwear-orders-api.workers.dev";

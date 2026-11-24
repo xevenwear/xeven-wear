@@ -33,7 +33,7 @@ test("validates the owner-only test item at its server-side price", () => {
   const order = validateCart([
     { id: 999, colorIndex: 0, quantity: 1, sizes: { size: "Единый" }, price: 1 },
   ]);
-  assert.equal(order.total, 1000);
-  assert.equal(order.items[0].unitPrice, 1000);
+  assert.equal(order.total, 2000);
+  assert.equal(order.items[0].unitPrice, 2000);
   assert.equal(order.items[0].testOnly, true);
 });
