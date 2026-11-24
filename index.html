@@ -440,9 +440,36 @@ const products=[
 ];
 
 const API_BASE_URL="https://xevenwear-orders-api.xevenwear-orders-api.workers.dev";
-let lang="ru",favorites=new Set(),cart=[],selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null;
+const CART_STORAGE_KEY="xevenwear-cart-v1";
+let lang="ru",favorites=new Set(),cart=loadCart(),selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null;
 let activeFilter="all",activeCategory=null,activeSubcategory=null,activeNestedGroup=null;
 
+function loadCart(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(CART_STORAGE_KEY)||"[]");
+  if(!Array.isArray(saved))throw new Error("Saved cart is not an array");
+  return saved.filter(item=>{
+   if(!item||!Number.isSafeInteger(item.id)||!Number.isSafeInteger(item.quantity)||item.quantity<1)return false;
+   const product=products.find(entry=>entry.id===item.id);
+   if(!product)return false;
+   const color=item.color??0;
+   if(!Number.isInteger(color)||color<0||color>=productColors(product).length)return false;
+   return product.sizeGroups
+    ?product.sizeGroups.every(group=>group.sizes.includes(item[group.key]))
+    :product.sizes.includes(item.size);
+  });
+ }catch(error){
+  console.warn("Unable to restore saved cart",error);
+  return [];
+ }
+}
+function saveCart(){
+ try{
+  localStorage.setItem(CART_STORAGE_KEY,JSON.stringify(cart));
+ }catch(error){
+  console.warn("Unable to save cart",error);
+ }
+}
 function t(key){return paymentTranslations[lang]?.[key]||translations[lang][key]||key}
 function productName(p){return t(p.nameKey)}
 function productColors(p){return p.colors&&p.colors.length?p.colors:[{key:"default",label:null,image:p.image}]}
@@ -570,6 +597,7 @@ function addSelectedToCart(){
  updateCart();closeModal();alert(t("added"));
 }
 function updateCart(){
+ saveCart();
  document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.quantity,0);
  const items=document.getElementById("cartItems"),empty=document.getElementById("cartEmpty"),summary=document.getElementById("cartSummary");
  if(!cart.length){items.innerHTML="";empty.style.display="block";summary.style.display="none";return}
