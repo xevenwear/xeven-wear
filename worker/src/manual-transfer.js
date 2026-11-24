@@ -15,7 +15,7 @@ export function calculateTransferAmounts(total, tail) {
   return {
     depositAmount,
     transferAmount,
-    remainingAmount: total - transferAmount,
+    remainingAmount: total - depositAmount,
     tail,
   };
 }

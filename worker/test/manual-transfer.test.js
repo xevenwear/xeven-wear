@@ -2,21 +2,31 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { calculateTransferAmounts } from "../src/manual-transfer.js";
 
-test("adds a unique tail to the 50 percent deposit and credits it toward the balance", () => {
+test("adds the unique tail on top of the deposit and keeps the balance at half", () => {
   assert.deepEqual(calculateTransferAmounts(500000, 28), {
     depositAmount: 250000,
     transferAmount: 250028,
-    remainingAmount: 249972,
+    remainingAmount: 250000,
     tail: 28,
   });
+  assert.equal(250028 + 250000, 500000 + 28);
 });
 
 test("rounds an odd total up to the nearest whole so'm for the deposit", () => {
   assert.deepEqual(calculateTransferAmounts(500001, 41), {
     depositAmount: 250001,
     transferAmount: 250042,
-    remainingAmount: 249959,
+    remainingAmount: 250000,
     tail: 41,
+  });
+});
+
+test("keeps the 1,000 so'm test order balance at exactly 500", () => {
+  assert.deepEqual(calculateTransferAmounts(1000, 42), {
+    depositAmount: 500,
+    transferAmount: 542,
+    remainingAmount: 500,
+    tail: 42,
   });
 });
 
@@ -24,7 +34,7 @@ test("keeps the transfer below the order total", () => {
   assert.deepEqual(calculateTransferAmounts(4, 1), {
     depositAmount: 2,
     transferAmount: 3,
-    remainingAmount: 1,
+    remainingAmount: 2,
     tail: 1,
   });
   assert.throws(() => calculateTransferAmounts(3, 1), /превышает сумму заказа/);
