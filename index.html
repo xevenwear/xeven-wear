@@ -458,33 +458,96 @@ const API_BASE_URL="https://xevenwear-orders-api.xevenwear-orders-api.workers.de
 const CART_STORAGE_KEY="xevenwear-cart-v1";
 let lang="ru",favorites=new Set(),cart=loadCart(),selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null,isOwner=false;
 let activeFilter="all",activeCategory=null,activeSubcategory=null,activeNestedGroup=null;
+let cartRevision=0,cartStorageReady=false,cartSaveQueue=Promise.resolve(),cartLastSavedValue=JSON.stringify(cart);
 
+function parseCart(value){
+ const saved=JSON.parse(value||"[]");
+ if(!Array.isArray(saved))throw new Error("Saved cart is not an array");
+ return saved.filter(item=>{
+  if(!item||!Number.isSafeInteger(item.id)||!Number.isSafeInteger(item.quantity)||item.quantity<1)return false;
+  const product=products.find(entry=>entry.id===item.id);
+  if(!product)return false;
+  const color=item.color??0;
+  if(!Number.isInteger(color)||color<0||color>=productColors(product).length)return false;
+  return product.sizeGroups
+   ?product.sizeGroups.every(group=>group.sizes.includes(item[group.key]))
+   :product.sizes.includes(item.size);
+ });
+}
 function loadCart(){
  try{
-  const saved=JSON.parse(localStorage.getItem(CART_STORAGE_KEY)||"[]");
-  if(!Array.isArray(saved))throw new Error("Saved cart is not an array");
-  return saved.filter(item=>{
-   if(!item||!Number.isSafeInteger(item.id)||!Number.isSafeInteger(item.quantity)||item.quantity<1)return false;
-   const product=products.find(entry=>entry.id===item.id);
-   if(!product)return false;
-   const color=item.color??0;
-   if(!Number.isInteger(color)||color<0||color>=productColors(product).length)return false;
-   return product.sizeGroups
-    ?product.sizeGroups.every(group=>group.sizes.includes(item[group.key]))
-    :product.sizes.includes(item.size);
-  });
+  return parseCart(localStorage.getItem(CART_STORAGE_KEY));
  }catch(error){
   console.warn("Unable to restore saved cart",error);
   return [];
  }
 }
+function telegramCartStorages(){
+ const tg=window.Telegram?.WebApp;
+ return [tg?.DeviceStorage,tg?.CloudStorage].filter(storage=>
+  typeof storage?.getItem==="function"&&typeof storage?.setItem==="function"
+ );
+}
+function getTelegramStorageItem(storage,key){
+ return new Promise((resolve,reject)=>storage.getItem(key,(error,value)=>{
+  if(error)reject(new Error(String(error)));else resolve(value);
+ }));
+}
+function setTelegramStorageItem(storage,key,value){
+ return new Promise((resolve,reject)=>storage.setItem(key,value,(error,saved)=>{
+  if(error)reject(new Error(String(error)));
+  else if(saved===false)reject(new Error("Telegram storage did not save the cart"));
+  else resolve();
+ }));
+}
+async function restoreCartFromTelegram(){
+ const storages=telegramCartStorages();
+ const revisionAtStart=cartRevision;
+ let cloudCart=null;
+ for(const storage of storages){
+  try{
+   const value=await getTelegramStorageItem(storage,CART_STORAGE_KEY);
+   if(typeof value==="string"&&value){
+    const saved=parseCart(value);
+    if(saved.length){cloudCart=saved;break}
+   }
+  }catch(error){
+   console.warn("Unable to restore cart from Telegram storage",error);
+  }
+ }
+ if(revisionAtStart!==cartRevision){
+  cartStorageReady=true;
+  saveCart();
+  return;
+ }
+ if(cloudCart)cart=cloudCart;
+ cartStorageReady=true;
+ updateCart();
+}
 function saveCart(){
+ const value=JSON.stringify(cart);
+ if(value!==cartLastSavedValue){
+  cartRevision+=1;
+  cartLastSavedValue=value;
+ }
  try{
-  localStorage.setItem(CART_STORAGE_KEY,JSON.stringify(cart));
+  localStorage.setItem(CART_STORAGE_KEY,value);
  }catch(error){
   console.warn("Unable to save cart",error);
  }
+ if(!cartStorageReady)return;
+ cartSaveQueue=cartSaveQueue.then(async()=>{
+  for(const storage of telegramCartStorages()){
+   try{
+    await setTelegramStorageItem(storage,CART_STORAGE_KEY,value);
+   }catch(error){
+    console.warn("Unable to save cart to Telegram storage",error);
+   }
+  }
+ });
 }
+window.addEventListener("pagehide",saveCart);
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")saveCart()});
 function t(key){return paymentTranslations[lang]?.[key]||translations[lang][key]||key}
 function productName(p){return t(p.nameKey)}
 function productColors(p){return p.colors&&p.colors.length?p.colors:[{key:"default",label:null,image:p.image}]}
@@ -531,12 +594,12 @@ function renderSubcategories(){
 function renderProducts(){
  const query=(document.getElementById("search")?.value||"").toLowerCase();
  const filtered=products.filter(p=>{
-  const name=productName(p).toLowerCase(),ruName=translations.ru[p.nameKey].toLowerCase();
-  return p.catalog!==false&&(activeFilter==="all"||p.category===activeFilter)&&(!activeSubcategory||p.sub===activeSubcategory)&&(!query||name.includes(query)||ruName.includes(query));
+  const name=productName(p).toLowerCase(),ruName=(translations.ru[p.nameKey]||productName(p)).toLowerCase();
+  return (p.testOnly?isOwner:p.catalog!==false)&&(activeFilter==="all"||p.category===activeFilter)&&(!activeSubcategory||p.sub===activeSubcategory)&&(!query||name.includes(query)||ruName.includes(query));
  });
  document.getElementById("catalogProducts").innerHTML=filtered.length?filtered.map(card).join(""):`<p class="description">${t("noProducts")}</p>`;
- document.getElementById("homeProducts").innerHTML=products.filter(p=>p.catalog!==false).slice(0,4).map(card).join("");
- document.getElementById("favoriteProducts").innerHTML=products.filter(p=>favorites.has(p.id)).map(card).join("");
+ document.getElementById("homeProducts").innerHTML=products.filter(p=>p.testOnly?isOwner:p.catalog!==false).slice(0,4).map(card).join("");
+ document.getElementById("favoriteProducts").innerHTML=products.filter(p=>(p.testOnly?isOwner:p.catalog!==false)&&favorites.has(p.id)).map(card).join("");
  document.getElementById("favEmpty").style.display=favorites.size?"none":"block";
  renderSubcategories();
  const heading=document.getElementById("catalogHeading");
@@ -549,7 +612,7 @@ function renderProducts(){
 function renderLookProducts(){
  const titles={classic:"classicLook",oversize:"oversizeLook",sport:"sportLook"};
  document.getElementById("lookTitle").textContent=t(titles[activeLook]||"looks").replace(" ↗","");
- const lookProducts=products.filter(p=>p.look===activeLook);
+ const lookProducts=products.filter(p=>!p.testOnly&&p.look===activeLook);
  document.getElementById("lookProducts").innerHTML=lookProducts.map(card).join("");
  document.getElementById("lookEmpty").style.display=lookProducts.length?"none":"block";
 }
@@ -795,6 +858,7 @@ async function loadOwnerManualOrders(){
   const result=await ownerManualOrderRequest("list");
   isOwner=true;
   panel.style.display="block";
+  renderProducts();
   renderOwnerManualOrders(result.orders||[]);
  }catch(error){
   if(error.status===401||error.status===403){isOwner=false;panel.style.display="none";return}
@@ -868,6 +932,8 @@ if(tg){
  if(firstName)document.getElementById("userName").textContent="Привет, "+firstName+"!";
 }
 buildFilters();renderProducts();updateCart();applyLanguage();
+restoreCartFromTelegram();
+if(tg?.initData)loadOwnerManualOrders();
 </script>
 </body>
 </html>
