@@ -5,6 +5,7 @@ import { calculateTransferAmounts } from "./manual-transfer.js";
 const DEFAULT_ORIGIN = "https://xevenwear.github.io";
 const TELEGRAM_API = "https://api.telegram.org";
 const PAYME_TTL_MS = 12 * 60 * 60 * 1000;
+const MANUAL_TRANSFER_WINDOW_MS = 30 * 60 * 1000;
 const sizeLabels = {
   ru: {
     size: "размер",
@@ -1028,8 +1029,10 @@ async function handleCustomerOrderHistory(request, env, cors) {
       `SELECT id, created_at, status, total_uzs, deposit_uzs, transfer_uzs,
          tail_uzs, remaining_uzs, items_json
        FROM manual_transfer_orders
-       WHERE customer_telegram_id = ? ORDER BY created_at DESC LIMIT 50`,
-    ).bind(customer.id).all(),
+       WHERE customer_telegram_id = ?
+         AND (status != 'awaiting_transfer' OR created_at > ?)
+       ORDER BY created_at DESC LIMIT 50`,
+    ).bind(customer.id, Date.now() - MANUAL_TRANSFER_WINDOW_MS).all(),
   ]);
   const mapOrder = (order, manual = false) => {
     const items = safeParseJson(order.items_json);
