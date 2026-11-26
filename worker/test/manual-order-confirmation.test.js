@@ -18,6 +18,7 @@ test("owner deposit confirmation sends order details to owner and customer", asy
   const botToken = "test-token";
   const order = {
     id: "manual-order",
+    created_at: Date.now() - 60_000,
     status: "awaiting_transfer",
     customer_telegram_id: "12345",
     customer_username: "buyer",
@@ -75,7 +76,10 @@ test("owner deposit confirmation sends order details to owner and customer", asy
     },
     async batch(statements) {
       const [update, ...inserts] = statements;
-      if (order.status !== "awaiting_transfer") return [{ meta: { changes: 0 } }];
+      const [, orderId, cutoff] = update.values;
+      if (order.status !== "awaiting_transfer" || order.id !== orderId || order.created_at <= cutoff) {
+        return [{ meta: { changes: 0 } }];
+      }
       order.status = "partially_paid";
       order.deposit_confirmed_at = update.values[0];
       for (const insert of inserts) {
@@ -125,4 +129,114 @@ test("owner deposit confirmation sends order details to owner and customer", asy
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("owner list expires stale expected orders and includes all active sections", async () => {
+  const botToken = "test-token";
+  const now = Date.now();
+  const orders = [
+    { id: "fresh", created_at: now - 60_000, status: "awaiting_transfer", items_json: "[]" },
+    { id: "expired", created_at: now - 3 * 60 * 60 * 1000, status: "awaiting_transfer", items_json: "[]" },
+    { id: "confirmed", created_at: now - 4 * 60 * 60 * 1000, status: "partially_paid", items_json: "[]" },
+    { id: "completed", created_at: now - 5 * 60 * 60 * 1000, status: "paid", items_json: "[]" },
+  ];
+  let expirationCutoff;
+  const env = {
+    BOT_TOKEN: botToken,
+    TELEGRAM_OWNER_CHAT_ID: "999",
+    DB: {
+      prepare(sql) {
+        const statement = {
+          sql,
+          values: [],
+          bind(...values) {
+            this.values = values;
+            return this;
+          },
+          async run() {
+            if (this.sql.includes("SET status = 'cancelled'")) {
+              [expirationCutoff] = this.values;
+              for (const order of orders) {
+                if (order.status === "awaiting_transfer" && order.created_at <= expirationCutoff) {
+                  order.status = "cancelled";
+                }
+              }
+            }
+            return { meta: { changes: 1 } };
+          },
+          async all() {
+            return {
+              results: orders
+                .filter((order) => ["awaiting_transfer", "partially_paid", "paid"].includes(order.status))
+                .sort((left, right) => right.created_at - left.created_at),
+            };
+          },
+        };
+        return statement;
+      },
+    },
+  };
+  const response = await worker.fetch(new Request("https://worker.example/api/manual-orders/admin", {
+    method: "POST",
+    headers: {
+      origin: "https://xevenwear.github.io",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      initData: createInitData(999, botToken),
+      action: "list",
+    }),
+  }), env);
+
+  assert.equal(response.status, 200);
+  assert.ok(expirationCutoff >= now - 2 * 60 * 60 * 1000);
+  assert.ok(expirationCutoff <= Date.now() - 2 * 60 * 60 * 1000);
+  assert.equal(orders.find((order) => order.id === "expired").status, "cancelled");
+  assert.deepEqual((await response.json()).orders.map((order) => [order.id, order.status]), [
+    ["fresh", "awaiting_transfer"],
+    ["confirmed", "partially_paid"],
+    ["completed", "paid"],
+  ]);
+});
+
+test("owner cannot confirm a deposit after the two-hour order window", async () => {
+  const botToken = "test-token";
+  const statements = [];
+  const env = {
+    BOT_TOKEN: botToken,
+    TELEGRAM_OWNER_CHAT_ID: "999",
+    DB: {
+      prepare(sql) {
+        return {
+          sql,
+          values: [],
+          bind(...values) {
+            this.values = values;
+            return this;
+          },
+        };
+      },
+      async batch(batchStatements) {
+        statements.push(...batchStatements);
+        return [{ meta: { changes: 0 } }];
+      },
+    },
+  };
+  const response = await worker.fetch(new Request("https://worker.example/api/manual-orders/admin", {
+    method: "POST",
+    headers: {
+      origin: "https://xevenwear.github.io",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      initData: createInitData(999, botToken),
+      action: "confirm_deposit",
+      orderId: "expired-order",
+    }),
+  }), env);
+
+  assert.equal(response.status, 409);
+  assert.match(statements[0].sql, /created_at > \?/);
+  assert.equal(statements[0].values[1], "expired-order");
+  assert.ok(statements[0].values[2] <= Date.now() - 2 * 60 * 60 * 1000);
 });

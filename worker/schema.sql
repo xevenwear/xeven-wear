@@ -70,7 +70,8 @@ CREATE TABLE IF NOT EXISTS manual_transfer_orders (
 );
 
 CREATE UNIQUE INDEX IF NOT EXISTS manual_transfer_orders_unique_amount
-  ON manual_transfer_orders(transfer_uzs);
+  ON manual_transfer_orders(transfer_uzs)
+  WHERE status IN ('awaiting_transfer', 'partially_paid');
 
 CREATE INDEX IF NOT EXISTS manual_transfer_orders_open
   ON manual_transfer_orders(status, created_at);
