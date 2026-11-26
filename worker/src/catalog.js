@@ -108,7 +108,7 @@ export const catalog = {
   },
   999: {
     name: { ru: "Тестовый товар (только владелец)", uz: "Sinov mahsuloti (faqat egasi)" },
-    price: 1000,
+    price: 2000,
     colors: colors([["default", "images/jeans-light.jpg"]]),
     ...simpleSizes(["Единый"]),
     testOnly: true,

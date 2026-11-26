@@ -21,11 +21,11 @@ test("rounds an odd total up to the nearest whole so'm for the deposit", () => {
   });
 });
 
-test("keeps the 1,000 so'm test order balance at exactly 500", () => {
-  assert.deepEqual(calculateTransferAmounts(1000, 42), {
-    depositAmount: 500,
-    transferAmount: 542,
-    remainingAmount: 500,
+test("keeps the 2,000 so'm test order balance at exactly 1,000", () => {
+  assert.deepEqual(calculateTransferAmounts(2000, 42), {
+    depositAmount: 1000,
+    transferAmount: 1042,
+    remainingAmount: 1000,
     tail: 42,
   });
 });
