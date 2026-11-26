@@ -283,7 +283,7 @@ footer{text-align:center;color:var(--gray);font-size:9px;letter-spacing:2px;padd
 <section class="page" id="profile">
   <div class="page-title" data-i18n="profile">Профиль.</div>
   <div class="profile-box"><div class="eyebrow muted">XEVEN WEAR</div><h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2><p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p><div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><button type="button" class="muted" style="border:0;background:none;font:inherit;text-decoration:underline;padding:0" onclick="loadMyOrders()" data-i18n="refreshMyOrders">Обновить</button></div><div id="myOrdersList"></div><a class="profile-link" href="https://t.me/Xeven_AD" target="_blank" rel="noopener noreferrer" aria-label="Написать XEVEN WEAR в Telegram" data-i18n-aria-label="supportAriaLabel"><span class="profile-link-copy"><span class="profile-link-title" data-i18n="supportCta">Написать нам в Telegram</span><span class="profile-link-handle" data-i18n="supportHandle">@Xeven_AD · поддержка XEVEN WEAR</span></span><span class="profile-link-arrow">↗</span></a></div>
-  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div class="owner-order-tabs" role="tablist" data-i18n-aria-label="myOrders"><button type="button" id="owner-expected-tab" class="owner-order-tab active" role="tab" aria-selected="true" aria-controls="ownerManualOrders" data-owner-tab="expected" onclick="setOwnerOrdersTab('expected')"><span data-i18n="ownerExpected">Ожидаемые</span><b class="owner-order-tab-count" id="ownerExpectedCount">0</b></button><button type="button" id="owner-confirmed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="confirmed" onclick="setOwnerOrdersTab('confirmed')"><span data-i18n="ownerConfirmed">Подтверждённые</span><b class="owner-order-tab-count" id="ownerConfirmedCount">0</b></button><button type="button" id="owner-completed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="completed" onclick="setOwnerOrdersTab('completed')"><span data-i18n="ownerCompleted">Завершённые</span><b class="owner-order-tab-count" id="ownerCompletedCount">0</b></button></div><label class="owner-search"><span data-i18n="ownerSearchLabel">Найти по сумме, покупателю или Telegram ID</span><input id="ownerOrderSearch" type="search" oninput="filterOwnerManualOrders()" data-i18n-placeholder="ownerSearchPlaceholder" placeholder="Например, 300047"></label><div id="ownerManualOrders" role="tabpanel" aria-labelledby="owner-expected-tab"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
+  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div class="owner-order-tabs" role="tablist" data-i18n-aria-label="myOrders"><button type="button" id="owner-expected-tab" class="owner-order-tab active" role="tab" aria-selected="true" aria-controls="ownerManualOrders" data-owner-tab="expected" onclick="setOwnerOrdersTab('expected')"><span data-i18n="ownerExpected">Ожидаемые</span><b class="owner-order-tab-count" id="ownerExpectedCount">0</b></button><button type="button" id="owner-confirmed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="confirmed" onclick="setOwnerOrdersTab('confirmed')"><span data-i18n="ownerConfirmed">Подтверждённые</span><b class="owner-order-tab-count" id="ownerConfirmedCount">0</b></button><button type="button" id="owner-completed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="completed" onclick="setOwnerOrdersTab('completed')"><span data-i18n="ownerCompleted">Завершённые</span><b class="owner-order-tab-count" id="ownerCompletedCount">0</b></button></div><label class="owner-search"><span data-i18n="ownerSearchLabel">Найти по сумме, покупателю или Telegram ID</span><input id="ownerOrderSearch" type="search" oninput="filterOwnerManualOrders()" data-i18n-placeholder="ownerSearchPlaceholder" placeholder="Например, 300047"></label><div id="ownerManualOrders" role="tabpanel" aria-labelledby="owner-expected-tab"></div></div>
   <button type="button" class="deleted-orders-button" id="ownerDeletedButton" style="display:none" onclick="openDeletedOrders()"><span class="left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg><span data-i18n="deletedOrdersTitle">Удалённые</span></span><b class="deleted-count" id="deletedOrdersCount">0</b></button>
   <footer>XEVEN WEAR</footer>
 </section>
@@ -409,8 +409,6 @@ refreshMyOrders:"Обновить",orderHistoryLoading:"Загружаем за�
 orderHistoryFailed:"Не удалось загрузить заказы. Попробуй ещё раз.",orderHistoryTelegram:"Открой магазин в Telegram, чтобы посмотреть свои заказы.",
 orderStatusPending:"Ожидает оплаты",orderStatusPaid:"Оплачен",orderStatusCancelled:"Отменён",orderStatusRefunded:"Возврат оформлен",
 quantityUnit:"шт.",
-ownerTestTitle:"Тестовый товар",ownerTestWarning:"Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.",ownerTestButton:"Добавить тестовый товар в корзину",
-testProduct:"Тестовый товар (только владелец)"
 },
 uz:{
 prepayment:"Oldindan to‘lov (50%) (+Kargo)",cargoTitle:"Kargo nima?",cargoDescription:"Kargo — buyurtmani sizga yetkazib berish xizmati. Narxi va muddati alohida aytiladi; ular ko‘rsatilgan oldindan to‘lov summasiga kirmaydi.",paymentMethod:"To‘lov usuli",manualTransfer:"Kartaga o‘tkazma",
@@ -434,8 +432,6 @@ refreshMyOrders:"Yangilash",orderHistoryLoading:"Buyurtmalar yuklanmoqda…",ord
 orderHistoryFailed:"Buyurtmalarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",orderHistoryTelegram:"Buyurtmalaringizni ko‘rish uchun do‘konni Telegram orqali oching.",
 orderStatusPending:"To‘lov kutilmoqda",orderStatusPaid:"To‘langan",orderStatusCancelled:"Bekor qilingan",orderStatusRefunded:"Pul qaytarilgan",
 quantityUnit:"dona",
-ownerTestTitle:"Sinov mahsuloti",ownerTestWarning:"2 000 so‘mlik mahsulot faqat do‘kon egasi uchun va buyurtmani tekshirishga mo‘ljallangan.",ownerTestButton:"Sinov mahsulotini savatchaga qo‘shish",
-testProduct:"Sinov mahsuloti (faqat egasi)"
 }
 };
 
@@ -506,8 +502,7 @@ const products=[
 {id:14,nameKey:"product14",category:"Верхняя одежда",sub:"jackets",outfit:true,photoBackground:"#7c7c7c",price:300000,image:"images/separate-jacket-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-jacket-white.png"},{key:"black",label:"lookBlack",image:"images/separate-jacket-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:15,nameKey:"product15",category:"Брюки и джинсы",sub:"oversize",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-pants-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-pants-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-pants-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-pants-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:16,nameKey:"product16",category:"Верхняя одежда",sub:"hoodies",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-hoodie-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-hoodie-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-hoodie-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-hoodie-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
-{id:17,nameKey:"product17",category:"Обувь",sub:"sneakers",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/nike-dunk.png",sizes:["36","37","38","39","40","41","42","43","44"]},
-{id:999,nameKey:"testProduct",category:"Тест",catalog:false,testOnly:true,price:2000,image:"images/jeans-light.jpg",colors:[{key:"default",image:"images/jeans-light.jpg"}],sizes:["Единый"]}
+{id:17,nameKey:"product17",category:"Обувь",sub:"sneakers",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/nike-dunk.png",sizes:["36","37","38","39","40","41","42","43","44"]}
 ];
 
 const API_BASE_URL="https://xevenwear-orders-api.xevenwear-orders-api.workers.dev";
@@ -677,7 +672,7 @@ function localizedOrderItem(item){
   ?Object.entries(item.sizes).map(([key,value])=>`${t(key).replace(/:\s*$/,"")}: ${value}`).join(", ")
   :item.sizeLabel;
  return {
-  name:product?productName(product):Number(item.id)===999?t("testProduct"):item.name,
+  name:product?productName(product):item.name,
   color:itemColor?.label?t(itemColor.label):item.color,
   sizeLabel,
  };
@@ -735,11 +730,11 @@ function renderProducts(){
  const query=(document.getElementById("search")?.value||"").toLowerCase();
  const filtered=products.filter(p=>{
   const name=productName(p).toLowerCase(),ruName=(translations.ru[p.nameKey]||productName(p)).toLowerCase();
-  return (p.testOnly?isOwner:p.catalog!==false)&&(activeFilter==="all"||p.category===activeFilter)&&(!activeSubcategory||p.sub===activeSubcategory)&&(!query||name.includes(query)||ruName.includes(query));
+  return p.catalog!==false&&(activeFilter==="all"||p.category===activeFilter)&&(!activeSubcategory||p.sub===activeSubcategory)&&(!query||name.includes(query)||ruName.includes(query));
  });
  document.getElementById("catalogProducts").innerHTML=filtered.length?filtered.map(card).join(""):`<p class="description">${t("noProducts")}</p>`;
- document.getElementById("homeProducts").innerHTML=products.filter(p=>p.testOnly?isOwner:p.catalog!==false).slice(0,4).map(card).join("");
- document.getElementById("favoriteProducts").innerHTML=products.filter(p=>(p.testOnly?isOwner:p.catalog!==false)&&favorites.has(p.id)).map(card).join("");
+ document.getElementById("homeProducts").innerHTML=products.filter(p=>p.catalog!==false).slice(0,4).map(card).join("");
+ document.getElementById("favoriteProducts").innerHTML=products.filter(p=>p.catalog!==false&&favorites.has(p.id)).map(card).join("");
  document.getElementById("favEmpty").style.display=favorites.size?"none":"block";
  renderSubcategories();
  const heading=document.getElementById("catalogHeading");
@@ -752,7 +747,7 @@ function renderProducts(){
 function renderLookProducts(){
  const titles={classic:"classicLook",oversize:"oversizeLook",sport:"sportLook"};
  document.getElementById("lookTitle").textContent=t(titles[activeLook]||"looks").replace(" ↗","");
- const lookProducts=products.filter(p=>!p.testOnly&&p.look===activeLook);
+ const lookProducts=products.filter(p=>p.look===activeLook);
  document.getElementById("lookProducts").innerHTML=lookProducts.map(card).join("");
  document.getElementById("lookEmpty").style.display=lookProducts.length?"none":"block";
 }
@@ -1157,14 +1152,6 @@ async function loadOwnerManualOrders(){
   console.error("Unable to load manual orders",error);
   if(panel.style.display!=="none")document.getElementById("ownerManualOrders").textContent=t("ownerOrderFailed");
  }
-}
-function addTestProductToCart(){
- if(!isOwner)return;
- const item=cart.find(entry=>entry.id===999);
- if(item)item.quantity=Math.min(20,item.quantity+1);
- else cart.push({id:999,size:"Единый",color:0,quantity:1});
- updateCart();
- showPage("cart");
 }
 async function confirmOwnerManualOrder(orderId,action){
  const prompt=t(action==="confirm_deposit"?"confirmDepositPrompt":"confirmBalancePrompt");
