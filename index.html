@@ -457,7 +457,7 @@ const products=[
 const API_BASE_URL="https://xevenwear-orders-api.xevenwear-orders-api.workers.dev";
 const CART_STORAGE_KEY="xevenwear-cart-v1";
 let lang="ru",favorites=new Set(),cart=loadCart(),selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null,isOwner=false;
-let activeFilter="all",activeCategory=null,activeSubcategory=null,activeNestedGroup=null;
+let activeFilter="all",activeCategory=null,activeSubcategory=null,activeNestedGroup=null,myOrdersExpiryTimer=null;
 let cartRevision=0,cartStorageReady=false,cartSaveQueue=Promise.resolve(),cartLastSavedValue=JSON.stringify(cart);
 
 function parseCart(value){
@@ -736,12 +736,21 @@ async function loadMyOrders(){
 function renderMyOrders(orders){
  const container=document.getElementById("myOrdersList");
  container.textContent="";
- if(!orders.length){container.textContent=t("orderHistoryEmpty");return}
+ if(myOrdersExpiryTimer!==null){clearTimeout(myOrdersExpiryTimer);myOrdersExpiryTimer=null}
+ const now=Date.now(),paymentWindow=30*60*1000;
+ const visibleOrders=orders.filter(order=>order.status!=="awaiting_transfer"||now-Number(order.created_at)<paymentWindow);
+ const nextExpiry=orders
+  .filter(order=>order.status==="awaiting_transfer")
+  .map(order=>Number(order.created_at)+paymentWindow)
+  .filter(deadline=>Number.isFinite(deadline)&&deadline>now)
+  .sort((left,right)=>left-right)[0];
+ if(nextExpiry!==undefined)myOrdersExpiryTimer=setTimeout(loadMyOrders,nextExpiry-now);
+ if(!visibleOrders.length){container.textContent=t("orderHistoryEmpty");return}
  const statusKeys={
   pending:"orderStatusPending",awaiting_transfer:"awaitingTransfer",partially_paid:"partiallyPaid",
   paid:"orderStatusPaid",cancelled:"orderStatusCancelled",refunded:"orderStatusRefunded"
  };
- for(const order of orders){
+ for(const order of visibleOrders){
   const card=document.createElement("div");
   card.className="manual-order-card";
   const title=document.createElement("h4");
