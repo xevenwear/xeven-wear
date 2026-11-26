@@ -125,6 +125,10 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .manual-order-card h4{margin:0 0 8px;font-size:12px}
 .manual-order-card p{margin:5px 0;font-size:11px;line-height:1.5}
 .manual-order-card button{margin-top:8px}
+.owner-order-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:14px 0 10px}
+.owner-order-tab{min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 5px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft);color:var(--gray);font-size:10px;font-weight:800}
+.owner-order-tab.active{border-color:var(--accent);background:var(--accent);color:var(--accent-text)}
+.owner-order-tab-count{font-size:12px}
 .payment-details{display:grid;gap:10px;background:var(--surface-soft);border-radius:14px;padding:14px;margin:14px 0}
 .payment-detail{display:flex;justify-content:space-between;gap:12px;font-size:12px}
 .payment-detail b{text-align:right;overflow-wrap:anywhere}
@@ -270,7 +274,7 @@ footer{text-align:center;color:var(--gray);font-size:9px;letter-spacing:2px;padd
 <section class="page" id="profile">
   <div class="page-title" data-i18n="profile">Профиль.</div>
   <div class="profile-box"><div class="eyebrow muted">XEVEN WEAR</div><h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2><p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p><div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><button type="button" class="muted" style="border:0;background:none;font:inherit;text-decoration:underline;padding:0" onclick="loadMyOrders()" data-i18n="refreshMyOrders">Обновить</button></div><div id="myOrdersList"></div><a class="profile-link" href="https://t.me/Xeven_AD" target="_blank" rel="noopener noreferrer" aria-label="Написать XEVEN WEAR в Telegram" data-i18n-aria-label="supportAriaLabel"><span class="profile-link-copy"><span class="profile-link-title" data-i18n="supportCta">Написать нам в Telegram</span><span class="profile-link-handle" data-i18n="supportHandle">@Xeven_AD · поддержка XEVEN WEAR</span></span><span class="profile-link-arrow">↗</span></a></div>
-  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><label class="owner-search"><span data-i18n="ownerSearchLabel">Найти по сумме, покупателю или Telegram ID</span><input id="ownerOrderSearch" type="search" oninput="filterOwnerManualOrders()" data-i18n-placeholder="ownerSearchPlaceholder" placeholder="Например, 300047"></label><div id="ownerManualOrders"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
+  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div class="owner-order-tabs" role="tablist" data-i18n-aria-label="myOrders"><button type="button" id="owner-expected-tab" class="owner-order-tab active" role="tab" aria-selected="true" aria-controls="ownerManualOrders" data-owner-tab="expected" onclick="setOwnerOrdersTab('expected')"><span data-i18n="ownerExpected">Ожидаемые</span><b class="owner-order-tab-count" id="ownerExpectedCount">0</b></button><button type="button" id="owner-confirmed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="confirmed" onclick="setOwnerOrdersTab('confirmed')"><span data-i18n="ownerConfirmed">Подтверждённые</span><b class="owner-order-tab-count" id="ownerConfirmedCount">0</b></button><button type="button" id="owner-completed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="completed" onclick="setOwnerOrdersTab('completed')"><span data-i18n="ownerCompleted">Завершённые</span><b class="owner-order-tab-count" id="ownerCompletedCount">0</b></button></div><label class="owner-search"><span data-i18n="ownerSearchLabel">Найти по сумме, покупателю или Telegram ID</span><input id="ownerOrderSearch" type="search" oninput="filterOwnerManualOrders()" data-i18n-placeholder="ownerSearchPlaceholder" placeholder="Например, 300047"></label><div id="ownerManualOrders" role="tabpanel" aria-labelledby="owner-expected-tab"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
   <footer>XEVEN WEAR</footer>
 </section>
 </main>
@@ -376,10 +380,10 @@ copyValue:"КОПИРОВАТЬ",copied:"СКОПИРОВАНО",copyFailed:"Н�
 transferSafety:"Никому не отправляй код из SMS или банковского приложения. Вводи его только в приложении своего банка.",transferClose:"ПОНЯТНО",orderReference:"Номер заказа",
 transferBreakdown:"50% от {total} — это {deposit}; дополнительно переведи хвост для поиска: +{tail} сум. Хвост не уменьшает остаток.",
 ownerPayments:"Проверка предоплат",ownerPaymentWarning:"Подтверждай перевод только после проверки поступления в банковском приложении.",refreshOwnerPayments:"Обновить список",
-ownerSearchLabel:"Найти по сумме, покупателю или Telegram ID",ownerSearchPlaceholder:"Например, 300047",ownerSearchEmpty:"Ничего не найдено.",orderCreatedAt:"Создан",telegramIdLabel:"Telegram ID",
+ownerSearchLabel:"Найти по сумме, покупателю или Telegram ID",ownerSearchPlaceholder:"Например, 300047",ownerSearchEmpty:"Ничего не найдено.",orderCreatedAt:"Создан",depositConfirmedAt:"Предоплата подтверждена",balanceConfirmedAt:"Остаток подтверждён",telegramIdLabel:"Telegram ID",
 ownerDepositTail:"Предоплата: {deposit} + хвост {tail}",
-noOwnerOrders:"Нет заказов, ожидающих ручной проверки.",awaitingTransfer:"Ожидает предоплату",partiallyPaid:"Предоплата подтверждена",
-orderTotal:"Сумма заказа",transferDue:"К переводу",orderRemainder:"Остаток",confirmDeposit:"ПРЕДОПЛАТА ПОЛУЧЕНА",
+noOwnerOrders:"Нет заказов, ожидающих ручной проверки.",ownerExpected:"Ожидаемые",ownerConfirmed:"Подтверждённые",ownerCompleted:"Завершённые",noExpectedOrders:"Нет заказов, ожидающих предоплату.",noConfirmedOrders:"Нет заказов с подтверждённой предоплатой.",noCompletedOrders:"Завершённых заказов пока нет.",awaitingTransfer:"Ожидает предоплату",partiallyPaid:"Предоплата подтверждена",
+orderTotal:"Сумма заказа",transferDue:"К переводу",orderRemainder:"Остаток",balanceReceived:"Остаток получен",confirmDeposit:"ПРЕДОПЛАТА ПОЛУЧЕНА",
 balanceDue:"Остаток к переводу",paymentDetailsTitle:"Реквизиты для оплаты",
 confirmBalance:"ОСТАТОК ПОЛУЧЕН",confirmDepositPrompt:"Подтверди только после того, как увидишь перевод в банковском приложении.",
 confirmBalancePrompt:"Подтверди только после того, как увидишь поступление остатка.",ownerOrderFailed:"Не удалось загрузить список. Попробуй ещё раз.",
@@ -401,10 +405,10 @@ copyValue:"NUSXA OLISH",copied:"NUSXA OLINDI",copyFailed:"NUSXA OLMADI",
 transferSafety:"SMS yoki bank ilovasidagi kodni hech kimga yubormang. Kodni faqat o‘z bankingiz ilovasida kiriting.",transferClose:"TUSHUNDIM",orderReference:"Buyurtma raqami",
 transferBreakdown:"{total} summaning 50%: {deposit}; o‘tkazmani aniqlash uchun qo‘shimcha: +{tail} so‘m. Bu qo‘shimcha qoldiqni kamaytirmaydi.",
 ownerPayments:"Oldindan to‘lovlarni tekshirish",ownerPaymentWarning:"O‘tkazmani faqat bank ilovasida pul tushganini tekshirgach tasdiqlang.",refreshOwnerPayments:"Ro‘yxatni yangilash",
-ownerSearchLabel:"Summa, xaridor yoki Telegram ID bo‘yicha qidirish",ownerSearchPlaceholder:"Masalan, 300047",ownerSearchEmpty:"Hech narsa topilmadi.",orderCreatedAt:"Yaratilgan",telegramIdLabel:"Telegram ID",
+ownerSearchLabel:"Summa, xaridor yoki Telegram ID bo‘yicha qidirish",ownerSearchPlaceholder:"Masalan, 300047",ownerSearchEmpty:"Hech narsa topilmadi.",orderCreatedAt:"Yaratilgan",depositConfirmedAt:"Oldindan to‘lov tasdiqlandi",balanceConfirmedAt:"Qoldiq tasdiqlandi",telegramIdLabel:"Telegram ID",
 ownerDepositTail:"Oldindan to‘lov: {deposit} + qo‘shimcha {tail}",
-noOwnerOrders:"Qo‘lda tekshiriladigan buyurtmalar yo‘q.",awaitingTransfer:"Oldindan to‘lov kutilmoqda",partiallyPaid:"Oldindan to‘lov tasdiqlandi",
-orderTotal:"Buyurtma summasi",transferDue:"O‘tkaziladigan summa",orderRemainder:"Qoldiq",confirmDeposit:"OLDINDAN TO‘LOV KELDI",
+noOwnerOrders:"Qo‘lda tekshiriladigan buyurtmalar yo‘q.",ownerExpected:"Kutilayotgan",ownerConfirmed:"Tasdiqlangan",ownerCompleted:"Yakunlangan",noExpectedOrders:"Oldindan to‘lov kutilayotgan buyurtmalar yo‘q.",noConfirmedOrders:"Oldindan to‘lovi tasdiqlangan buyurtmalar yo‘q.",noCompletedOrders:"Yakunlangan buyurtmalar hozircha yo‘q.",awaitingTransfer:"Oldindan to‘lov kutilmoqda",partiallyPaid:"Oldindan to‘lov tasdiqlandi",
+orderTotal:"Buyurtma summasi",transferDue:"O‘tkaziladigan summa",orderRemainder:"Qoldiq",balanceReceived:"Qoldiq olindi",confirmDeposit:"OLDINDAN TO‘LOV KELDI",
 balanceDue:"O‘tkaziladigan qoldiq",paymentDetailsTitle:"To‘lov rekvizitlari",
 confirmBalance:"QOLDIQ KELDI",confirmDepositPrompt:"Faqat bank ilovasida pul tushganini ko‘rgach tasdiqlang.",
 confirmBalancePrompt:"Faqat qoldiq tushganini ko‘rgach tasdiqlang.",ownerOrderFailed:"Ro‘yxatni yuklab bo‘lmadi. Qayta urinib ko‘ring.",
@@ -478,7 +482,7 @@ const products=[
 {id:7,nameKey:"product7",category:"Брюки и джинсы",sub:"oversize",price:250000,image:JEANS_LIGHT,colors:[{key:"lightgray",label:"colorLightGray",image:JEANS_LIGHT},{key:"black",label:"colorBlack",image:JEANS_BLACK}],tag:true,sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:8,nameKey:"product8",category:"Верхняя одежда",sub:"jackets",price:350000,image:JKT_LIGHT,colors:[{key:"beige",label:"colorBeige",image:JKT_LIGHT},{key:"black",label:"colorBlack",image:JKT_BLACK}],tag:true,sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:9,nameKey:"product9",category:"Луки",sub:"oversize",look:"oversize",outfit:true,photoBackground:"#7c7c7c",catalog:false,price:800000,image:"images/oversize-black.png",colors:[{key:"black",label:"lookBlack",image:"images/oversize-black.png"},{key:"blue-white",label:"lookBlueWhite",image:"images/oversize-blue-white.png"},{key:"black-white",label:"lookBlackWhite",image:"images/oversize-black-white.png"},{key:"gray-white",label:"lookGrayWhite",image:"images/oversize-gray-white.png"},{key:"gray-black",label:"lookGrayBlack",image:"images/oversize-gray-black.png"}],sizeGroups:[{key:"jacketSize",label:"jacketSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"jeansSize",label:"jeansSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"sneakersSize",label:"sneakersSize",sizes:["36","37","38","39","40","41","42","43","44"]}]},
-{id:10,nameKey:"product10",category:"Луки",sub:"oversize",look:"oversize",outfit:true,photoBackground:"#888888",catalog:false,price:600000,image:"images/fur-oversize-white.png",colors:[{key:"white",label:"lookWhite",image:"images/fur-oversize-white.png"},{key:"black",label:"lookBlack",image:"images/fur-oversize-black.png"}],sizeGroups:[{key:"jacketSize",label:"jacketSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"jeansSize",label:"jeansSize",sizes:["S","M","L","XL","XXL","XXXL"]}]},
+{id:10,nameKey:"product10",category:"Луки",sub:"oversize",look:"oversize",outfit:true,photoBackground:"#7c7c7c",catalog:false,price:600000,image:"images/fur-oversize-white.png",colors:[{key:"white",label:"lookWhite",image:"images/fur-oversize-white.png"},{key:"black",label:"lookBlack",image:"images/fur-oversize-black.png"}],sizeGroups:[{key:"jacketSize",label:"jacketSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"jeansSize",label:"jeansSize",sizes:["S","M","L","XL","XXL","XXXL"]}]},
 {id:11,nameKey:"product11",category:"Верхняя одежда",sub:"jackets",outfit:true,photoBackground:"#7c7c7c",price:350000,image:"images/jacket-black.png",colors:[{key:"black",label:"lookBlack",image:"images/jacket-black.png"},{key:"blue",label:"jacketBlue",image:"images/jacket-blue.png"},{key:"gray",label:"jacketGray",image:"images/jacket-gray.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:12,nameKey:"product12",category:"Обувь",sub:"sneakers",outfit:true,photoBackground:"#7c7c7c",price:200000,image:"images/sneakers-black.png",colors:[{key:"black",label:"lookBlack",image:"images/sneakers-black.png"},{key:"white",label:"shoeWhite",image:"images/sneakers-white.png"}],sizes:["36","37","38","39","40","41","42","43","44"]},
 {id:13,nameKey:"product13",category:"Луки",sub:"oversize",look:"oversize",outfit:true,photoBackground:"#7c7c7c",imageScale:0.75,catalog:false,price:900000,image:"images/oversize-set-white.png",colors:[{key:"white",label:"lookWhite",image:"images/oversize-set-white.png"},{key:"blue",label:"jacketBlue",image:"images/oversize-set-blue.png"},{key:"black",label:"lookBlack",image:"images/oversize-set-black.png"}],sizeGroups:[{key:"jacketSize",label:"jacketSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"hoodieSize",label:"hoodieSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"pantsSize",label:"pantsSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"sneakersSize",label:"sneakersSize",sizes:["36","37","38","39","40","41","42","43","44"]}]},
@@ -494,7 +498,9 @@ const CART_STORAGE_KEY="xevenwear-cart-v1";
 const THEME_STORAGE_KEY="xevenwear-theme-v1";
 let lang="ru",favorites=new Set(),cart=loadCart(),selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null,isOwner=false;
 let activeFilter="all",activeCategory=null,activeSubcategory=null,activeNestedGroup=null,myOrdersExpiryTimer=null;
-let ownerManualOrders=[],theme=loadTheme();
+const OWNER_ORDER_TTL_MS=2*60*60*1000;
+const OWNER_ORDER_TABS={expected:["awaiting_transfer"],confirmed:["partially_paid"],completed:["paid"]};
+let ownerManualOrders=[],activeOwnerOrdersTab="expected",ownerOrdersExpiryTimer=null,theme=loadTheme();
 let cartRevision=0,cartStorageReady=false,cartSaveQueue=Promise.resolve(),cartLastSavedValue=JSON.stringify(cart);
 
 function parseCart(value){
@@ -987,15 +993,49 @@ async function ownerManualOrderRequest(action,orderId){
 }
 function renderOwnerManualOrders(orders){
  ownerManualOrders=Array.isArray(orders)?orders:[];
+ updateOwnerOrderTabs();
+ if(ownerOrdersExpiryTimer!==null)clearTimeout(ownerOrdersExpiryTimer);
+ ownerOrdersExpiryTimer=null;
+ const nextExpiry=ownerManualOrders
+  .filter(order=>order.status==="awaiting_transfer")
+  .map(order=>Number(order.created_at)+OWNER_ORDER_TTL_MS)
+  .filter(expiry=>Number.isFinite(expiry)&&expiry>Date.now())
+  .sort((left,right)=>left-right)[0];
+ if(nextExpiry)ownerOrdersExpiryTimer=setTimeout(()=>loadOwnerManualOrders(),nextExpiry-Date.now()+100);
+ filterOwnerManualOrders();
+}
+function updateOwnerOrderTabs(){
+ const tabCounts={expected:0,confirmed:0,completed:0};
+ for(const order of ownerManualOrders){
+  for(const [tab,statuses] of Object.entries(OWNER_ORDER_TABS)){
+   if(statuses.includes(order.status))tabCounts[tab]++;
+  }
+ }
+ for(const [tab,count] of Object.entries(tabCounts)){
+  document.getElementById(`owner${tab[0].toUpperCase()+tab.slice(1)}Count`).textContent=String(count);
+ }
+ document.querySelectorAll(".owner-order-tab").forEach(button=>{
+  const active=button.dataset.ownerTab===activeOwnerOrdersTab;
+  button.classList.toggle("active",active);
+  button.setAttribute("aria-selected",String(active));
+  if(active)document.getElementById("ownerManualOrders").setAttribute("aria-labelledby",button.id);
+ });
+}
+function setOwnerOrdersTab(tab){
+ if(!Object.prototype.hasOwnProperty.call(OWNER_ORDER_TABS,tab))return;
+ activeOwnerOrdersTab=tab;
+ updateOwnerOrderTabs();
  filterOwnerManualOrders();
 }
 function filterOwnerManualOrders(){
  const container=document.getElementById("ownerManualOrders");
  container.textContent="";
- if(!ownerManualOrders.length){container.textContent=t("noOwnerOrders");return}
+ const statuses=OWNER_ORDER_TABS[activeOwnerOrdersTab];
+ const tabOrders=ownerManualOrders.filter(order=>statuses.includes(order.status));
+ if(!tabOrders.length){container.textContent=t(({expected:"noExpectedOrders",confirmed:"noConfirmedOrders",completed:"noCompletedOrders"})[activeOwnerOrdersTab]);return}
  const query=document.getElementById("ownerOrderSearch").value.trim().toLocaleLowerCase();
  const queryDigits=query.replace(/\D/g,"");
- const orders=ownerManualOrders.filter(order=>{
+ const orders=tabOrders.filter(order=>{
   if(!query)return true;
   const searchText=[
    order.customer_first_name,order.customer_username,order.customer_telegram_id,order.id,
@@ -1013,7 +1053,7 @@ function filterOwnerManualOrders(){
   title.textContent=`${order.customer_first_name||t("customerFallback")} · ${order.id.slice(0,8)}`;
   card.appendChild(title);
   const status=document.createElement("p");
-  status.textContent=t(order.status==="awaiting_transfer"?"awaitingTransfer":"partiallyPaid");
+  status.textContent=t(({awaiting_transfer:"awaitingTransfer",partially_paid:"partiallyPaid",paid:"orderStatusPaid"})[order.status]);
   card.appendChild(status);
   const createdAt=Number(order.created_at);
   if(Number.isFinite(createdAt)){
@@ -1022,8 +1062,15 @@ function filterOwnerManualOrders(){
    created.textContent=`${t("orderCreatedAt")}: ${new Date(createdAt).toLocaleString(lang==="ru"?"ru-RU":"uz-UZ")}`;
    card.appendChild(created);
   }
+  const confirmedAt=Number(order.status==="paid"?order.balance_confirmed_at:order.deposit_confirmed_at);
+  if(Number.isFinite(confirmedAt)&&confirmedAt>0){
+   const confirmed=document.createElement("p");
+   confirmed.className="description";
+   confirmed.textContent=`${t(order.status==="paid"?"balanceConfirmedAt":"depositConfirmedAt")}: ${new Date(confirmedAt).toLocaleString(lang==="ru"?"ru-RU":"uz-UZ")}`;
+   card.appendChild(confirmed);
+  }
   const amounts=document.createElement("p");
-  amounts.textContent=`${t("orderTotal")}: ${money(order.total_uzs)}\n${t("transferDue")}: ${money(order.transfer_uzs)}\n${t("ownerDepositTail").replace("{deposit}",money(order.deposit_uzs)).replace("{tail}",money(order.tail_uzs))}\n${t("orderRemainder")}: ${money(order.remaining_uzs)}`;
+  amounts.textContent=`${t("orderTotal")}: ${money(order.total_uzs)}\n${t("transferDue")}: ${money(order.transfer_uzs)}\n${t("ownerDepositTail").replace("{deposit}",money(order.deposit_uzs)).replace("{tail}",money(order.tail_uzs))}\n${t(order.status==="paid"?"balanceReceived":"orderRemainder")}: ${money(order.remaining_uzs)}`;
   card.appendChild(amounts);
   const customer=document.createElement("p");
   customer.textContent=`${order.customer_username?"@"+order.customer_username+" · ":""}${t("telegramIdLabel")}: ${order.customer_telegram_id}`;
@@ -1034,13 +1081,15 @@ function filterOwnerManualOrders(){
    return [localized.name,localized.color,localized.sizeLabel,`${item.quantity} ${t("quantityUnit")}`].filter(Boolean).join(" · ");
   }).join("\n");
   card.appendChild(itemSummary);
-  const button=document.createElement("button");
-  button.className="primary";
-  button.style.width="100%";
-  const action=order.status==="awaiting_transfer"?"confirm_deposit":"confirm_balance";
-  button.textContent=t(action==="confirm_deposit"?"confirmDeposit":"confirmBalance");
-  button.addEventListener("click",()=>confirmOwnerManualOrder(order.id,action));
-  card.appendChild(button);
+  if(order.status!=="paid"){
+   const button=document.createElement("button");
+   button.className="primary";
+   button.style.width="100%";
+   const action=order.status==="awaiting_transfer"?"confirm_deposit":"confirm_balance";
+   button.textContent=t(action==="confirm_deposit"?"confirmDeposit":"confirmBalance");
+   button.addEventListener("click",()=>confirmOwnerManualOrder(order.id,action));
+   card.appendChild(button);
+  }
   container.appendChild(card);
  }
 }
@@ -1055,7 +1104,7 @@ async function loadOwnerManualOrders(){
   renderProducts();
   renderOwnerManualOrders(result.orders||[]);
  }catch(error){
-  if(error.status===401||error.status===403){isOwner=false;panel.style.display="none";return}
+  if(error.status===401||error.status===403){isOwner=false;panel.style.display="none";if(ownerOrdersExpiryTimer!==null)clearTimeout(ownerOrdersExpiryTimer);ownerOrdersExpiryTimer=null;return}
   console.error("Unable to load manual orders",error);
   if(panel.style.display!=="none")document.getElementById("ownerManualOrders").textContent=t("ownerOrderFailed");
  }
@@ -1076,6 +1125,7 @@ async function confirmOwnerManualOrder(orderId,action){
   alert(action==="confirm_deposit"
    ?t(result.notificationsPending?"ownerDepositNotifyPending":"ownerDepositConfirmed")
    :t("ownerOrderUpdated"));
+  activeOwnerOrdersTab=action==="confirm_deposit"?"confirmed":"completed";
   await loadOwnerManualOrders();
  }catch(error){
   console.error("Unable to update manual order",error);

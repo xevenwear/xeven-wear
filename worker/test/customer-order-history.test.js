@@ -91,6 +91,7 @@ test("returns only the authenticated customer's combined order history", async (
   assert.equal(response.status, 200);
   assert.deepEqual(queriedIds, ["12345", "12345"]);
   assert.equal(manualOrderCutoffs.length, 1);
+  assert.match(manualOrderQuery, /status IN \('awaiting_transfer', 'partially_paid', 'paid'\)/);
   assert.match(manualOrderQuery, /status != 'awaiting_transfer' OR created_at > \?/);
   assert.ok(manualOrderCutoffs[0] <= Date.now() - 30 * 60 * 1000);
   const { orders } = await response.json();

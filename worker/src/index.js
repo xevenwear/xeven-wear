@@ -6,6 +6,7 @@ const DEFAULT_ORIGIN = "https://xevenwear.github.io";
 const TELEGRAM_API = "https://api.telegram.org";
 const PAYME_TTL_MS = 12 * 60 * 60 * 1000;
 const MANUAL_TRANSFER_WINDOW_MS = 30 * 60 * 1000;
+const MANUAL_ORDER_EXPIRATION_MS = 2 * 60 * 60 * 1000;
 const sizeLabels = {
   ru: {
     size: "размер",
@@ -450,7 +451,7 @@ async function createManualTransferOrder(env, cors, body, customer, validated) {
          customer_first_name, language, total_uzs, deposit_uzs, transfer_uzs,
          tail_uzs, remaining_uzs, items_json
        ) VALUES (?, ?, 'awaiting_transfer', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-       ON CONFLICT(transfer_uzs) DO NOTHING`,
+       ON CONFLICT(transfer_uzs) WHERE status IN ('awaiting_transfer', 'partially_paid') DO NOTHING`,
     ).bind(
       orderId,
       createdAt,
@@ -995,7 +996,7 @@ async function retryNotifications(env) {
 
   const manualResult = await env.DB.prepare(
     `SELECT id FROM manual_transfer_orders
-     WHERE notification_sent_at IS NULL
+     WHERE status != 'cancelled' AND notification_sent_at IS NULL
        AND (notification_claimed_at IS NULL OR notification_claimed_at < ?)
      ORDER BY created_at LIMIT 50`,
   ).bind(Date.now() - 120000).all();
@@ -1011,6 +1012,14 @@ async function retryNotifications(env) {
   for (const row of confirmationResult.results || []) {
     await sendManualOrderStatusNotification(env, row.order_id, row.recipient);
   }
+}
+
+async function expireManualOrders(env, now = Date.now()) {
+  await env.DB.prepare(
+    `UPDATE manual_transfer_orders
+     SET status = 'cancelled'
+     WHERE status = 'awaiting_transfer' AND created_at <= ?`,
+  ).bind(now - MANUAL_ORDER_EXPIRATION_MS).run();
 }
 
 async function handleManualOrderAdmin(request, env, cors) {
@@ -1043,13 +1052,15 @@ async function handleManualOrderAdmin(request, env, cors) {
   }
 
   if (body.action === "list") {
+    await expireManualOrders(env);
     const result = await env.DB.prepare(
       `SELECT id, created_at, status, customer_telegram_id, customer_username,
          customer_first_name, language, total_uzs, deposit_uzs, transfer_uzs,
-         tail_uzs, remaining_uzs, items_json
+         tail_uzs, remaining_uzs, deposit_confirmed_at, balance_confirmed_at,
+         items_json
        FROM manual_transfer_orders
-       WHERE status IN ('awaiting_transfer', 'partially_paid')
-       ORDER BY created_at DESC LIMIT 50`,
+       WHERE status IN ('awaiting_transfer', 'partially_paid', 'paid')
+       ORDER BY created_at DESC`,
     ).all();
     return json({
       orders: (result.results || []).map((order) => ({
@@ -1071,8 +1082,8 @@ async function handleManualOrderAdmin(request, env, cors) {
       env.DB.prepare(
         `UPDATE manual_transfer_orders
          SET status = 'partially_paid', deposit_confirmed_at = ?
-         WHERE id = ? AND status = 'awaiting_transfer'`,
-      ).bind(now, body.orderId),
+         WHERE id = ? AND status = 'awaiting_transfer' AND created_at > ?`,
+      ).bind(now, body.orderId, now - MANUAL_ORDER_EXPIRATION_MS),
       ...["owner", "customer"].map((recipient) => env.DB.prepare(
         `INSERT INTO manual_order_notifications (order_id, recipient, created_at)
          SELECT id, ?, ? FROM manual_transfer_orders
@@ -1144,6 +1155,7 @@ async function handleCustomerOrderHistory(request, env, cors) {
          tail_uzs, remaining_uzs, items_json
        FROM manual_transfer_orders
        WHERE customer_telegram_id = ?
+         AND status IN ('awaiting_transfer', 'partially_paid', 'paid')
          AND (status != 'awaiting_transfer' OR created_at > ?)
        ORDER BY created_at DESC LIMIT 50`,
     ).bind(customer.id, Date.now() - MANUAL_TRANSFER_WINDOW_MS).all(),
@@ -1237,7 +1249,10 @@ export default {
     return handleRequest(request, env);
   },
   scheduled(_controller, env, context) {
-    context.waitUntil(retryNotifications(env));
+    context.waitUntil((async () => {
+      await expireManualOrders(env);
+      await retryNotifications(env);
+    })());
   },
 };
 
