@@ -18,11 +18,22 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}
 header{height:70px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;background:var(--bg);backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
 .logo{font-size:21px;font-weight:800;letter-spacing:3px;line-height:1}
 .logo small{display:block;font-size:8px;letter-spacing:5px;color:var(--gray);margin-top:5px}
-.header-actions{display:flex;align-items:center;gap:8px}
+.header-actions{display:flex;align-items:center;gap:6px;position:relative}
 .circle{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--surface);display:grid;place-items:center;position:relative;color:var(--text)}
 .circle svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .language-button{height:40px;min-width:49px;padding:0 11px;border:1px solid var(--line);border-radius:22px;background:var(--surface);font-size:11px;font-weight:800}
-.theme-button{font-size:21px;font-weight:700}
+.theme-button{height:40px;min-width:76px;padding:0 10px;border:1px solid var(--line);border-radius:22px;background:var(--surface);display:flex;align-items:center;justify-content:center;gap:6px;color:var(--text);font-size:11px;font-weight:800}
+.theme-button-icon{font-size:16px;line-height:1}
+.theme-menu[hidden]{display:none}
+.theme-menu{position:absolute;right:0;top:calc(100% + 10px);z-index:25;width:min(235px,calc(100vw - 32px));padding:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.24)}
+.theme-menu-title{margin:2px 4px 8px;font-size:12px;font-weight:800}
+.theme-option{width:100%;display:flex;align-items:center;gap:10px;border:0;border-radius:11px;background:transparent;text-align:left;padding:10px}
+.theme-option:hover,.theme-option.selected{background:var(--surface-soft)}
+.theme-option-copy{display:flex;flex:1;flex-direction:column;gap:3px}
+.theme-option-label{font-size:12px;font-weight:700}
+.theme-option-description{font-size:10px;color:var(--gray)}
+.theme-option-check{visibility:hidden;font-size:14px;font-weight:800}
+.theme-option.selected .theme-option-check{visibility:visible}
 .counter{position:absolute;right:-3px;top:-3px;background:var(--accent);color:var(--accent-text);width:16px;height:16px;border-radius:50%;font-size:9px;display:grid;place-items:center}
 main{padding:0 16px}
 .page{display:none}.page.active{display:block}
@@ -167,7 +178,12 @@ footer{text-align:center;color:var(--gray);font-size:9px;letter-spacing:2px;padd
   <div class="header-actions">
     <button class="circle" aria-label="Поиск" data-i18n-aria-label="searchLabel" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg></button>
     <button class="circle" aria-label="Корзина" data-i18n-aria-label="cartLabel" onclick="showPage('cart')"><svg viewBox="0 0 24 24"><path d="M4 8h16l-1.2 12H5.2L4 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg><span class="counter" id="cartCount">0</span></button>
-    <button class="circle theme-button" id="themeButton" type="button" aria-label="Включить тёмный фон" aria-pressed="false" onclick="toggleTheme()">☾</button>
+    <button class="theme-button" id="themeButton" type="button" aria-label="Выбрать фон" aria-haspopup="true" aria-controls="themeMenu" aria-expanded="false" onclick="toggleThemeMenu()"><span class="theme-button-icon" id="themeButtonIcon" aria-hidden="true">☼</span><span data-i18n="backgroundButton">Фон</span></button>
+    <div class="theme-menu" id="themeMenu" role="group" aria-labelledby="themeMenuTitle" hidden>
+      <div class="theme-menu-title" id="themeMenuTitle" data-i18n="themeMenuTitle">Фон</div>
+      <button class="theme-option" id="systemThemeOption" type="button" aria-pressed="true" onclick="setTheme('system')"><span class="theme-option-copy"><span class="theme-option-label" data-i18n="themeSystem">Системный</span><span class="theme-option-description" data-i18n="themeSystemNote">Светлая тема</span></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+      <button class="theme-option" id="darkThemeOption" type="button" aria-pressed="false" onclick="setTheme('dark')"><span class="theme-option-copy"><span class="theme-option-label" data-i18n="themeDarkOption">Тёмный</span><span class="theme-option-description" data-i18n="themeDarkNote">Тёмно-серый фон</span></span><span class="theme-option-check" aria-hidden="true">✓</span></button>
+    </div>
     <button class="language-button" id="languageButton" onclick="toggleLanguage()">RU</button>
   </div>
 </header>
@@ -307,7 +323,7 @@ ru:{
 heroEyebrow:"НОВАЯ КОЛЛЕКЦИЯ",heroTitle:"ТВОЙ СТИЛЬ.<br>ТВОИ ПРАВИЛА.",heroButton:"СМОТРЕТЬ КАТАЛОГ ↗",
 chooseStyle:"ВЫБИРАЙ СВОЁ",categories:"Категории",outerwear:"ВЕРХНЯЯ ОДЕЖДА ↗",tshirts:"ФУТБОЛКИ И ПОЛО ↗",trousers:"БРЮКИ И ДЖИНСЫ ↗",shoes:"ОБУВЬ ↗",accessories:"АКСЕССУАРЫ ↗",looks:"Луки",
 newArrivals:"НОВЫЕ ПОСТУПЛЕНИЯ",newProducts:"Новинки",allProducts:"ВЕСЬ КАТАЛОГ",editorialTitle:"ОДЕВАЙСЯ<br>ПО-СВОЕМУ.",seeLooks:"СМОТРЕТЬ ЛУКИ ↗",ourStyle:"НАШ СТИЛЬ",yourStyle:"Твой стиль. Твои правила.",brandDescription:"XEVEN WEAR — одежда для тех, кто выбирает собственный стиль.",
-searchLabel:"Поиск",cartLabel:"Корзина",themeDark:"Включить тёмный фон",themeLight:"Включить светлый фон",currency:"сум",customerFallback:"Покупатель",greetingWithName:"Привет, {name}!",supportAriaLabel:"Написать XEVEN WEAR в Telegram",closeLabel:"Закрыть",imageViewerLabel:"Просмотр изображения",closeImageLabel:"Закрыть фото",heroImageAlt:"Мужской streetwear-образ без модели",outerwearImageAlt:"Мужская верхняя одежда",tshirtsImageAlt:"Мужские футболки",trousersImageAlt:"Мужские брюки",shoesImageAlt:"Мужская обувь и кроссовки",accessoriesImageAlt:"Мужские аксессуары и часы",looksCategoryImageAlt:"Мужские образы и комплекты",sportImageAlt:"Мужской спортивный комплект одежды",classicImageAlt:"Мужской классический комплект одежды",classicLookImageAlt:"Мужской классический лук: куртка, рубашка и ботинки",oversizeImageAlt:"Мужской oversize-лук: худи, джинсы и кроссовки",sportLookImageAlt:"Мужской спортивный комплект: худи, брюки и кроссовки",
+searchLabel:"Поиск",cartLabel:"Корзина",themeDark:"Включить тёмный фон",themeLight:"Включить светлый фон",backgroundButton:"Фон",themeSettingsLabel:"Выбрать фон",themeMenuTitle:"Фон",themeSystem:"Системный",themeSystemNote:"Светлая тема",themeDarkOption:"Тёмный",themeDarkNote:"Тёмно-серый фон",currency:"сум",customerFallback:"Покупатель",greetingWithName:"Привет, {name}!",supportAriaLabel:"Написать XEVEN WEAR в Telegram",closeLabel:"Закрыть",imageViewerLabel:"Просмотр изображения",closeImageLabel:"Закрыть фото",heroImageAlt:"Мужской streetwear-образ без модели",outerwearImageAlt:"Мужская верхняя одежда",tshirtsImageAlt:"Мужские футболки",trousersImageAlt:"Мужские брюки",shoesImageAlt:"Мужская обувь и кроссовки",accessoriesImageAlt:"Мужские аксессуары и часы",looksCategoryImageAlt:"Мужские образы и комплекты",sportImageAlt:"Мужской спортивный комплект одежды",classicImageAlt:"Мужской классический комплект одежды",classicLookImageAlt:"Мужской классический лук: куртка, рубашка и ботинки",oversizeImageAlt:"Мужской oversize-лук: худи, джинсы и кроссовки",sportLookImageAlt:"Мужской спортивный комплект: худи, брюки и кроссовки",
 catalog:"Каталог",catalogDescription:"Выбирай вещи, которые подходят твоему стилю.",searchPlaceholder:"Поиск товаров...",productsHeading:"Товары",back:"Назад к разделам",
 looksDescription:"Выбери стиль и посмотри подходящие товары.",classicLook:"Классический лук ↗",oversizeLook:"Оверсайз лук ↗",sportLook:"Спортивный лук ↗",
 favorites:"Избранное.",favEmptyTitle:"Пока здесь пусто",favEmptyText:"Нажимай на сердечко у товаров, чтобы сохранить понравившиеся вещи.",openCatalog:"ОТКРЫТЬ КАТАЛОГ",
@@ -328,7 +344,7 @@ uz:{
 heroEyebrow:"YANGI TO‘PLAM",heroTitle:"SENING USLUBING.<br>SENING QOIDALARING.",heroButton:"KATALOGNI KO‘RISH ↗",
 chooseStyle:"O‘ZINGGA MOSINI TANLA",categories:"Bo‘limlar",outerwear:"USTKI KIYIMLAR ↗",tshirts:"FUTBOLKALAR VA POLO ↗",trousers:"SHIMLAR VA JINSILAR ↗",shoes:"POYABZALLAR ↗",accessories:"AKSESSUARLAR ↗",looks:"Looklar",
 newArrivals:"YANGI KELGANLAR",newProducts:"Yangi mahsulotlar",allProducts:"BARCHA MAHSULOTLAR",editorialTitle:"O‘ZINGGA<br>XOS KIYIN.",seeLooks:"LOOKLARNI KO‘RISH ↗",ourStyle:"BIZNING USLUB",yourStyle:"Sening uslubing. Sening qoidalaring.",brandDescription:"XEVEN WEAR — o‘z uslubini tanlaydiganlar uchun kiyimlar.",
-searchLabel:"Qidirish",cartLabel:"Savatcha",themeDark:"Qorong‘i fonni yoqish",themeLight:"Yorug‘ fonni yoqish",currency:"so‘m",customerFallback:"Xaridor",greetingWithName:"Salom, {name}!",supportAriaLabel:"XEVEN WEAR’ga Telegram orqali yozish",closeLabel:"Yopish",imageViewerLabel:"Rasmni ko‘rish",closeImageLabel:"Rasmni yopish",heroImageAlt:"Modelsiz erkaklar streetwear obrazi",outerwearImageAlt:"Erkaklar ustki kiyimi",tshirtsImageAlt:"Erkaklar futbolkalari",trousersImageAlt:"Erkaklar shimlari",shoesImageAlt:"Erkaklar poyabzali va krossovkalari",accessoriesImageAlt:"Erkaklar aksessuarlari va soatlari",looksCategoryImageAlt:"Erkaklar obrazlari va to‘plamlari",sportImageAlt:"Erkaklar sport kiyimlari to‘plami",classicImageAlt:"Erkaklar klassik kiyimlari to‘plami",classicLookImageAlt:"Erkaklar klassik looki: kurtka, ko‘ylak va botinkalar",oversizeImageAlt:"Erkaklar oversize looki: xudi, jinsi va krossovkalar",sportLookImageAlt:"Erkaklar sport to‘plami: xudi, shim va krossovkalar",
+searchLabel:"Qidirish",cartLabel:"Savatcha",themeDark:"Qorong‘i fonni yoqish",themeLight:"Yorug‘ fonni yoqish",backgroundButton:"Fon",themeSettingsLabel:"Fon turini tanlash",themeMenuTitle:"Fon",themeSystem:"Tizim",themeSystemNote:"Yorug‘ mavzu",themeDarkOption:"Qorong‘i",themeDarkNote:"To‘q kulrang fon",currency:"so‘m",customerFallback:"Xaridor",greetingWithName:"Salom, {name}!",supportAriaLabel:"XEVEN WEAR’ga Telegram orqali yozish",closeLabel:"Yopish",imageViewerLabel:"Rasmni ko‘rish",closeImageLabel:"Rasmni yopish",heroImageAlt:"Modelsiz erkaklar streetwear obrazi",outerwearImageAlt:"Erkaklar ustki kiyimi",tshirtsImageAlt:"Erkaklar futbolkalari",trousersImageAlt:"Erkaklar shimlari",shoesImageAlt:"Erkaklar poyabzali va krossovkalari",accessoriesImageAlt:"Erkaklar aksessuarlari va soatlari",looksCategoryImageAlt:"Erkaklar obrazlari va to‘plamlari",sportImageAlt:"Erkaklar sport kiyimlari to‘plami",classicImageAlt:"Erkaklar klassik kiyimlari to‘plami",classicLookImageAlt:"Erkaklar klassik looki: kurtka, ko‘ylak va botinkalar",oversizeImageAlt:"Erkaklar oversize looki: xudi, jinsi va krossovkalar",sportLookImageAlt:"Erkaklar sport to‘plami: xudi, shim va krossovkalar",
 catalog:"Katalog",catalogDescription:"O‘zingga mos kiyimlarni tanla.",searchPlaceholder:"Mahsulotlarni qidirish...",productsHeading:"Mahsulotlar",back:"Bo‘limlarga qaytish",
 looksDescription:"Uslubni tanla va mos mahsulotlarni ko‘r.",classicLook:"Classic look ↗",oversizeLook:"Oversize look ↗",sportLook:"Sport look ↗",
 favorites:"Sevimlilar.",favEmptyTitle:"Hozircha bu yer bo‘sh",favEmptyText:"Yoqtirgan kiyimlaringni saqlash uchun yurakcha belgisini bos.",openCatalog:"KATALOGNI OCHISH",
@@ -569,33 +585,50 @@ window.addEventListener("pagehide",saveCart);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")saveCart()});
 function t(key){return paymentTranslations[lang]?.[key]||translations[lang][key]||key}
 function loadTheme(){
- try{return localStorage.getItem(THEME_STORAGE_KEY)==="dark"?"dark":"light"}
- catch(error){console.warn("Unable to read theme preference",error);return "light"}
+ try{return localStorage.getItem(THEME_STORAGE_KEY)==="dark"?"dark":"system"}
+ catch(error){console.warn("Unable to read theme preference",error);return "system"}
 }
 function applyTheme(){
  const dark=theme==="dark",color=dark?"#252628":"#f7f7f5";
  document.documentElement.dataset.theme=theme;
  document.querySelector('meta[name="theme-color"]').content=color;
  const button=document.getElementById("themeButton");
- const label=t(dark?"themeLight":"themeDark");
- button.textContent=dark?"☀":"☾";
- button.setAttribute("aria-label",label);
- button.setAttribute("aria-pressed",String(dark));
- button.title=label;
+ button.setAttribute("aria-label",t("themeSettingsLabel"));
+ button.querySelector(".theme-button-icon").textContent=dark?"☾":"☼";
+ document.getElementById("systemThemeOption").classList.toggle("selected",!dark);
+ document.getElementById("systemThemeOption").setAttribute("aria-pressed",String(!dark));
+ document.getElementById("darkThemeOption").classList.toggle("selected",dark);
+ document.getElementById("darkThemeOption").setAttribute("aria-pressed",String(dark));
  try{
   window.Telegram?.WebApp?.setHeaderColor(color);
   window.Telegram?.WebApp?.setBackgroundColor(color);
  }catch(error){console.warn("Unable to sync Telegram theme colors",error)}
 }
-function toggleTheme(){
- theme=theme==="dark"?"light":"dark";
+function toggleThemeMenu(){
+ const menu=document.getElementById("themeMenu");
+ menu.hidden=!menu.hidden;
+ document.getElementById("themeButton").setAttribute("aria-expanded",String(!menu.hidden));
+}
+function closeThemeMenu(){
+ document.getElementById("themeMenu").hidden=true;
+ document.getElementById("themeButton").setAttribute("aria-expanded","false");
+}
+function setTheme(mode){
+ if(mode!=="system"&&mode!=="dark")return;
+ theme=mode;
  try{localStorage.setItem(THEME_STORAGE_KEY,theme)}
  catch(error){console.warn("Unable to save theme preference",error)}
  applyTheme();
+ closeThemeMenu();
  renderProducts();
  if(activeLook)renderLookProducts();
  if(selectedProduct)renderColors();
 }
+document.addEventListener("click",event=>{
+ const menu=document.getElementById("themeMenu"),button=document.getElementById("themeButton");
+ if(menu.hidden||menu.contains(event.target)||button.contains(event.target))return;
+ closeThemeMenu();
+});
 function productName(p){return t(p.nameKey)}
 function productColors(p){return p.colors&&p.colors.length?p.colors:[{key:"default",label:null,image:p.image}]}
 function productPrice(p,colorIndex=0){const color=productColors(p)[colorIndex];return color&&color.price!==undefined?color.price:p.price}
@@ -732,6 +765,7 @@ function openImageViewer(id,colorIndex=0){
 function closeImageViewer(){document.getElementById("imageViewer").classList.remove("open")}
 document.addEventListener("keydown",event=>{
  if(event.key!=="Escape")return;
+ if(!document.getElementById("themeMenu").hidden){closeThemeMenu();return}
  if(document.getElementById("imageViewer").classList.contains("open"))closeImageViewer();
  else if(document.getElementById("paymentInstructionsModal").classList.contains("open"))closePaymentInstructions();
  else if(document.getElementById("productModal").classList.contains("open"))closeModal();
