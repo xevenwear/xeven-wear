@@ -112,7 +112,9 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .payment-details{display:grid;gap:10px;background:#f6f6f4;border-radius:14px;padding:14px;margin:14px 0}
 .payment-detail{display:flex;justify-content:space-between;gap:12px;font-size:12px}
 .payment-detail b{text-align:right;overflow-wrap:anywhere}
-.payment-total{font-size:16px;font-weight:800}
+.payment-detail-copy{align-items:center}
+.copy-button{flex:none;border:0;border-radius:9px;background:white;padding:8px 10px;font:inherit;font-size:10px;font-weight:800}
+.payment-total{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:16px;font-weight:800}
 .payment-warning{background:#fff7e6;border-radius:12px;padding:12px;color:#664b00}
 .profile-link{width:100%;border:0;border-radius:14px;background:#111;color:#fff;padding:15px 16px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;text-align:left;text-decoration:none;transition:opacity .2s}
 .profile-link:hover{opacity:.85}
@@ -276,9 +278,9 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
     <div class="payment-details">
       <div class="payment-detail"><span data-i18n="transferBank">Банк</span><b id="transferBank"></b></div>
       <div class="payment-detail"><span data-i18n="transferRecipient">Получатель</span><b id="transferRecipient"></b></div>
-      <div class="payment-detail"><span data-i18n="transferCard">Номер карты</span><b id="transferCard"></b></div>
+      <div class="payment-detail payment-detail-copy"><span data-i18n="transferCard">Номер карты</span><b id="transferCard"></b><button type="button" class="copy-button" onclick="copyTransferValue('card',this)" data-i18n="copyValue">КОПИРОВАТЬ</button></div>
     </div>
-    <p class="payment-total"><span data-i18n="transferAmountLabel">К переводу сейчас</span>: <span id="transferAmount"></span></p>
+    <div class="payment-total"><span><span data-i18n="transferAmountLabel">К переводу сейчас</span>: <span id="transferAmount"></span></span><button type="button" class="copy-button" onclick="copyTransferValue('amount',this)" data-i18n="copyValue">КОПИРОВАТЬ</button></div>
     <p class="description" id="transferBreakdown"></p>
     <p class="description" id="transferRemainder"></p>
     <p class="description payment-warning" data-i18n="transferSafety">Никому не отправляй код из SMS или банковского приложения. Вводи его только в приложении своего банка.</p>
@@ -343,6 +345,7 @@ checkoutNote:"Половина заказа — предоплата; хвост
 prepaymentBreakdown:"50% от {total} = {deposit}",
 transferTitle:"Предоплата заказа",transferInstructions:"Переведи точную сумму через приложение банка. Заказ будет подтверждён после проверки поступления.",
 transferBank:"Банк",transferRecipient:"Получатель",transferCard:"Номер карты",transferAmountLabel:"К переводу сейчас",
+copyValue:"КОПИРОВАТЬ",copied:"СКОПИРОВАНО",copyFailed:"НЕ СКОПИРОВАНО",
 transferSafety:"Никому не отправляй код из SMS или банковского приложения. Вводи его только в приложении своего банка.",transferClose:"ПОНЯТНО",orderReference:"Номер заказа",
 transferBreakdown:"50% от {total} — это {deposit}; дополнительно переведи хвост для поиска: +{tail} сум. Хвост не уменьшает остаток.",
 ownerPayments:"Проверка предоплат",ownerPaymentWarning:"Подтверждай перевод только после проверки поступления в банковском приложении.",refreshOwnerPayments:"Обновить список",
@@ -365,6 +368,7 @@ checkoutNote:"Buyurtmaning yarmi oldindan to‘lanadi; o‘tkazma uchun qo‘shi
 prepaymentBreakdown:"Buyurtma summasining 50%: {deposit} / {total}",
 transferTitle:"Buyurtma uchun oldindan to‘lov",transferInstructions:"Bank ilovasi orqali aniq summani o‘tkazing. Buyurtma pul kelib tushgani tekshirilgach tasdiqlanadi.",
 transferBank:"Bank",transferRecipient:"Qabul qiluvchi",transferCard:"Karta raqami",transferAmountLabel:"Hozir o‘tkaziladigan summa",
+copyValue:"NUSXA OLISH",copied:"NUSXA OLINDI",copyFailed:"NUSXA OLMADI",
 transferSafety:"SMS yoki bank ilovasidagi kodni hech kimga yubormang. Kodni faqat o‘z bankingiz ilovasida kiriting.",transferClose:"TUSHUNDIM",orderReference:"Buyurtma raqami",
 transferBreakdown:"{total} summaning 50%: {deposit}; o‘tkazmani aniqlash uchun qo‘shimcha: +{tail} so‘m. Bu qo‘shimcha qoldiqni kamaytirmaydi.",
 ownerPayments:"Oldindan to‘lovlarni tekshirish",ownerPaymentWarning:"O‘tkazmani faqat bank ilovasida pul tushganini tekshirgach tasdiqlang.",refreshOwnerPayments:"Ro‘yxatni yangilash",
@@ -701,6 +705,36 @@ function showPage(id){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 function closePaymentInstructions(){document.getElementById("paymentInstructionsModal").classList.remove("open");currentTransferResult=null}
+function legacyCopyText(value){
+ const input=document.createElement("textarea");
+ input.value=value;
+ input.setAttribute("readonly","");
+ input.style.position="fixed";
+ input.style.opacity="0";
+ document.body.appendChild(input);
+ input.select();
+ let copied=false;
+ try{copied=document.execCommand("copy")}finally{input.remove()}
+ if(!copied)throw new Error("Clipboard copy was rejected.");
+}
+async function copyValue(value,button){
+ const text=String(value).replace(/\D/g,"");
+ const label=button.textContent;
+ try{
+  if(navigator.clipboard&&window.isSecureContext){
+   try{await navigator.clipboard.writeText(text)}catch{legacyCopyText(text)}
+  }else legacyCopyText(text);
+  button.textContent=t("copied");
+ }catch(error){
+  console.error("Unable to copy payment value",error);
+  button.textContent=t("copyFailed");
+ }
+ setTimeout(()=>{if(button.isConnected)button.textContent=label},1800);
+}
+function copyTransferValue(kind,button){
+ if(!currentTransferResult)return;
+ copyValue(kind==="card"?currentTransferResult.cardNumber:currentTransferResult.transferAmount,button);
+}
 function showPaymentInstructions(result){
  currentTransferResult=result;
  document.getElementById("transferOrderId").textContent=result.orderId;
@@ -791,11 +825,11 @@ function renderMyOrders(orders){
     const heading=document.createElement("b");
     heading.textContent=t("paymentDetailsTitle");
     details.appendChild(heading);
-    for(const [label,value] of [
-     [t("transferBank"),order.payment_details.bank],
-     [t("transferRecipient"),order.payment_details.cardholder],
-     [t("transferCard"),order.payment_details.cardNumber],
-     [dueLabel,money(amountDue)]
+    for(const [label,value,copyText] of [
+     [t("transferBank"),order.payment_details.bank,null],
+     [t("transferRecipient"),order.payment_details.cardholder,null],
+     [t("transferCard"),order.payment_details.cardNumber,order.payment_details.cardNumber],
+     [dueLabel,money(amountDue),amountDue]
     ]){
      const row=document.createElement("div");
      row.className="payment-detail";
@@ -804,6 +838,15 @@ function renderMyOrders(orders){
      const valueNode=document.createElement("b");
      valueNode.textContent=value;
      row.append(labelNode,valueNode);
+     if(copyText!==null){
+      row.classList.add("payment-detail-copy");
+      const copyButton=document.createElement("button");
+      copyButton.type="button";
+      copyButton.className="copy-button";
+      copyButton.textContent=t("copyValue");
+      copyButton.addEventListener("click",()=>copyValue(copyText,copyButton));
+      row.appendChild(copyButton);
+     }
      details.appendChild(row);
     }
     card.appendChild(details);
