@@ -126,6 +126,14 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .manual-order-card h4{margin:0 0 8px;font-size:12px}
 .manual-order-card p{margin:5px 0;font-size:11px;line-height:1.5}
 .manual-order-card button{margin-top:8px}
+.manual-order-card{position:relative}
+.manual-order-card h4{padding-right:42px}
+.order-trash{position:absolute;top:9px;right:9px;width:34px;height:34px;margin:0!important;padding:0;border:1px solid var(--line);border-radius:50%;background:var(--surface-soft);color:var(--text);display:grid;place-items:center}
+.order-trash svg,.deleted-orders-button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.order-trash.danger{color:#d64545}
+.deleted-orders-button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:20px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--text);font-size:12px;font-weight:800;text-align:left}
+.deleted-orders-button .left{display:flex;align-items:center;gap:10px}
+.deleted-count{min-width:26px;height:26px;padding:0 8px;border-radius:13px;background:var(--accent);color:var(--accent-text);display:grid;place-items:center;font-size:11px}
 .owner-order-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:14px 0 10px}
 .owner-order-tab{min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 5px;border:1px solid var(--line);border-radius:12px;background:var(--surface-soft);color:var(--gray);font-size:10px;font-weight:800}
 .owner-order-tab.active{border-color:var(--accent);background:var(--accent);color:var(--accent-text)}
@@ -276,6 +284,14 @@ footer{text-align:center;color:var(--gray);font-size:9px;letter-spacing:2px;padd
   <div class="page-title" data-i18n="profile">Профиль.</div>
   <div class="profile-box"><div class="eyebrow muted">XEVEN WEAR</div><h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2><p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p><div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><button type="button" class="muted" style="border:0;background:none;font:inherit;text-decoration:underline;padding:0" onclick="loadMyOrders()" data-i18n="refreshMyOrders">Обновить</button></div><div id="myOrdersList"></div><a class="profile-link" href="https://t.me/Xeven_AD" target="_blank" rel="noopener noreferrer" aria-label="Написать XEVEN WEAR в Telegram" data-i18n-aria-label="supportAriaLabel"><span class="profile-link-copy"><span class="profile-link-title" data-i18n="supportCta">Написать нам в Telegram</span><span class="profile-link-handle" data-i18n="supportHandle">@Xeven_AD · поддержка XEVEN WEAR</span></span><span class="profile-link-arrow">↗</span></a></div>
   <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div class="owner-order-tabs" role="tablist" data-i18n-aria-label="myOrders"><button type="button" id="owner-expected-tab" class="owner-order-tab active" role="tab" aria-selected="true" aria-controls="ownerManualOrders" data-owner-tab="expected" onclick="setOwnerOrdersTab('expected')"><span data-i18n="ownerExpected">Ожидаемые</span><b class="owner-order-tab-count" id="ownerExpectedCount">0</b></button><button type="button" id="owner-confirmed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="confirmed" onclick="setOwnerOrdersTab('confirmed')"><span data-i18n="ownerConfirmed">Подтверждённые</span><b class="owner-order-tab-count" id="ownerConfirmedCount">0</b></button><button type="button" id="owner-completed-tab" class="owner-order-tab" role="tab" aria-selected="false" aria-controls="ownerManualOrders" data-owner-tab="completed" onclick="setOwnerOrdersTab('completed')"><span data-i18n="ownerCompleted">Завершённые</span><b class="owner-order-tab-count" id="ownerCompletedCount">0</b></button></div><label class="owner-search"><span data-i18n="ownerSearchLabel">Найти по сумме, покупателю или Telegram ID</span><input id="ownerOrderSearch" type="search" oninput="filterOwnerManualOrders()" data-i18n-placeholder="ownerSearchPlaceholder" placeholder="Например, 300047"></label><div id="ownerManualOrders" role="tabpanel" aria-labelledby="owner-expected-tab"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
+  <button type="button" class="deleted-orders-button" id="ownerDeletedButton" style="display:none" onclick="openDeletedOrders()"><span class="left"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg><span data-i18n="deletedOrdersTitle">Удалённые</span></span><b class="deleted-count" id="deletedOrdersCount">0</b></button>
+  <footer>XEVEN WEAR</footer>
+</section>
+
+<section class="page" id="deleted-orders">
+  <div class="catalog-heading"><button class="back-button" onclick="showPage('profile')">‹</button><div class="page-title" data-i18n="deletedOrdersTitle">Удалённые</div></div>
+  <p class="description" data-i18n="deletedOrdersNote">Удалённые заказы скрыты на этом устройстве. Их можно вернуть или удалить навсегда.</p>
+  <div id="deletedOrdersList"></div>
   <footer>XEVEN WEAR</footer>
 </section>
 </main>
@@ -686,6 +702,7 @@ function applyLanguage(){
  updateGreeting();
  buildFilters();renderProducts();updateCart();
  if(activeLook)renderLookProducts();
+ renderDeletedOrders();
  if(selectedProduct){document.getElementById("modalName").textContent=productName(selectedProduct);renderColors()}
  if(currentTransferResult&&document.getElementById("paymentInstructionsModal").classList.contains("open"))showPaymentInstructions(currentTransferResult);
  if(document.getElementById("profile").classList.contains("active")){
@@ -820,8 +837,8 @@ function changeCartQuantity(index,amount){cart[index].quantity+=amount;if(cart[i
 function removeCart(index){cart.splice(index,1);updateCart()}
 function showPage(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
- document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.page===(id==="look-detail"?"outfits":id)));
- if(id==="cart")updateCart();if(id==="favorites")renderProducts();if(id==="profile"){loadMyOrders();loadOwnerManualOrders()}
+ document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.page===(id==="look-detail"?"outfits":id==="deleted-orders"?"profile":id)));
+ if(id==="cart")updateCart();if(id==="favorites")renderProducts();if(id==="profile"){loadMyOrders();loadOwnerManualOrders()}if(id==="deleted-orders")renderDeletedOrders();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 function closePaymentInstructions(){document.getElementById("paymentInstructionsModal").classList.remove("open");currentTransferResult=null}
@@ -993,6 +1010,12 @@ async function ownerManualOrderRequest(action,orderId){
 }
 function renderOwnerManualOrders(orders){
  ownerManualOrders=Array.isArray(orders)?orders:[];
+ let storeChanged=false;
+ for(const order of ownerManualOrders){
+  if(order&&ownerDeletedStore.deleted[order.id]){ownerDeletedStore.deleted[order.id].order=order;storeChanged=true}
+ }
+ if(storeChanged)saveOwnerDeletedStore();
+ updateDeletedCount();
  updateOwnerOrderTabs();
  if(ownerOrdersExpiryTimer!==null)clearTimeout(ownerOrdersExpiryTimer);
  ownerOrdersExpiryTimer=null;
@@ -1006,7 +1029,7 @@ function renderOwnerManualOrders(orders){
 }
 function updateOwnerOrderTabs(){
  const tabCounts={expected:0,confirmed:0,completed:0};
- for(const order of ownerManualOrders){
+ for(const order of ownerVisibleOrders()){
   for(const [tab,statuses] of Object.entries(OWNER_ORDER_TABS)){
    if(statuses.includes(order.status))tabCounts[tab]++;
   }
@@ -1031,7 +1054,7 @@ function filterOwnerManualOrders(){
  const container=document.getElementById("ownerManualOrders");
  container.textContent="";
  const statuses=OWNER_ORDER_TABS[activeOwnerOrdersTab];
- const tabOrders=ownerManualOrders.filter(order=>statuses.includes(order.status));
+ const tabOrders=ownerVisibleOrders().filter(order=>statuses.includes(order.status));
  if(!tabOrders.length){container.textContent=t(({expected:"noExpectedOrders",confirmed:"noConfirmedOrders",completed:"noCompletedOrders"})[activeOwnerOrdersTab]);return}
  const query=document.getElementById("ownerOrderSearch").value.trim().toLocaleLowerCase();
  const queryDigits=query.replace(/\D/g,"");
@@ -1046,12 +1069,22 @@ function filterOwnerManualOrders(){
   return searchText.includes(query)||amountMatch;
  });
  if(!orders.length){container.textContent=t("ownerSearchEmpty");return}
- for(const order of orders){
+ for(const order of orders)container.appendChild(buildOwnerOrderCard(order,false));
+}
+function buildOwnerOrderCard(order,isDeleted,deletedAt){
   const card=document.createElement("div");
   card.className="manual-order-card";
   const title=document.createElement("h4");
   title.textContent=`${order.customer_first_name||t("customerFallback")} · ${order.id.slice(0,8)}`;
   card.appendChild(title);
+  const trash=document.createElement("button");
+  trash.type="button";
+  trash.className=isDeleted?"order-trash danger":"order-trash";
+  trash.innerHTML=TRASH_ICON;
+  trash.setAttribute("aria-label",t(isDeleted?"deleteForever":"deleteOrder"));
+  trash.title=t(isDeleted?"deleteForever":"deleteOrder");
+  trash.addEventListener("click",()=>isDeleted?purgeOwnerOrder(order.id):deleteOwnerOrder(order.id));
+  card.appendChild(trash);
   const status=document.createElement("p");
   status.textContent=t(({awaiting_transfer:"awaitingTransfer",partially_paid:"partiallyPaid",paid:"orderStatusPaid"})[order.status]);
   card.appendChild(status);
@@ -1081,7 +1114,7 @@ function filterOwnerManualOrders(){
    return [localized.name,localized.color,localized.sizeLabel,`${item.quantity} ${t("quantityUnit")}`].filter(Boolean).join(" · ");
   }).join("\n");
   card.appendChild(itemSummary);
-  if(order.status!=="paid"){
+  if(order.status!=="paid"&&!isDeleted){
    const button=document.createElement("button");
    button.className="primary";
    button.style.width="100%";
@@ -1090,8 +1123,22 @@ function filterOwnerManualOrders(){
    button.addEventListener("click",()=>confirmOwnerManualOrder(order.id,action));
    card.appendChild(button);
   }
-  container.appendChild(card);
- }
+  if(isDeleted){
+   if(Number.isFinite(Number(deletedAt))&&Number(deletedAt)>0){
+    const deleted=document.createElement("p");
+    deleted.className="description";
+    deleted.textContent=`${t("deletedAtLabel")}: ${new Date(Number(deletedAt)).toLocaleString(lang==="ru"?"ru-RU":"uz-UZ")}`;
+    card.appendChild(deleted);
+   }
+   const restore=document.createElement("button");
+   restore.type="button";
+   restore.className="primary";
+   restore.style.width="100%";
+   restore.textContent=t("restoreOrder");
+   restore.addEventListener("click",()=>restoreOwnerOrder(order.id));
+   card.appendChild(restore);
+  }
+  return card;
 }
 async function loadOwnerManualOrders(){
  const panel=document.getElementById("ownerOrdersPanel");
@@ -1101,10 +1148,12 @@ async function loadOwnerManualOrders(){
   const result=await ownerManualOrderRequest("list");
   isOwner=true;
   panel.style.display="block";
+  document.getElementById("ownerDeletedButton").style.display="flex";
+  updateDeletedCount();
   renderProducts();
   renderOwnerManualOrders(result.orders||[]);
  }catch(error){
-  if(error.status===401||error.status===403){isOwner=false;panel.style.display="none";if(ownerOrdersExpiryTimer!==null)clearTimeout(ownerOrdersExpiryTimer);ownerOrdersExpiryTimer=null;return}
+  if(error.status===401||error.status===403){isOwner=false;panel.style.display="none";document.getElementById("ownerDeletedButton").style.display="none";if(ownerOrdersExpiryTimer!==null)clearTimeout(ownerOrdersExpiryTimer);ownerOrdersExpiryTimer=null;return}
   console.error("Unable to load manual orders",error);
   if(panel.style.display!=="none")document.getElementById("ownerManualOrders").textContent=t("ownerOrderFailed");
  }
@@ -1169,6 +1218,86 @@ async function checkout(){
  }finally{
   checkoutPending=false;button.disabled=false;
  }
+}
+/* Удаление заказов: скрытие на этом устройстве + раздел «Удалённые» */
+const TRASH_ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>';
+Object.assign(translations.ru,{
+ deleteOrder:"Удалить заказ",deleteForever:"Удалить навсегда",restoreOrder:"ВЕРНУТЬ ЗАКАЗ",
+ deletedOrdersTitle:"Удалённые",deletedOrdersEmpty:"Удалённых заказов нет.",
+ deletedOrdersNote:"Удалённые заказы скрыты на этом устройстве. Их можно вернуть или удалить навсегда.",
+ deletedAtLabel:"Удалён",
+ deleteOrderPrompt:"Удалить заказ? Он попадёт в раздел «Удалённые», оттуда его можно вернуть.",
+ purgeOrderPrompt:"Удалить заказ навсегда? Вернуть его будет нельзя."
+});
+Object.assign(translations.uz,{
+ deleteOrder:"Buyurtmani o‘chirish",deleteForever:"Butunlay o‘chirish",restoreOrder:"BUYURTMANI QAYTARISH",
+ deletedOrdersTitle:"O‘chirilganlar",deletedOrdersEmpty:"O‘chirilgan buyurtmalar yo‘q.",
+ deletedOrdersNote:"O‘chirilgan buyurtmalar faqat shu qurilmada yashirilgan. Ularni qaytarish yoki butunlay o‘chirish mumkin.",
+ deletedAtLabel:"O‘chirilgan",
+ deleteOrderPrompt:"Buyurtmani o‘chirasizmi? U «O‘chirilganlar» bo‘limiga tushadi, u yerdan qaytarish mumkin.",
+ purgeOrderPrompt:"Buyurtmani butunlay o‘chirasizmi? Uni qaytarib bo‘lmaydi."
+});
+const OWNER_DELETED_KEY="xevenwear-owner-deleted-v1";
+function loadOwnerDeletedStore(){
+ try{
+  const raw=JSON.parse(localStorage.getItem(OWNER_DELETED_KEY)||"null");
+  if(raw&&typeof raw==="object"){
+   return {
+    deleted:raw.deleted&&typeof raw.deleted==="object"&&!Array.isArray(raw.deleted)?raw.deleted:{},
+    purged:Array.isArray(raw.purged)?raw.purged:[]
+   };
+  }
+ }catch(error){console.warn("Unable to read deleted orders",error)}
+ return {deleted:{},purged:[]};
+}
+let ownerDeletedStore=loadOwnerDeletedStore();
+function saveOwnerDeletedStore(){
+ try{localStorage.setItem(OWNER_DELETED_KEY,JSON.stringify(ownerDeletedStore))}
+ catch(error){console.warn("Unable to save deleted orders",error)}
+}
+function isOwnerOrderHidden(id){
+ return Object.prototype.hasOwnProperty.call(ownerDeletedStore.deleted,id)||ownerDeletedStore.purged.includes(id);
+}
+function ownerVisibleOrders(){return ownerManualOrders.filter(order=>order&&!isOwnerOrderHidden(order.id))}
+function updateDeletedCount(){
+ const counter=document.getElementById("deletedOrdersCount");
+ if(counter)counter.textContent=String(Object.keys(ownerDeletedStore.deleted).length);
+}
+function deleteOwnerOrder(id){
+ const order=ownerManualOrders.find(entry=>entry&&entry.id===id);
+ if(!order||!window.confirm(t("deleteOrderPrompt")))return;
+ ownerDeletedStore.deleted[id]={deletedAt:Date.now(),order};
+ saveOwnerDeletedStore();
+ updateDeletedCount();updateOwnerOrderTabs();filterOwnerManualOrders();
+}
+function restoreOwnerOrder(id){
+ delete ownerDeletedStore.deleted[id];
+ saveOwnerDeletedStore();
+ updateDeletedCount();updateOwnerOrderTabs();filterOwnerManualOrders();renderDeletedOrders();
+}
+function purgeOwnerOrder(id){
+ if(!window.confirm(t("purgeOrderPrompt")))return;
+ delete ownerDeletedStore.deleted[id];
+ if(!ownerDeletedStore.purged.includes(id))ownerDeletedStore.purged.push(id);
+ saveOwnerDeletedStore();
+ updateDeletedCount();renderDeletedOrders();
+}
+function openDeletedOrders(){showPage("deleted-orders")}
+function renderDeletedOrders(){
+ const list=document.getElementById("deletedOrdersList");
+ if(!list)return;
+ list.textContent="";
+ const entries=Object.entries(ownerDeletedStore.deleted)
+  .filter(([,entry])=>entry&&entry.order)
+  .sort((left,right)=>(Number(right[1].deletedAt)||0)-(Number(left[1].deletedAt)||0));
+ if(!entries.length){
+  const empty=document.createElement("p");
+  empty.className="description";
+  empty.textContent=t("deletedOrdersEmpty");
+  list.appendChild(empty);
+  return;
+ }
+ for(const [,entry] of entries)list.appendChild(buildOwnerOrderCard(entry.order,true,entry.deletedAt));
 }
 /* Единый фон у фото луков: фон, нарисованный внутри самого PNG, заменяется на цвет карточки */
 const OUTFIT_BG_RGB=[124,124,124];
