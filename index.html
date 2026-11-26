@@ -119,6 +119,8 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .profile-link{width:100%;border:0;border-radius:14px;background:#111;color:#fff;padding:15px 16px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;text-align:left;text-decoration:none;transition:opacity .2s}
 .profile-link:hover{opacity:.85}
 .profile-link-copy{display:flex;flex-direction:column;gap:4px}
+.owner-search{display:block;margin:12px 0;font-size:11px;font-weight:700}
+.owner-search input{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid var(--line);border-radius:12px;background:white}
 .profile-link-title{font-size:12px;font-weight:800}
 .profile-link-handle{font-size:10px;color:#c5c5c5}
 .profile-link-arrow{font-size:18px}
@@ -245,7 +247,7 @@ footer{text-align:center;color:#999;font-size:9px;letter-spacing:2px;padding:35p
 <section class="page" id="profile">
   <div class="page-title" data-i18n="profile">Профиль.</div>
   <div class="profile-box"><div class="eyebrow muted">XEVEN WEAR</div><h2 id="userName" data-i18n="welcome">Твой стиль начинается здесь.</h2><p class="description" data-i18n="personalAccount">Личный кабинет покупателя</p><div class="profile-line"><span data-i18n="myOrders">Мои заказы</span><button type="button" class="muted" style="border:0;background:none;font:inherit;text-decoration:underline;padding:0" onclick="loadMyOrders()" data-i18n="refreshMyOrders">Обновить</button></div><div id="myOrdersList"></div><a class="profile-link" href="https://t.me/Xeven_AD" target="_blank" rel="noopener noreferrer" aria-label="Написать XEVEN WEAR в Telegram"><span class="profile-link-copy"><span class="profile-link-title" data-i18n="supportCta">Написать нам в Telegram</span><span class="profile-link-handle" data-i18n="supportHandle">@Xeven_AD · поддержка XEVEN WEAR</span></span><span class="profile-link-arrow">↗</span></a></div>
-  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><div id="ownerManualOrders"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
+  <div class="profile-box" id="ownerOrdersPanel" style="display:none"><h3 data-i18n="ownerPayments">Проверка предоплат</h3><p class="description" data-i18n="ownerPaymentWarning">Подтверждай перевод только после проверки поступления в банковском приложении.</p><button class="primary" style="width:100%" onclick="loadOwnerManualOrders()" data-i18n="refreshOwnerPayments">Обновить список</button><label class="owner-search"><span data-i18n="ownerSearchLabel">Найти по сумме, покупателю или Telegram ID</span><input id="ownerOrderSearch" type="search" oninput="filterOwnerManualOrders()" data-i18n-placeholder="ownerSearchPlaceholder" placeholder="Например, 300047"></label><div id="ownerManualOrders"></div><h4 data-i18n="ownerTestTitle">Тестовый товар</h4><p class="description" data-i18n="ownerTestWarning">Товар за 2 000 сум доступен только владельцу и нужен для проверки оформления.</p><button class="primary" style="width:100%" onclick="addTestProductToCart()" data-i18n="ownerTestButton">Добавить тестовый товар в корзину</button></div>
   <footer>XEVEN WEAR</footer>
 </section>
 </main>
@@ -349,12 +351,14 @@ copyValue:"КОПИРОВАТЬ",copied:"СКОПИРОВАНО",copyFailed:"Н�
 transferSafety:"Никому не отправляй код из SMS или банковского приложения. Вводи его только в приложении своего банка.",transferClose:"ПОНЯТНО",orderReference:"Номер заказа",
 transferBreakdown:"50% от {total} — это {deposit}; дополнительно переведи хвост для поиска: +{tail} сум. Хвост не уменьшает остаток.",
 ownerPayments:"Проверка предоплат",ownerPaymentWarning:"Подтверждай перевод только после проверки поступления в банковском приложении.",refreshOwnerPayments:"Обновить список",
+ownerSearchLabel:"Найти по сумме, покупателю или Telegram ID",ownerSearchPlaceholder:"Например, 300047",ownerSearchEmpty:"Ничего не найдено.",orderCreatedAt:"Создан",telegramIdLabel:"Telegram ID",
+ownerDepositTail:"Предоплата: {deposit} + хвост {tail}",
 noOwnerOrders:"Нет заказов, ожидающих ручной проверки.",awaitingTransfer:"Ожидает предоплату",partiallyPaid:"Предоплата подтверждена",
 orderTotal:"Сумма заказа",transferDue:"К переводу",orderRemainder:"Остаток",confirmDeposit:"ПРЕДОПЛАТА ПОЛУЧЕНА",
 balanceDue:"Остаток к переводу",paymentDetailsTitle:"Реквизиты для оплаты",
 confirmBalance:"ОСТАТОК ПОЛУЧЕН",confirmDepositPrompt:"Подтверди только после того, как увидишь перевод в банковском приложении.",
 confirmBalancePrompt:"Подтверди только после того, как увидишь поступление остатка.",ownerOrderFailed:"Не удалось загрузить список. Попробуй ещё раз.",
-ownerOrderUpdated:"Статус заказа обновлён.",ownerOrderUpdateFailed:"Не удалось обновить заказ. Обнови список.",
+ownerOrderUpdated:"Статус заказа обновлён.",ownerDepositConfirmed:"Предоплата отмечена. Уведомления отправлены тебе и покупателю.",ownerDepositNotifyPending:"Предоплата отмечена; отправка уведомлений повторится при восстановлении связи.",ownerOrderUpdateFailed:"Не удалось обновить заказ. Обнови список.",
 refreshMyOrders:"Обновить",orderHistoryLoading:"Загружаем заказы…",orderHistoryEmpty:"У тебя пока нет заказов.",
 orderHistoryFailed:"Не удалось загрузить заказы. Попробуй ещё раз.",orderHistoryTelegram:"Открой магазин в Telegram, чтобы посмотреть свои заказы.",
 orderStatusPending:"Ожидает оплаты",orderStatusPaid:"Оплачен",orderStatusCancelled:"Отменён",orderStatusRefunded:"Возврат оформлен",
@@ -372,12 +376,14 @@ copyValue:"NUSXA OLISH",copied:"NUSXA OLINDI",copyFailed:"NUSXA OLMADI",
 transferSafety:"SMS yoki bank ilovasidagi kodni hech kimga yubormang. Kodni faqat o‘z bankingiz ilovasida kiriting.",transferClose:"TUSHUNDIM",orderReference:"Buyurtma raqami",
 transferBreakdown:"{total} summaning 50%: {deposit}; o‘tkazmani aniqlash uchun qo‘shimcha: +{tail} so‘m. Bu qo‘shimcha qoldiqni kamaytirmaydi.",
 ownerPayments:"Oldindan to‘lovlarni tekshirish",ownerPaymentWarning:"O‘tkazmani faqat bank ilovasida pul tushganini tekshirgach tasdiqlang.",refreshOwnerPayments:"Ro‘yxatni yangilash",
+ownerSearchLabel:"Summa, xaridor yoki Telegram ID bo‘yicha qidirish",ownerSearchPlaceholder:"Masalan, 300047",ownerSearchEmpty:"Hech narsa topilmadi.",orderCreatedAt:"Yaratilgan",telegramIdLabel:"Telegram ID",
+ownerDepositTail:"Oldindan to‘lov: {deposit} + qo‘shimcha {tail}",
 noOwnerOrders:"Qo‘lda tekshiriladigan buyurtmalar yo‘q.",awaitingTransfer:"Oldindan to‘lov kutilmoqda",partiallyPaid:"Oldindan to‘lov tasdiqlandi",
 orderTotal:"Buyurtma summasi",transferDue:"O‘tkaziladigan summa",orderRemainder:"Qoldiq",confirmDeposit:"OLDINDAN TO‘LOV KELDI",
 balanceDue:"O‘tkaziladigan qoldiq",paymentDetailsTitle:"To‘lov rekvizitlari",
 confirmBalance:"QOLDIQ KELDI",confirmDepositPrompt:"Faqat bank ilovasida pul tushganini ko‘rgach tasdiqlang.",
 confirmBalancePrompt:"Faqat qoldiq tushganini ko‘rgach tasdiqlang.",ownerOrderFailed:"Ro‘yxatni yuklab bo‘lmadi. Qayta urinib ko‘ring.",
-ownerOrderUpdated:"Buyurtma holati yangilandi.",ownerOrderUpdateFailed:"Buyurtmani yangilab bo‘lmadi. Ro‘yxatni yangilang.",
+ownerOrderUpdated:"Buyurtma holati yangilandi.",ownerDepositConfirmed:"Oldindan to‘lov belgilandi. Siz va xaridorga xabar yuborildi.",ownerDepositNotifyPending:"Oldindan to‘lov belgilandi; aloqa tiklanganda xabar qayta yuboriladi.",ownerOrderUpdateFailed:"Buyurtmani yangilab bo‘lmadi. Ro‘yxatni yangilang.",
 refreshMyOrders:"Yangilash",orderHistoryLoading:"Buyurtmalar yuklanmoqda…",orderHistoryEmpty:"Hozircha buyurtmalaringiz yo‘q.",
 orderHistoryFailed:"Buyurtmalarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",orderHistoryTelegram:"Buyurtmalaringizni ko‘rish uchun do‘konni Telegram orqali oching.",
 orderStatusPending:"To‘lov kutilmoqda",orderStatusPaid:"To‘langan",orderStatusCancelled:"Bekor qilingan",orderStatusRefunded:"Pul qaytarilgan",
@@ -462,6 +468,7 @@ const API_BASE_URL="https://xevenwear-orders-api.xevenwear-orders-api.workers.de
 const CART_STORAGE_KEY="xevenwear-cart-v1";
 let lang="ru",favorites=new Set(),cart=loadCart(),selectedProduct=null,selectedSize="",selectedSizes={},selectedQuantity=1,selectedColor=0,activeLook=null,checkoutPending=false,currentTransferResult=null,isOwner=false;
 let activeFilter="all",activeCategory=null,activeSubcategory=null,activeNestedGroup=null,myOrdersExpiryTimer=null;
+let ownerManualOrders=[];
 let cartRevision=0,cartStorageReady=false,cartSaveQueue=Promise.resolve(),cartLastSavedValue=JSON.stringify(cart);
 
 function parseCart(value){
@@ -871,9 +878,26 @@ async function ownerManualOrderRequest(action,orderId){
  return result;
 }
 function renderOwnerManualOrders(orders){
+ ownerManualOrders=Array.isArray(orders)?orders:[];
+ filterOwnerManualOrders();
+}
+function filterOwnerManualOrders(){
  const container=document.getElementById("ownerManualOrders");
  container.textContent="";
- if(!orders.length){container.textContent=t("noOwnerOrders");return}
+ if(!ownerManualOrders.length){container.textContent=t("noOwnerOrders");return}
+ const query=document.getElementById("ownerOrderSearch").value.trim().toLocaleLowerCase();
+ const queryDigits=query.replace(/\D/g,"");
+ const orders=ownerManualOrders.filter(order=>{
+  if(!query)return true;
+  const searchText=[
+   order.customer_first_name,order.customer_username,order.customer_telegram_id,order.id,
+   ...(Array.isArray(order.items)?order.items.flatMap(item=>[item.name,item.color,item.sizeLabel]):[])
+  ].filter(Boolean).join(" ").toLocaleLowerCase();
+  const amountMatch=queryDigits&&[order.transfer_uzs,order.total_uzs,order.tail_uzs,order.remaining_uzs]
+   .some(value=>String(value).includes(queryDigits));
+  return searchText.includes(query)||amountMatch;
+ });
+ if(!orders.length){container.textContent=t("ownerSearchEmpty");return}
  for(const order of orders){
   const card=document.createElement("div");
   card.className="manual-order-card";
@@ -883,11 +907,18 @@ function renderOwnerManualOrders(orders){
   const status=document.createElement("p");
   status.textContent=t(order.status==="awaiting_transfer"?"awaitingTransfer":"partiallyPaid");
   card.appendChild(status);
+  const createdAt=Number(order.created_at);
+  if(Number.isFinite(createdAt)){
+   const created=document.createElement("p");
+   created.className="description";
+   created.textContent=`${t("orderCreatedAt")}: ${new Date(createdAt).toLocaleString(lang==="ru"?"ru-RU":"uz-UZ")}`;
+   card.appendChild(created);
+  }
   const amounts=document.createElement("p");
-  amounts.textContent=`${t("orderTotal")}: ${money(order.total_uzs)}\n${t("transferDue")}: ${money(order.transfer_uzs)}\n${t("orderRemainder")}: ${money(order.remaining_uzs)}`;
+  amounts.textContent=`${t("orderTotal")}: ${money(order.total_uzs)}\n${t("transferDue")}: ${money(order.transfer_uzs)}\n${t("ownerDepositTail").replace("{deposit}",money(order.deposit_uzs)).replace("{tail}",money(order.tail_uzs))}\n${t("orderRemainder")}: ${money(order.remaining_uzs)}`;
   card.appendChild(amounts);
   const customer=document.createElement("p");
-  customer.textContent=`${order.customer_username?"@"+order.customer_username:order.customer_telegram_id}`;
+  customer.textContent=`${order.customer_username?"@"+order.customer_username+" · ":""}${t("telegramIdLabel")}: ${order.customer_telegram_id}`;
   card.appendChild(customer);
   const itemSummary=document.createElement("p");
   itemSummary.textContent=order.items.map(item=>`${item.name} · ${item.color} · ${item.quantity} шт.`).join("\n");
@@ -930,8 +961,10 @@ async function confirmOwnerManualOrder(orderId,action){
  const prompt=t(action==="confirm_deposit"?"confirmDepositPrompt":"confirmBalancePrompt");
  if(!window.confirm(prompt))return;
  try{
-  await ownerManualOrderRequest(action,orderId);
-  alert(t("ownerOrderUpdated"));
+  const result=await ownerManualOrderRequest(action,orderId);
+  alert(action==="confirm_deposit"
+   ?t(result.notificationsPending?"ownerDepositNotifyPending":"ownerDepositConfirmed")
+   :t("ownerOrderUpdated"));
   await loadOwnerManualOrders();
  }catch(error){
   console.error("Unable to update manual order",error);

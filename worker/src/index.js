@@ -339,6 +339,87 @@ async function sendManualTransferNotification(env, orderId) {
   }
 }
 
+function manualDepositConfirmationText(order, items, recipient) {
+  const rows = items.map((item, index) => {
+    const sizes = htmlEscape(formatSizes(item.sizes, order.language));
+    return `${index + 1}. <b>${htmlEscape(item.name)}</b> — ${htmlEscape(item.color)}; ${sizes}; ${item.quantity} шт.`;
+  });
+  const customerName = order.customer_first_name
+    ? htmlEscape(order.customer_first_name)
+    : "не указано";
+  const username = order.customer_username
+    ? `@${htmlEscape(order.customer_username)}`
+    : "не указан";
+
+  if (recipient === "owner") {
+    return [
+      "<b>Предоплата подтверждена владельцем</b>",
+      `Заказ: <code>${htmlEscape(order.id)}</code>`,
+      `Покупатель: ${customerName} (${username})`,
+      `Telegram ID: <code>${htmlEscape(order.customer_telegram_id)}</code>`,
+      "",
+      ...rows,
+      "",
+      `Перевод: <b>${order.transfer_uzs.toLocaleString("ru-RU")} сум</b>`,
+      `Предоплата: ${order.deposit_uzs.toLocaleString("ru-RU")} сум + хвост ${order.tail_uzs} сум`,
+      `Остаток: ${order.remaining_uzs.toLocaleString("ru-RU")} сум`,
+    ].join("\n");
+  }
+
+  const isUzbek = order.language === "uz";
+  return [
+    isUzbek ? "<b>Oldindan to‘lov tasdiqlandi</b>" : "<b>Предоплата получена и подтверждена</b>",
+    `${isUzbek ? "Buyurtma" : "Заказ"}: <code>${htmlEscape(order.id)}</code>`,
+    "",
+    ...rows,
+    "",
+    `${isUzbek ? "O‘tkazma" : "Перевод"}: <b>${order.transfer_uzs.toLocaleString("ru-RU")} сум</b>`,
+    `${isUzbek ? "Qolgan summa" : "Остаток"}: <b>${order.remaining_uzs.toLocaleString("ru-RU")} сум</b>`,
+  ].join("\n");
+}
+
+async function sendManualOrderStatusNotification(env, orderId, recipient) {
+  const now = Date.now();
+  const claim = await env.DB.prepare(
+    `UPDATE manual_order_notifications SET claimed_at = ?
+     WHERE order_id = ? AND recipient = ? AND sent_at IS NULL
+       AND (claimed_at IS NULL OR claimed_at < ?)
+     RETURNING order_id`,
+  ).bind(now, orderId, recipient, now - 120000).first();
+  if (!claim) return false;
+
+  try {
+    const order = await env.DB.prepare(
+      `SELECT id, status, customer_telegram_id, customer_username, customer_first_name,
+         language, total_uzs, deposit_uzs, transfer_uzs, tail_uzs, remaining_uzs, items_json
+       FROM manual_transfer_orders WHERE id = ?`,
+    ).bind(orderId).first();
+    if (!order || !["partially_paid", "paid"].includes(order.status)) {
+      throw new Error("Confirmed manual order is no longer available.");
+    }
+    const items = safeParseJson(order.items_json);
+    if (!Array.isArray(items)) throw new Error("Stored manual order items are invalid.");
+
+    await telegramCall(env, "sendMessage", {
+      chat_id: recipient === "owner" ? env.TELEGRAM_OWNER_CHAT_ID : order.customer_telegram_id,
+      text: manualDepositConfirmationText(order, items, recipient),
+      parse_mode: "HTML",
+    });
+    await env.DB.prepare(
+      `UPDATE manual_order_notifications SET sent_at = ?, claimed_at = NULL, last_error = NULL
+       WHERE order_id = ? AND recipient = ?`,
+    ).bind(Date.now(), orderId, recipient).run();
+    return true;
+  } catch (error) {
+    await env.DB.prepare(
+      `UPDATE manual_order_notifications SET claimed_at = NULL, last_error = ?
+       WHERE order_id = ? AND recipient = ?`,
+    ).bind(String(error?.message || "Telegram notification failed").slice(0, 250), orderId, recipient).run();
+    console.error("Manual order confirmation notification failed", orderId, recipient, error);
+    return false;
+  }
+}
+
 function randomTransferTail(maxTail = 99) {
   const value = new Uint32Array(1);
   crypto.getRandomValues(value);
@@ -921,6 +1002,15 @@ async function retryNotifications(env) {
   for (const row of manualResult.results || []) {
     await sendManualTransferNotification(env, row.id);
   }
+
+  const confirmationResult = await env.DB.prepare(
+    `SELECT order_id, recipient FROM manual_order_notifications
+     WHERE sent_at IS NULL AND (claimed_at IS NULL OR claimed_at < ?)
+     ORDER BY created_at LIMIT 50`,
+  ).bind(Date.now() - 120000).all();
+  for (const row of confirmationResult.results || []) {
+    await sendManualOrderStatusNotification(env, row.order_id, row.recipient);
+  }
 }
 
 async function handleManualOrderAdmin(request, env, cors) {
@@ -976,19 +1066,43 @@ async function handleManualOrderAdmin(request, env, cors) {
   }
 
   const now = Date.now();
-  const order = body.action === "confirm_deposit"
-    ? await env.DB.prepare(
-      `UPDATE manual_transfer_orders
-       SET status = 'partially_paid', deposit_confirmed_at = ?
-       WHERE id = ? AND status = 'awaiting_transfer'
-       RETURNING id, status, remaining_uzs`,
-    ).bind(now, body.orderId).first()
-    : await env.DB.prepare(
+  if (body.action === "confirm_deposit") {
+    const results = await env.DB.batch([
+      env.DB.prepare(
+        `UPDATE manual_transfer_orders
+         SET status = 'partially_paid', deposit_confirmed_at = ?
+         WHERE id = ? AND status = 'awaiting_transfer'`,
+      ).bind(now, body.orderId),
+      ...["owner", "customer"].map((recipient) => env.DB.prepare(
+        `INSERT INTO manual_order_notifications (order_id, recipient, created_at)
+         SELECT id, ?, ? FROM manual_transfer_orders
+         WHERE id = ? AND status = 'partially_paid' AND deposit_confirmed_at = ?
+         ON CONFLICT(order_id, recipient) DO NOTHING`,
+      ).bind(recipient, now, body.orderId, now)),
+    ]);
+    if (results[0]?.meta?.changes !== 1) {
+      return json({ error: "Заказ не найден или уже изменён." }, 409, cors);
+    }
+
+    const notificationResults = await Promise.all(
+      ["owner", "customer"].map((recipient) =>
+        sendManualOrderStatusNotification(env, body.orderId, recipient)),
+    );
+    const order = await env.DB.prepare(
+      "SELECT id, status, remaining_uzs FROM manual_transfer_orders WHERE id = ?",
+    ).bind(body.orderId).first();
+    return json({
+      order,
+      notificationsPending: notificationResults.some((sent) => !sent),
+    }, 200, cors);
+  }
+
+  const order = await env.DB.prepare(
       `UPDATE manual_transfer_orders
        SET status = 'paid', balance_confirmed_at = ?
        WHERE id = ? AND status = 'partially_paid'
        RETURNING id, status, remaining_uzs`,
-    ).bind(now, body.orderId).first();
+  ).bind(now, body.orderId).first();
 
   if (!order) return json({ error: "Заказ не найден или уже изменён." }, 409, cors);
   return json({ order }, 200, cors);
