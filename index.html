@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:light;--bg:#f7f7f5;--surface:#fff;--surface-soft:#f6f6f4;--text:#111;--gray:#777;--line:#e9e9e6;--accent:#111;--accent-text:#fff;--media-bg:#e8e8e5}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#252628;--surface:#2e3033;--surface-soft:#383a3d;--text:#f5f5f5;--gray:#b2b3b5;--line:#45474a;--accent:#f5f5f5;--accent-text:#191a1c;--media-bg:#44464a}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#252628;--surface:#2e3033;--surface-soft:#383a3d;--text:#f5f5f5;--gray:#b2b3b5;--line:#45474a;--accent:#f5f5f5;--accent-text:#191a1c;--media-bg:#7c7c7c}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 button,input{font:inherit;color:inherit}button{cursor:pointer}
@@ -63,9 +63,9 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 #lookProducts .photo{height:250px}
 .product{min-width:0;display:flex;flex-direction:column;height:100%}
 .photo{height:225px;border-radius:17px;overflow:hidden;background:var(--media-bg);position:relative}
-.photo-open{position:absolute;inset:0;z-index:1;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
+.photo-open{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
 .photo img{width:100%;height:100%;object-fit:cover;transition:.4s}
-.photo img.shrink-photo{display:block;width:55%;height:55%;margin:22.5%;object-fit:contain}
+.photo img.shrink-photo{width:var(--image-scale,75%);height:var(--image-scale,75%);object-fit:contain}
 .photo.outfit-photo{background:var(--media-bg)}
 .photo.outfit-photo img{object-fit:contain}
 .product:hover .photo img{transform:scale(1.04)}
@@ -116,6 +116,8 @@ h2{font-size:24px;letter-spacing:-1.3px;margin:5px 0 0}
 .summary-line{display:flex;justify-content:space-between;font-size:13px}
 .prepayment-line{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12px}
 .payment-breakdown{margin:6px 0 0}
+.cargo-info{margin:12px 0;padding:12px 13px;border-left:3px solid var(--accent);border-radius:8px;background:var(--surface-soft);color:var(--text);font-size:11px;line-height:1.55}
+.cargo-info strong{display:block;margin-bottom:3px;font-size:12px}
 .profile-box{background:var(--surface);border-radius:18px;padding:20px;margin-top:20px}
 .profile-line{padding:16px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:12px}
 .profile-line:last-child{border:0}
@@ -262,7 +264,7 @@ footer{text-align:center;color:var(--gray);font-size:9px;letter-spacing:2px;padd
   <div class="page-title" data-i18n="cart">Корзина.</div>
   <div id="cartItems"></div>
   <div class="empty" id="cartEmpty"><h3 data-i18n="cartEmptyTitle">Корзина пока пуста</h3><p data-i18n="cartEmptyText">Добавь товары из каталога — они появятся здесь.</p><button class="primary" onclick="showPage('catalog')" data-i18n="goCatalog">ПЕРЕЙТИ В КАТАЛОГ</button></div>
-  <div class="summary" id="cartSummary" style="display:none"><div class="summary-line"><b data-i18n="total">Итого</b><b id="total">0 сум</b></div><div class="summary-line prepayment-line"><b data-i18n="prepayment">Предоплата (50%)</b><b id="prepaymentAmount">0 сум</b></div><p class="description payment-breakdown" id="prepaymentBreakdown"></p><p class="description" data-i18n="checkoutNote">Половина заказа — предоплата; хвост к переводу оплачивается сверху, остаток остаётся ровно половиной заказа.</p><label class="payment-method"><span data-i18n="paymentMethod">Способ оплаты</span><select id="paymentProvider"><option value="manual_transfer" data-i18n="manualTransfer">Перевод на карту</option></select></label><button class="primary" id="checkoutButton" style="width:100%" onclick="checkout()" data-i18n="checkoutButton">ОФОРМИТЬ ЗАКАЗ ↗</button></div>
+  <div class="summary" id="cartSummary" style="display:none"><div class="summary-line"><b data-i18n="total">Итого</b><b id="total">0 сум</b></div><div class="summary-line prepayment-line"><b data-i18n="prepayment">Предоплата (50%) (+Карго)</b><b id="prepaymentAmount">0 сум</b></div><p class="description payment-breakdown" id="prepaymentBreakdown"></p><aside class="cargo-info"><strong data-i18n="cargoTitle">Что такое карго?</strong><span data-i18n="cargoDescription">Карго — это доставка заказа до вас. Стоимость и сроки сообщим отдельно; они не включены в указанную сумму предоплаты.</span></aside><p class="description" data-i18n="checkoutNote">Половина заказа — предоплата; хвост к переводу оплачивается сверху, остаток остаётся ровно половиной заказа.</p><label class="payment-method"><span data-i18n="paymentMethod">Способ оплаты</span><select id="paymentProvider"><option value="manual_transfer" data-i18n="manualTransfer">Перевод на карту</option></select></label><button class="primary" id="checkoutButton" style="width:100%" onclick="checkout()" data-i18n="checkoutButton">ОФОРМИТЬ ЗАКАЗ ↗</button></div>
 </section>
 
 <section class="page" id="profile">
@@ -365,7 +367,7 @@ newTag:"YANGI",choose:"TANLASH +",colorLabel:"Rang:",colorBlack:"Qora",colorGray
 
 const paymentTranslations={
 ru:{
-prepayment:"Предоплата (50%)",paymentMethod:"Способ оплаты",manualTransfer:"Перевод на карту",
+prepayment:"Предоплата (50%) (+Карго)",cargoTitle:"Что такое карго?",cargoDescription:"Карго — это доставка заказа до вас. Стоимость и сроки сообщим отдельно; они не включены в указанную сумму предоплаты.",paymentMethod:"Способ оплаты",manualTransfer:"Перевод на карту",
 checkoutNote:"Половина заказа — предоплата; хвост к переводу оплачивается сверху, остаток остаётся ровно половиной заказа.",
 prepaymentBreakdown:"50% от {total} = {deposit}",
 transferTitle:"Предоплата заказа",transferInstructions:"Переведи точную сумму через приложение банка. Заказ будет подтверждён после проверки поступления.",
@@ -390,7 +392,7 @@ ownerTestTitle:"Тестовый товар",ownerTestWarning:"Товар за 2
 testProduct:"Тестовый товар (только владелец)"
 },
 uz:{
-prepayment:"Oldindan to‘lov (50%)",paymentMethod:"To‘lov usuli",manualTransfer:"Kartaga o‘tkazma",
+prepayment:"Oldindan to‘lov (50%) (+Kargo)",cargoTitle:"Kargo nima?",cargoDescription:"Kargo — buyurtmani sizga yetkazib berish xizmati. Narxi va muddati alohida aytiladi; ular ko‘rsatilgan oldindan to‘lov summasiga kirmaydi.",paymentMethod:"To‘lov usuli",manualTransfer:"Kartaga o‘tkazma",
 checkoutNote:"Buyurtmaning yarmi oldindan to‘lanadi; o‘tkazma uchun qo‘shimcha summa ustidan to‘lanadi, qoldiq esa buyurtmaning yarmi bo‘lib qoladi.",
 prepaymentBreakdown:"Buyurtma summasining 50%: {deposit} / {total}",
 transferTitle:"Buyurtma uchun oldindan to‘lov",transferInstructions:"Bank ilovasi orqali aniq summani o‘tkazing. Buyurtma pul kelib tushgani tekshirilgach tasdiqlanadi.",
@@ -479,7 +481,7 @@ const products=[
 {id:10,nameKey:"product10",category:"Луки",sub:"oversize",look:"oversize",outfit:true,photoBackground:"#888888",catalog:false,price:600000,image:"images/fur-oversize-white.png",colors:[{key:"white",label:"lookWhite",image:"images/fur-oversize-white.png"},{key:"black",label:"lookBlack",image:"images/fur-oversize-black.png"}],sizeGroups:[{key:"jacketSize",label:"jacketSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"jeansSize",label:"jeansSize",sizes:["S","M","L","XL","XXL","XXXL"]}]},
 {id:11,nameKey:"product11",category:"Верхняя одежда",sub:"jackets",outfit:true,photoBackground:"#7c7c7c",price:350000,image:"images/jacket-black.png",colors:[{key:"black",label:"lookBlack",image:"images/jacket-black.png"},{key:"blue",label:"jacketBlue",image:"images/jacket-blue.png"},{key:"gray",label:"jacketGray",image:"images/jacket-gray.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:12,nameKey:"product12",category:"Обувь",sub:"sneakers",outfit:true,photoBackground:"#7c7c7c",price:200000,image:"images/sneakers-black.png",colors:[{key:"black",label:"lookBlack",image:"images/sneakers-black.png"},{key:"white",label:"shoeWhite",image:"images/sneakers-white.png"}],sizes:["36","37","38","39","40","41","42","43","44"]},
-{id:13,nameKey:"product13",category:"Луки",sub:"oversize",look:"oversize",outfit:true,photoBackground:"#7c7c7c",imageScale:0.55,catalog:false,price:900000,image:"images/oversize-set-white.png",colors:[{key:"white",label:"lookWhite",image:"images/oversize-set-white.png"},{key:"blue",label:"jacketBlue",image:"images/oversize-set-blue.png"},{key:"black",label:"lookBlack",image:"images/oversize-set-black.png"}],sizeGroups:[{key:"jacketSize",label:"jacketSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"hoodieSize",label:"hoodieSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"pantsSize",label:"pantsSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"sneakersSize",label:"sneakersSize",sizes:["36","37","38","39","40","41","42","43","44"]}]},
+{id:13,nameKey:"product13",category:"Луки",sub:"oversize",look:"oversize",outfit:true,photoBackground:"#7c7c7c",imageScale:0.75,catalog:false,price:900000,image:"images/oversize-set-white.png",colors:[{key:"white",label:"lookWhite",image:"images/oversize-set-white.png"},{key:"blue",label:"jacketBlue",image:"images/oversize-set-blue.png"},{key:"black",label:"lookBlack",image:"images/oversize-set-black.png"}],sizeGroups:[{key:"jacketSize",label:"jacketSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"hoodieSize",label:"hoodieSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"pantsSize",label:"pantsSize",sizes:["S","M","L","XL","XXL","XXXL"]},{key:"sneakersSize",label:"sneakersSize",sizes:["36","37","38","39","40","41","42","43","44"]}]},
 {id:14,nameKey:"product14",category:"Верхняя одежда",sub:"jackets",outfit:true,photoBackground:"#7c7c7c",price:300000,image:"images/separate-jacket-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-jacket-white.png"},{key:"black",label:"lookBlack",image:"images/separate-jacket-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:15,nameKey:"product15",category:"Брюки и джинсы",sub:"oversize",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-pants-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-pants-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-pants-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-pants-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
 {id:16,nameKey:"product16",category:"Верхняя одежда",sub:"hoodies",outfit:true,photoBackground:"#7c7c7c",price:150000,image:"images/separate-hoodie-white.png",colors:[{key:"white",label:"lookWhite",image:"images/separate-hoodie-white.png"},{key:"blue",label:"jacketBlue",image:"images/separate-hoodie-blue.png"},{key:"black",label:"lookBlack",image:"images/separate-hoodie-black.png"}],sizes:["S","M","L","XL","XXL","XXXL"]},
@@ -696,7 +698,8 @@ function buildFilters(){
 }
 function card(p){
  const backgroundStyle=p.outfit&&theme!=="dark"?` style="background:${p.photoBackground||"#888888"}"`:"";
- return `<article class="product"><div class="photo${p.outfit?" outfit-photo":""}"${backgroundStyle}><button class="photo-open" aria-label="${t("viewPhoto")}: ${productName(p)}" onclick="openImageViewer(${p.id})"><img class="${p.imageScale?"shrink-photo":""}" src="${p.image}" alt="${productName(p)}" loading="lazy"></button>${p.tag?`<span class="tag">${t("newTag")}</span>`:""}<button class="heart" onclick="toggleFavorite(${p.id})">${favorites.has(p.id)?"♥":"♡"}</button></div><div class="product-info"><div class="product-name">${productName(p)}</div><div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" onclick="openProduct(${p.id})">${t("choose")}</button></div></div></article>`;
+ const imageScaleStyle=p.imageScale?` style="--image-scale:${p.imageScale*100}%"`:"";
+ return `<article class="product"><div class="photo${p.outfit?" outfit-photo":""}"${backgroundStyle}><button class="photo-open" aria-label="${t("viewPhoto")}: ${productName(p)}" onclick="openImageViewer(${p.id})"><img class="${p.imageScale?"shrink-photo":""}"${imageScaleStyle} src="${p.image}" alt="${productName(p)}" loading="lazy"></button>${p.tag?`<span class="tag">${t("newTag")}</span>`:""}<button class="heart" onclick="toggleFavorite(${p.id})">${favorites.has(p.id)?"♥":"♡"}</button></div><div class="product-info"><div class="product-name">${productName(p)}</div><div class="product-bottom"><span class="price">${money(p.price)}</span><button class="add" onclick="openProduct(${p.id})">${t("choose")}</button></div></div></article>`;
 }
 function renderSubcategories(){
  const area=document.getElementById("subcategoryArea");
